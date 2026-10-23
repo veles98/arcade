@@ -10,9 +10,9 @@ section{margin:0 0 38px}h2{font-family:Alexandria;font-weight:600;font-size:22px
 pre.code{font-family:ui-monospace,Consolas,monospace;font-size:13px;text-align:left}
 .cp{position:absolute;top:10px;left:10px;background:var(--gold);color:#111;border:0;border-radius:10px;padding:7px 14px;font-weight:600;font-family:inherit;cursor:pointer}
 ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}li{display:flex;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}li a{color:var(--gold);text-decoration:none;font-weight:600}li span{color:var(--mute);font-size:14px}
-.foot{color:var(--mute);border-top:1px solid var(--line);padding-top:18px;line-height:1.8}.foot a{color:var(--gold)}</style></head><body><div class="wrap">
+.foot{color:var(--mute);border-top:1px solid var(--line);padding-top:18px;line-height:1.8}.foot a{color:var(--gold)}.dl{display:flex;flex-wrap:wrap;gap:10px}.btn{background:var(--gold);color:#111;border-radius:12px;padding:12px 18px;font-weight:600;text-decoration:none}.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}</style></head><body><div class="wrap">
 <h1>برومبتات <span>أنس</span></h1><p class="lead">كل البرومبتات والأكواد اللي في ريلاتي، جاهزة للنسخ. اضغط «نسخ» والصقها في Claude.</p>
-<nav><a href="#game">برومبت اللعبة</a><a href="#char">الشخصية المتحركة</a><a href="#city">المدينة بالحروف</a><a href="#hitstop">كود Hit-stop</a><a href="#vision">كود العدو يشوفك</a><a href="#tools">الأدوات</a><a href="../">الألعاب</a></nav>
+<nav><a href="#game">برومبت اللعبة</a><a href="#char">الشخصية المتحركة</a><a href="#city">المدينة بالحروف</a><a href="#hitstop">كود Hit-stop</a><a href="#vision">كود العدو يشوفك</a><a href="#skills">سكيلز صانع المحتوى</a><a href="#fx">برومبت تأثيرات الفيديو</a><a href="#tools">الأدوات</a><a href="../">الألعاب</a></nav>
 <section id="game"><h2>برومبت واحد = لعبة جوال كاملة</h2><p class="s">غيّر [فكرة اللعبة] بس، واحفظ الناتج باسم game.html وافتحه من جوالك.</p>
 <div class="box"><button class="cp" data-t="game">نسخ</button><pre id="t-game" >أنت مطوّر ألعاب جوال محترف. سوّ لي لعبة جوال كاملة وجاهزة في ملف HTML واحد.
 
@@ -123,6 +123,66 @@ bool AEnemyCharacter::CanSee(const AActor* Player) const
 2) لو رجعت true: العدو ينتبه (علامة &quot;!&quot;) ويبدأ يلاحق.
 3) حيلة: سوّ الـ Trace لراس اللاعب ولوسطه، لو واحد منهم واضح = شافه (ما يختفي اللاعب لو بس رجوله ورا صندوق).
 4) لو تبي الجاهز: UAIPerceptionComponent + UAISenseConfig_Sight يسوي نفس الشي داخليًا.</pre></div></section>
+<section id="skills"><h2>سكيلز صانع المحتوى</h2><p class="s">14 سكل لـ Claude Code تحوّله لفريق محتوى كامل: فكرة، سكربت، مونتاج، جرافيكس عربي، صوت، غلاف، تحليل، ونمو. انسخ المجلدات إلى ‎~/.claude/skills/‎ وأعد تشغيل Claude Code.</p>
+<div class="dl"><a class="btn" href="../skills/creator-skills.zip" download>تحميل السكيلز (zip)</a><a class="btn ghost" href="../skills/README.html">الشرح وطريقة التثبيت</a></div></section>
+<section id="fx"><h2>تأثيرات فيديو من برومبت واحد</h2><p class="s">الصقه في Claude Code داخل مجلد فاضي: يبني لك كِت موشن جرافيكس (عناوين عربية بلمعة ذهبية، أيقونات ترسم نفسها، بطاقات، انتقالات، جزيئات، زر متابعة) ويصدّر ريل 1080x1920.</p>
+<div class="box"><button class="cp" data-t="fx">نسخ</button><pre id="t-fx" >أنت مصمم موشن جرافيكس ومبرمج. ابنِ لي في هذا المجلد «كِت» موشن جرافيكس قابل لإعادة الاستخدام لريلز عمودية، بـ HTML + JavaScript، ويتصدّر فيديو 1080x1920 فريم-بفريم عن طريق Chrome بدون واجهة (headless) + ffmpeg.
+
+الهيكل المطلوب:
+- lib/motion.js — مكتبة المكونات (بدون أي مكتبات خارجية).
+- lib/motion.css — الألوان والخطوط والثيمات.
+- lib/fonts/ — خطوط عربية مجانية (OFL) مثل Alexandria و IBM Plex Sans Arabic، حمّلها من Google Fonts وحطها محلياً.
+- demo.html + demo.reel.js — ريل تجريبي 20 ثانية يستخدم كل المكونات.
+- render.py — يصدّر الصور والفيديو.
+- GUIDE.md — شرح مختصر بالعربي: كيف أسوي ريل جديد في 5 خطوات.
+
+قواعد المحرك (مهمة جداً):
+1. الوقت حتمي: كل شي يُحسب من دالة واحدة renderAt(t) بالثواني. ممنوع requestAnimationFrame و CSS animations و setTimeout للحركة. نفس t = نفس الصورة دائماً.
+2. عرّف window.__renderAt(t) تُرجع Promise تنحل بعد ما تجهز الصور والخطوط (document.fonts.ready + decode للصور).
+3. المسرح 1080x1920 ثابت، ويتصغّر في المتصفح للمعاينة فقط (scale بـ CSS). منطقة آمنة: النصوص بين y=240 و y=1680.
+4. دوال تسهيل (easing) بـ cubic-bezier حقيقي: keynote (0.2,0.8,0.2,1) افتراضي، settle (0.16,1,0.3,1) للهبوط، swift (0.65,0,0.35,1) للمسح، exit (0.55,0,0.75,0.2) للخروج. ودالة ramp(t, start, duration, ease).
+5. العشوائية بـ seed ثابت (مثلاً LCG) عشان الجزيئات تطلع نفسها في كل رندر.
+6. العربي: dir="rtl"، والنص HTML عادي (المتصفح يشكّل الحروف صح). لا تقسم الكلمة العربية لحروف أبداً (يكسر الوصل)؛ الحركة تكون على مستوى الكلمة أو السطر.
+
+المكونات (API بسيط وواضح):
+R = Motion.reel({ dur, fps: 30, base: 'name' })
+R.scene(name, t0, t1, { theme, enter: { type, d } }, s =&gt; { ... })
+داخل المشهد:
+1. s.title({ text: 'سطر أول|سطر فيه *الكلمة*', at, y }) — عنوان حركي: كل كلمة تطلع من تحت مع blur خفيف وتأخير 60ms بين الكلمات، والكلمة بين نجمتين تتلوّن ذهبي (#F3C766) مع «لمعة» ذهبية تمسح عليها من اليمين لليسار (linear-gradient متحرك بـ background-clip:text) بعد ما تستقر. | تعني سطر جديد.
+2. s.icon({ name, at, x, y, size }) — أيقونات خطية SVG (stroke فقط، سماكة 2.5، أطراف دائرية) ترسم نفسها بـ stroke-dasharray/dashoffset خلال 0.8 ث، ثم توهج خفيف. جهّز 12 أيقونة على الأقل: prompt, code, camera, light, gamepad, check, cross, book, cube, browser, scissors, wave.
+3. s.iconRow([{icon,label}...], { at, y }) — صف أيقونات بتسميات، تطلع بالتتابع.
+4. s.card({ at, index, total, title, body, from: 'right' }) — بطاقة زجاجية داكنة بحواف دائرية 28px وظل ناعم، تدخل بانزلاق مع motion blur حقيقي: ارسم 6 نسخ شفافة متأخرة زمنياً (ghost trail) أو استخدم filter: blur أفقي يتناسب مع السرعة، ويختفي لما توقف. فيها رقم «١/٣» بأرقام عربية.
+5. s.particles({ count: 60, at, color: 'gold' }) — جزيئات غبار ذهبي تطفو ببطء مع وميض، على canvas، حتمية بالـ seed.
+6. s.counter({ from, to, at, d, suffix }) — رقم يعدّ مع تسهيل.
+7. s.endCTA({ keyword, offer, reason, at, followAt }) — بطاقة النهاية: «اكتب [keyword] بالتعليقات» + سطر العرض، ثم زر «متابعة» يطلع بنبضة (scale 0.9→1.06→1) ومؤشر يد/إصبع ينزل ويضغطه فيتحول الزر لـ «تمت المتابعة ✓» بلون ذهبي، وتحته سبب المتابعة.
+8. R.captions([[word, start, end], ...], { y }) — كابشن كلمة-بكلمة للريلز اللي فيها صوت، الكلمة الحالية ذهبية.
+
+الانتقالات بين المشاهد (enter.type):
+- colourSwap — المشهد الجديد يدخل بلون خلفية مختلف بمسح أفقي حاد مع انزلاق بسيط للمحتوى.
+- circleWipe — دائرة تكبر من نقطة (x,y) بـ clip-path: circle() مع حافة ذهبية رفيعة تلحق الدائرة.
+- zoomThrough — المشهد القديم يكبر لـ 3x ويختفي مع blur وكأن الكاميرا دخلت فيه، والجديد يطلع من 0.8x.
+- cardPush — المشهد الجديد يدفع القديم لفوق كأنها بطاقات.
+كل انتقال مدته d (افتراضي 0.7 ث) وبتسهيل swift.
+
+الثيمات في motion.css: black (خلفية #050507 مع إضاءة ذهبية خفيفة من فوق)، umber (بني غامق دافئ)، paper (فاتح #F5F2EA بنص داكن). لون تمييز واحد فقط: الذهبي. حبيبات (grain) خفيفة جداً فوق كل شي ب SVG noise ثابت.
+
+render.py:
+- يستخدم Chrome/Chromium headless عبر Playwright (pip install playwright ثم playwright install chromium) — أو Chrome DevTools Protocol مباشرة لو Playwright مو متوفر.
+- viewport 1080x1920, deviceScaleFactor 1.
+- python render.py demo.html stills 0 1 3 5 8 → يحفظ صور في _qa/ ويركّبها في _qa/sheet.png (شبكة) عشان أراجع قبل الرندر.
+- python render.py demo.html all → لكل فريم: await page.evaluate("t =&gt; window.__renderAt(t)", t) ثم screenshot بصيغة PNG، ويرسله مباشرة لـ ffmpeg عبر stdin (image2pipe) بدون ما يحفظ الفريمات على القرص.
+- ffmpeg: -c:v libx264 -preset slow -crf 16 -pix_fmt yuv420p -r 30 -movflags +faststart → name.mp4، ونسخة ثانية للويب أقل من 10MB (crf 23 أو bitrate محسوب)، ولو فيه ملف voice.wav أو music.mp3 في المجلد يدمجه (الموسيقى -18dB تحت الصوت).
+- يطبع التقدم والوقت المتوقع، ويوقف بخطأ واضح لو ffmpeg مو موجود.
+
+demo.reel.js (20 ث): هوك بعنوان ذهبي + أيقونة prompt ← 3 بطاقات مرقمة بانتقال circleWipe ثم colourSwap ← صف أيقونات + عدّاد ← جزيئات ← endCTA بانتقال zoomThrough. النصوص عربية وقصيرة (≤ 6 كلمات للسطر).
+
+معايير الجودة (افحصها بنفسك على الـ sheet قبل ما تقول خلصت):
+- الفريم الأول فيه الهوك مباشرة (ما يبدأ من أسود).
+- ما فيه نص طالع برا المنطقة الآمنة، ولا حرف عربي مقطوع أو منفصل.
+- الحركة هادية وفخمة: ما فيه ارتداد مبالغ، ولا وميض أحمر/أبيض، ولا إيموجي على الشاشة.
+- رندر نفس الفريم مرتين يعطي نفس الصورة بالضبط.
+
+ابدأ بكتابة الملفات كلها، ثم شغّل stills وراجع الـ sheet وصلّح، ثم شغّل all. لو ناقصك أداة (Python, ffmpeg, Chrome) قول لي أمر التثبيت قبل ما تكمل. في الأخير اعطني سطرين: كيف أعدل demo.reel.js لريل جديد، وأمر الرندر.</pre></div></section>
 <section id="tools"><h2>الأدوات اللي أستخدمها</h2><p class="s">روابط رسمية فقط.</p><ul><li><a href="https://claude.com/claude-code">Claude Code</a><span>يكتب الكود ويشغّله بنفسه</span></li><li><a href="https://docs.claude.com/en/docs/claude-code/skills">Skills</a><span>تعلّمه أسلوبك مرة ويعيده كل مرة</span></li><li><a href="https://github.com/ahujasid/blender-mcp">Blender MCP</a><span>يتحكم في Blender ويبني مجسمات</span></li><li><a href="https://ffmpeg.org">ffmpeg</a><span>يقص ويركّب ويصدّر الفيديو</span></li><li><a href="https://github.com/hzwer/ECCV2022-RIFE">RIFE</a><span>يضاعف الفريمات ويختصر الرندر</span></li><li><a href="https://developer.chrome.com/docs/chromium/headless">Headless Chrome</a><span>يرسم الفيديو كصفحة ويب</span></li></ul></section>
 <div class="foot">تبي شي ثاني؟ اكتب لي في <a href="https://www.instagram.com/anas.ai.ar/">instagram.com/anas.ai.ar</a></div></div>
 <script>document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{const t=document.getElementById('t-'+b.dataset.t).innerText;const ok=()=>{b.textContent='تم النسخ';setTimeout(()=>b.textContent='نسخ',1500)};(navigator.clipboard?navigator.clipboard.writeText(t).then(ok,()=>{}):0)})</script></body></html>

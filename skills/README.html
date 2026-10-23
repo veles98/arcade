@@ -1,0 +1,62 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>سكيلز صانع المحتوى</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap"><style>:root{--bg:#050507;--card:#0e0e12;--line:#26262e;--fg:#f5f2ea;--mute:#8a8a92;--gold:#f3c766;color-scheme:dark}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;background-image:radial-gradient(ellipse at 50% -10%,rgba(243,199,102,.12),transparent 55%)}
+.wrap{max-width:680px;margin:0 auto;padding:36px max(18px,env(safe-area-inset-left)) 60px}
+h1{font-family:Alexandria;font-weight:800;font-size:clamp(30px,8vw,46px);margin:10px 0 6px}h1 span{color:var(--gold)}
+.lead{color:var(--mute);line-height:1.7}nav{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 30px}nav a{border:1px solid var(--line);border-radius:999px;padding:7px 14px;color:var(--fg);text-decoration:none;font-size:14px}nav a:hover{border-color:var(--gold)}
+section{margin:0 0 38px}h2{font-family:Alexandria;font-weight:600;font-size:22px;margin:0 0 4px}.s{color:var(--mute);margin:0 0 12px;font-size:14px}
+.box{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px}pre{margin:0;padding:18px;white-space:pre-wrap;word-break:break-word;font-family:"IBM Plex Sans Arabic",system-ui;font-size:14.5px;line-height:1.8;max-height:420px;overflow:auto}
+pre.code{font-family:ui-monospace,Consolas,monospace;font-size:13px;text-align:left}
+.cp{position:absolute;top:10px;left:10px;background:var(--gold);color:#111;border:0;border-radius:10px;padding:7px 14px;font-weight:600;font-family:inherit;cursor:pointer}
+ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}li{display:flex;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}li a{color:var(--gold);text-decoration:none;font-weight:600}li span{color:var(--mute);font-size:14px}
+.foot{color:var(--mute);border-top:1px solid var(--line);padding-top:18px;line-height:1.8}.foot a{color:var(--gold)}table{width:100%;border-collapse:collapse;font-size:14px}td,th{border:1px solid var(--line);padding:8px;text-align:right;vertical-align:top}code{color:var(--gold)}pre{background:var(--card);border:1px solid var(--line);border-radius:12px;direction:rtl}a{color:var(--gold)}</style></head><body><div class="wrap"><pre># سكيلز صانع المحتوى — Claude Code
+
+14 سكل جاهزة تحوّل Claude Code إلى فريق محتوى كامل لصانع مقاطع قصيرة بالعربي: فكرة، سكربت، مونتاج، جرافيكس، صوت، غلاف، نشر، تحليل، ونمو.
+كل سكل ملف `SKILL.md` فيه طريقة شغل وقوائم فحص وقوالب. عدّل اللي يناسبك (اسمك، أسلوبك، ألوانك) داخل الملفات.
+
+## وش تسوي كل سكل
+
+| السكل | وش تسوي |
+|---|---|
+| `creator-studio` | الفهرس: يختار السكل الصح وترتيب الشغل لأي فيديو |
+| `content-director` | المخرج: يقرأ أرقامك وخطتك، يقترح 3 فيديوهات، يبني جدول الأسبوع، ويعترض على الأفكار الضعيفة |
+| `trend-scout` | يدور الترندات ويحوّل أي ريل مرجعي إلى &quot;مواصفات أسلوب&quot; تقدر تعيدها |
+| `video-watcher` | يشوف فيديو عام من رابط: صور من الفيديو + نص مع التوقيت + الأرقام |
+| `script-writer` | سكربت بلهجة عامية لمقطع 20–90 ث: هوكات، نص الشاشة، CTA |
+| `video-editor-pro` | دليل المونتاج بـ ffmpeg/Python: تقطيع، كابشن عربي، ميكس، تصدير، وقائمة فحص قبل النشر |
+| `motion-designer` | عناوين عربية متحركة، أيقونات، رسوم توضيحية، بطاقة نهاية — مع تشكيل عربي صحيح |
+| `sound-designer` | موسيقى ومؤثرات بتراخيص نظيفة، تنظيف الصوت، ومستويات الصوت لكل منصة |
+| `thumbnail-designer` | أغلفة الريلز (مع قصّ الشبكة 3:4) وصور يوتيوب المصغّرة بعناوين عربية واضحة |
+| `analytics-reviewer` | يقرأ إحصائياتك ويفسّر ليش المقطع نجح أو طاح، ويقرر الجاي |
+| `community-manager` | ردود التعليقات والخاص، كلمة مفتاحية بالتعليقات ← رسالة خاصة (ManyChat) |
+| `engagement-booster` | روتين 15 دقيقة يومياً، قائمة قبل/بعد النشر، ملصقات الستوري، التعاونات، مؤشرات الأداء |
+| `growth-strategist` | التموضع، الجدولة، السلاسل، الربح بتوقعات صادقة |
+| `originality-guard` | يمنعك تشبه غيرك أو تكتب كلام &quot;ذكاء اصطناعي&quot; عام قبل أي نشر |
+
+## التثبيت
+
+1. نزّل `creator-skills.zip` وفك الضغط.
+2. انسخ مجلدات السكيلز (كل مجلد فيه `SKILL.md`) إلى:
+   - ويندوز: `%USERPROFILE%\.claude\skills\`
+   - ماك/لينكس: `~/.claude/skills/`
+3. أعد تشغيل Claude Code. تأكد بكتابة `/skills` أو اسأله: «وش السكيلز اللي عندك؟»
+
+النتيجة لازم تكون كذا: `~/.claude/skills/script-writer/SKILL.md` (مو مجلد داخل مجلد).
+
+## أمثلة أوامر
+
+```
+/creator-studio عندي فكرة فيديو عن خطر استنساخ الصوت بالذكاء الاصطناعي، وش الترتيب؟
+/script-writer اكتب لي سكربت 40 ثانية عن [الفكرة] مع 5 هوكات
+/trend-scout هذا رابط ريل عجبني، طلّع لي مواصفات أسلوبه
+/video-editor-pro ركّب voice.wav مع اللقطات في ./captures وطلّع ريل 1080x1920 مع كابشن عربي
+/thumbnail-designer سوّ لي غلافين للريل بعنوان «لا تثق في الصورة»
+/analytics-reviewer هذي أرقام آخر 3 ريلز: [الصق الأرقام]
+/content-director خطة الأسبوع الجاي
+```
+
+## ملاحظات
+- تحتاج أدوات مجانية حسب السكل: ffmpeg، Python (Pillow, numpy, faster-whisper, arabic-reshaper, python-bidi)، و yt-dlp لسكل video-watcher.
+- السكيلز تكتب وتخطط وتركّب بس؛ النشر وتسجيل الدخول دايم عليك.
+- الملفات اللي تذكرها السكيلز (مثل `LESSONS.md`، `analytics_log.md`، `style_library.md`) تنشأ في مجلد مشروعك أول مرة.
+- مجانية للاستخدام والتعديل.
+</pre><p><a class="btn" href="creator-skills.zip" download style="color:#111">تحميل creator-skills.zip</a> &nbsp; <a href="../p/">رجوع للبرومبتات</a></p></div></body></html>
