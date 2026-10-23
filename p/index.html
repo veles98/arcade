@@ -1,0 +1,128 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>برومبتات أنس</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<style>:root{--bg:#050507;--card:#0e0e12;--line:#26262e;--fg:#f5f2ea;--mute:#8a8a92;--gold:#f3c766;color-scheme:dark}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;background-image:radial-gradient(ellipse at 50% -10%,rgba(243,199,102,.12),transparent 55%)}
+.wrap{max-width:680px;margin:0 auto;padding:36px max(18px,env(safe-area-inset-left)) 60px}
+h1{font-family:Alexandria;font-weight:800;font-size:clamp(30px,8vw,46px);margin:10px 0 6px}h1 span{color:var(--gold)}
+.lead{color:var(--mute);line-height:1.7}nav{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 30px}nav a{border:1px solid var(--line);border-radius:999px;padding:7px 14px;color:var(--fg);text-decoration:none;font-size:14px}nav a:hover{border-color:var(--gold)}
+section{margin:0 0 38px}h2{font-family:Alexandria;font-weight:600;font-size:22px;margin:0 0 4px}.s{color:var(--mute);margin:0 0 12px;font-size:14px}
+.box{position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px}pre{margin:0;padding:18px;white-space:pre-wrap;word-break:break-word;font-family:"IBM Plex Sans Arabic",system-ui;font-size:14.5px;line-height:1.8;max-height:420px;overflow:auto}
+pre.code{font-family:ui-monospace,Consolas,monospace;font-size:13px;text-align:left}
+.cp{position:absolute;top:10px;left:10px;background:var(--gold);color:#111;border:0;border-radius:10px;padding:7px 14px;font-weight:600;font-family:inherit;cursor:pointer}
+ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}li{display:flex;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}li a{color:var(--gold);text-decoration:none;font-weight:600}li span{color:var(--mute);font-size:14px}
+.foot{color:var(--mute);border-top:1px solid var(--line);padding-top:18px;line-height:1.8}.foot a{color:var(--gold)}</style></head><body><div class="wrap">
+<h1>برومبتات <span>أنس</span></h1><p class="lead">كل البرومبتات والأكواد اللي في ريلاتي، جاهزة للنسخ. اضغط «نسخ» والصقها في Claude.</p>
+<nav><a href="#game">برومبت اللعبة</a><a href="#char">الشخصية المتحركة</a><a href="#city">المدينة بالحروف</a><a href="#hitstop">كود Hit-stop</a><a href="#vision">كود العدو يشوفك</a><a href="#tools">الأدوات</a><a href="../">الألعاب</a></nav>
+<section id="game"><h2>برومبت واحد = لعبة جوال كاملة</h2><p class="s">غيّر [فكرة اللعبة] بس، واحفظ الناتج باسم game.html وافتحه من جوالك.</p>
+<div class="box"><button class="cp" data-t="game">نسخ</button><pre id="t-game" >أنت مطوّر ألعاب جوال محترف. سوّ لي لعبة جوال كاملة وجاهزة في ملف HTML واحد.
+
+فكرة اللعبة: [فكرة اللعبة]
+
+الشروط (لازم كلها):
+1) ملف واحد فقط فيه HTML و CSS و JavaScript. بدون أي مكتبة أو صورة أو ملف أو خط خارجي. كل الرسوم ترسمها بالكود على &lt;canvas&gt; (أشكال وتدرّجات)، ولا تستخدم الإيموجي كشخصيات.
+2) للجوال بالطول: الكانفس يملأ الشاشة ويتكيّف مع أي مقاس ومع دقة الشاشة (devicePixelRatio) ومع تغيّر حجم النافذة. حط:
+   &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no&quot;&gt;
+   وامنع السحب والتكبير والتحديد (touch-action:none; user-select:none; overflow:hidden).
+3) التحكم باللمس: لمسة وحدة، أو لمس نص الشاشة اليمين/اليسار لو الفكرة تحتاج اتجاهين. استخدم pointerdown على الشاشة كلها مع preventDefault، واللمسة تستجيب فورًا. ويشتغل بعد بالماوس، وبالمسافة والأسهم في الكمبيوتر.
+4) ثلاث شاشات واضحة:
+   - البداية: اسم اللعبة + طريقة اللعب بسطر واحد + زر كبير «ابدأ».
+   - اللعب.
+   - النهاية: النتيجة + أفضل نتيجة + زر «العب مرة ثانية» (يتفعّل بعد 0.6 ثانية عشان ما ينضغط بالغلط) ويرجّع كل شي من الصفر بدون تحديث الصفحة.
+5) النقاط: تظهر فوق طول اللعب وتكبر حركة صغيرة لما تزيد. أفضل نتيجة تنحفظ في localStorage داخل try/catch (ولو التخزين ممنوع احفظها في متغير بدون ما تطلع خطأ)، واكتب «رقم قياسي جديد!» لما تنكسر.
+6) صعوبة عادلة: أول 5 ثواني سهلة جدًا، بعدها تسرع شوي شوي لحد سقف معقول. أي عائق لازم يكون ممكن تفاديه دائمًا، واحسبها بالوقت مو بالعين: الوقت بين وصول عائقين متتاليين للاعب (بالسرعة النسبية الفعلية، ومع حساب طول العائق وطول اللاعب) لازم يكون أكبر من زمن حركة التفادي اللي يحتاجها + 0.3 ثانية. لو اللعبة مسارات: كل صف يخلي مسار مفتوح، والمسار المفتوح الجديد قريب من اللي قبله. ولو العوائق تتحرك بسرعات مختلفة، تأكد إنها ما تلحق بعض وتسكّر الطريق كله. صندوق التصادم أصغر من الرسم بحوالي 20٪.
+7) حركة ثابتة على كل الأجهزة: requestAnimationFrame مع وقت بين الإطارات (delta) بالثواني ومحدود بـ 0.05، وكل السرعات بالبكسل في الثانية مو بالإطار. وقّف اللعبة لما يطلع المستخدم من الصفحة (visibilitychange).
+8) الستايل: خلفية غامقة شبه سوداء، البطل والنقاط والأزرار بالذهبي #f3c766 مع توهّج نيون خفيف (shadowBlur)، وخلفية بطبقات تتحرك بسرعات مختلفة (parallax) ترسم مكان الفكرة. كل الكلام عربي من اليمين لليسار بخط النظام (system-ui, Tahoma, sans-serif)، والأزرار كبيرة للإصبع (ارتفاع 60px أو أكثر). العناوين والأرقام تتصغّر تلقائيًا (clamp مع vw) عشان ما تطلع برا الشاشة حتى على جوال عرضه 360px، والعوائق واضحة ومتباينة عن الخلفية (لا تلوّنها غامق على غامق).
+9) إحساس اللعبة: اهتزاز خفيف للشاشة عند الخسارة، جزيئات صغيرة عند القفز أو كسب نقطة، وأصوات بسيطة مولّدة بـ Web Audio تبدأ بعد أول لمسة، مع زر كتم صغير بالزاوية.
+10) بدون أخطاء: عرّف كل متغير قبل ما تستخدمه، وراجع الكود بنفسك قبل ما ترسله: البداية ← اللعب ← الخسارة ← العب مرة ثانية، وتأكد إن ما فيه خطأ في الكونسول.
+
+المطلوب منك:
+- اكتب الكود كامل في كتلة واحدة، بدون اختصار وبدون «...» وبدون «أكمل هنا». ولو تقدر اعرضه كـ Artifact عشان أجربه على طول.
+- بعد الكود سطرين بس: كيف ألعب، وكيف أشغّلها على جوالي (احفظ الملف باسم game.html وافتحه بالمتصفح).</pre></div></section>
+<section id="char"><h2>الشخصية المتحركة بصوتك</h2><p class="s">سجّل صوتك (المذكرات الصوتية + صوت استوديو) واحفظه voice.m4a، وافتح Claude Code في نفس المجلد.</p>
+<div class="box"><button class="cp" data-t="char">نسخ</button><pre id="t-char" >أبي أسوي شخصية متحركة تتكلم بصوتي (الملف voice.m4a في نفس المجلد).
+١) ارسم شخصية بخط ذهبي رفيع متوهج على خلفية سودا: [اكتب شكلك]
+   كل جزء بطبقة SVG لحاله: الراس، الشعر، الحواجب، العيون مع الجفون، النظارة، اللحية، الفم.
+٢) سوّ للفم ٧ أشكال: مسكّر، م/ب، مفتوح شوي، مفتوح كثير، O، E عريض، ابتسامة.
+٣) حرّكها على voice.m4a: الفم مع قوة الصوت ويتسكّر تمامًا بالسكوت، رمش كل ٢-٥ ثواني، الراس يهز ويميل خفيف، الحواجب ترتفع مع الصوت، وتبتسم مع الضحك.
+٤) طلّع فيديو طولي 1080×1920 بـ30 إطار مع الصوت.
+استخدم Python و ffmpeg، واسألني قبل ما تبدأ لو ناقصك شي.</pre></div></section>
+<section id="city"><h2>المدينة بالحروف العربية</h2><p class="s">غيّر اسم المدينة والمعلم.</p>
+<div class="box"><button class="cp" data-t="city">نسخ</button><pre id="t-city" >سوّ لي صفحة HTML وحدة فيها أنيميشن على canvas بخلفية سودا:
+مدينة [اسم المدينة] مرسومة كاملة بحروف عربية بس، باللون الذهبي المتوهّج.
+- أول ثانيتين: الحروف تنزل مثل المطر وتتجمّع.
+- بعدها يتكوّن أشهر معلم فيها ([اسم المعلم]) حرف حرف، وفوقه «عرفتها؟».
+- بعدها باقي المباني تكتمل، والنوافذ تنوّر وحدة وحدة (كل نافذة حرف).
+- في الآخر اسم المدينة يتجمّع من الحروف فوق الأفق.
+المقاس طولي 1080×1920، داخل نافذة تيرمنال فوقها سطر: $ python3 city.py --arabic
+لو ناقصك شي اسألني قبل ما تبدأ.</pre></div></section>
+<section id="hitstop"><h2>كود Hit-stop — ليش ضربة إلدن رنق تحسّ فيها</h2><p class="s">Unreal Engine 5 — C++</p>
+<div class="box"><button class="cp" data-t="hitstop">نسخ</button><pre id="t-hitstop" dir="ltr" class="code">هلا! هذا كود الـ Hit-stop كامل (Unreal Engine 5 - C++) 👇
+
+// ===== Hero.h (داخل class AHero) =====
+UPROPERTY() TObjectPtr&lt;AActor&gt; HitVictim;
+FTimerHandle H;
+void StartHitStop(AActor* Victim, float Seconds = 0.08f);
+void EndHitStop();
+
+// ===== Hero.cpp =====
+void AHero::StartHitStop(AActor* Victim, float Seconds)
+{
+    HitVictim = Victim;
+    CustomTimeDilation = 0.05f;                              // المهاجم (this) شبه واقف
+    if (HitVictim) HitVictim-&gt;CustomTimeDilation = 0.05f;    // والعدو بعد
+    // تايمر العالم ما يتأثر بـ CustomTimeDilation حق الأكتر، فـ 0.08 = 80ms فعلية
+    GetWorldTimerManager().SetTimer(H, this, &amp;AHero::EndHitStop, Seconds, false);
+}
+
+void AHero::EndHitStop()
+{
+    CustomTimeDilation = 1.f;
+    if (HitVictim) HitVictim-&gt;CustomTimeDilation = 1.f;
+    HitVictim = nullptr;
+}
+
+طريقة الاستخدام:
+1) نادِ StartHitStop(TheEnemy) لحظة ما الضربة تصيب (من AnimNotify أو بعد ما تطبّق الضرر).
+2) الضربة الخفيفة 0.05–0.08، الثقيلة 0.12–0.15. لو تبي تجمّد العالم كله استخدم UGameplayStatics::SetGlobalTimeDilation، بس انتبه إن التايمر بعدها يمشي بالوقت المبطّأ.</pre></div></section>
+<section id="vision"><h2>كود «العدو شافك؟»</h2><p class="s">Unreal Engine 5 — C++</p>
+<div class="box"><button class="cp" data-t="vision">نسخ</button><pre id="t-vision" dir="ltr" class="code">هلا! هذا كود &quot;العدو يشوفك؟&quot; كامل (Unreal Engine 5 - C++) 👇
+
+// ===== EnemyCharacter.h (داخل class AEnemyCharacter) =====
+UPROPERTY(EditAnywhere) float SightRange = 1500.f;     // أبعد مسافة يشوف لها (سم)
+UPROPERTY(EditAnywhere) float HalfAngleDeg = 35.f;     // نص زاوية المخروط
+bool CanSee(const AActor* Player) const;
+
+// ===== EnemyCharacter.cpp =====
+bool AEnemyCharacter::CanSee(const AActor* Player) const
+{
+    if (!Player) return false;
+
+    FVector Eye; FRotator EyeRot;
+    GetActorEyesViewPoint(Eye, EyeRot);                 // مكان العين واتجاهها
+    const FVector Forward   = EyeRot.Vector();
+    const FVector PlayerLoc = Player-&gt;GetActorLocation();
+    const FVector ToPlayer  = PlayerLoc - Eye;
+
+    // 0) بعيد؟
+    if (ToPlayer.SizeSquared() &gt; FMath::Square(SightRange)) return false;
+
+    // 1) داخل المخروط؟
+    const float CosHalfAngle = FMath::Cos(FMath::DegreesToRadians(HalfAngleDeg));
+    const float Dot = FVector::DotProduct(Forward, ToPlayer.GetSafeNormal());
+    if (Dot &lt; CosHalfAngle) return false;
+
+    // 2) فيه جدار بالنص؟
+    FCollisionQueryParams Params(SCENE_QUERY_STAT(EnemySight), false, this); // تجاهل العدو نفسه
+    FHitResult Hit;
+    GetWorld()-&gt;LineTraceSingleByChannel(Hit, Eye, PlayerLoc, ECC_Visibility, Params);
+    return !Hit.bBlockingHit || Hit.GetActor() == Player;
+}
+
+طريقة الاستخدام:
+1) نادِ CanSee(Player) كل 0.1–0.2 ثانية بتايمر (مو كل فريم) عشان الأداء.
+2) لو رجعت true: العدو ينتبه (علامة &quot;!&quot;) ويبدأ يلاحق.
+3) حيلة: سوّ الـ Trace لراس اللاعب ولوسطه، لو واحد منهم واضح = شافه (ما يختفي اللاعب لو بس رجوله ورا صندوق).
+4) لو تبي الجاهز: UAIPerceptionComponent + UAISenseConfig_Sight يسوي نفس الشي داخليًا.</pre></div></section>
+<section id="tools"><h2>الأدوات اللي أستخدمها</h2><p class="s">روابط رسمية فقط.</p><ul><li><a href="https://claude.com/claude-code">Claude Code</a><span>يكتب الكود ويشغّله بنفسه</span></li><li><a href="https://docs.claude.com/en/docs/claude-code/skills">Skills</a><span>تعلّمه أسلوبك مرة ويعيده كل مرة</span></li><li><a href="https://github.com/ahujasid/blender-mcp">Blender MCP</a><span>يتحكم في Blender ويبني مجسمات</span></li><li><a href="https://ffmpeg.org">ffmpeg</a><span>يقص ويركّب ويصدّر الفيديو</span></li><li><a href="https://github.com/hzwer/ECCV2022-RIFE">RIFE</a><span>يضاعف الفريمات ويختصر الرندر</span></li><li><a href="https://developer.chrome.com/docs/chromium/headless">Headless Chrome</a><span>يرسم الفيديو كصفحة ويب</span></li></ul></section>
+<div class="foot">تبي شي ثاني؟ اكتب لي في <a href="https://www.instagram.com/anas.ai.ar/">instagram.com/anas.ai.ar</a></div></div>
+<script>document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{const t=document.getElementById('t-'+b.dataset.t).innerText;const ok=()=>{b.textContent='تم النسخ';setTimeout(()=>b.textContent='نسخ',1500)};(navigator.clipboard?navigator.clipboard.writeText(t).then(ok,()=>{}):0)})</script></body></html>
