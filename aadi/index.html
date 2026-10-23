@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>عدّي!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@700;800&display=swap">
+<style>
+/* One full-screen canvas game; gold-on-night palette from the anas.ai.ar identity */
+:root{--bg:#050507;--gold:#f3c766;--fg:#f5f2ea;--mute:#8a8a92;color-scheme:dark}
+html,body{height:100%;margin:0;background:var(--bg);overflow:hidden;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+#c{display:block;width:100%;height:100%}
+</style>
+<canvas id="c" aria-label="لعبة عدّي: اضغط الشاشة عشان يطير الصقر"></canvas>
+<script>
+(() => {
+const cv = document.getElementById('c'), cx = cv.getContext('2d');
+const GOLD = '#f3c766', FG = '#f5f2ea', MUTE = '#8a8a92', BG = '#050507';
+const FONT = '"Alexandria", system-ui, sans-serif';
+let W, H, S, dpr;
+function resize() {
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr;
+  cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  S = Math.min(W / 400, H / 720);           // world scale: designed for 400x720
+}
+addEventListener('resize', resize); resize();
+
+// ---- world (units are design pixels, multiplied by S when drawn) ----
+const GRAV = 1500, FLAP = -470, SPEED = 170, GAP = 190, SPACING = 250, TW = 70;
+let state = 'menu', bird, towers, score, best = 0, t = 0, shake = 0, dist = 0;
+try { best = +localStorage.getItem('falcon_best') || 0 } catch (e) {}
+
+// distant skyline (Kingdom Centre arch + Faisaliah sphere silhouettes), parallax
+const sky = [];
+for (let i = 0; i < 40; i++) sky.push({ x: i * 34, h: 60 + Math.random() * 140, w: 22 + Math.random() * 16 });
+const stars = Array.from({ length: 70 }, () => ({ x: Math.random(), y: Math.random() * 0.6, r: Math.random() * 1.2 + 0.3 }));
+
+function reset() {
+  bird = { x: 110, y: 330, vy: 0, a: 0 };
+  towers = []; score = 0; dist = 0;
+  for (let i = 0; i < 4; i++) addTower(520 + i * SPACING);
+}
+function addTower(x) {
+  const top = 120 + Math.random() * (720 - 260 - GAP);
+  const kind = Math.random() < 0.3 ? 'arch' : Math.random() < 0.5 ? 'sphere' : 'plain';
+  towers.push({ x, top, kind, passed: false });
+}
+reset();
+
+// ---- sound: tiny synthesized blips (no music) ----
+let ac;
+function blip(f, d, type = 'sine', v = 0.05) {
+  try {
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.value = f;
+    o.frequency.exponentialRampToValueAtTime(f * 1.5, ac.currentTime + d);
+    g.gain.value = v; g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + d);
+    o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + d);
+  } catch (e) {}
+}
+
+function flap() {
+  if (state === 'menu') { state = 'play'; reset(); }
+  else if (state === 'over') { if (t - overAt > 0.5) { state = 'play'; reset(); } return; }
+  bird.vy = FLAP; blip(520, 0.12, 'triangle');
+}
+let overAt = 0;
+addEventListener('pointerdown', e => { e.preventDefault(); flap(); }, { passive: false });
+addEventListener('keydown', e => { if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); flap(); } });
+
+function die() {
+  state = 'over'; overAt = t; shake = 0.35; blip(140, 0.4, 'sawtooth', 0.06);
+  if (score > best) { best = score; try { localStorage.setItem('falcon_best', best) } catch (e) {} }
+}
+
+// ---- update ----
+function update(dt) {
+  t += dt; if (shake > 0) shake -= dt;
+  if (state !== 'play') { bird && (bird.a = Math.sin(t * 3) * 0.1); return; }
+  dist += SPEED * dt;
+  bird.vy += GRAV * dt; bird.y += bird.vy * dt;
+  bird.a = Math.max(-0.5, Math.min(1.2, bird.vy / 600));
+  for (const tw of towers) {
+    tw.x -= SPEED * dt;
+    if (!tw.passed && tw.x + TW < bird.x) { tw.passed = true; score++; blip(880, 0.1, 'sine', 0.04); }
+    const inX = bird.x + 16 > tw.x && bird.x - 16 < tw.x + TW;
+    if (inX && (bird.y - 12 < tw.top || bird.y + 12 > tw.top + GAP)) die();
+  }
+  if (towers[0].x < -TW - 20) { towers.shift(); addTower(towers[towers.length - 1].x + SPACING); }
+  if (bird.y > 720 - 40 || bird.y < -40) die();
+}
+
+// ---- draw helpers (design units) ----
+const X = v => v * S + (W - 400 * S) / 2, Y = v => v * S + (H - 720 * S) / 2, L = v => v * S;
+function towerBody(x, y0, y1, kind, fromTop) {
+  cx.strokeStyle = GOLD; cx.lineWidth = Math.max(1.5, L(2));
+  cx.fillStyle = 'rgba(243,199,102,0.06)';
+  cx.beginPath(); cx.rect(X(x), Y(y0), L(TW), L(y1 - y0)); cx.fill(); cx.stroke();
+  // windows (lit letters feel)
+  cx.fillStyle = 'rgba(243,199,102,0.35)';
+  for (let wy = y0 + 14; wy < y1 - 10; wy += 22)
+    for (let wx = x + 12; wx < x + TW - 10; wx += 16)
+      if (((wx * 7 + wy * 3) | 0) % 5) cx.fillRect(X(wx), Y(wy), L(6), L(9));
+  // cap at the gap side: Kingdom-arch notch or Faisaliah sphere
+  const capY = fromTop ? y1 : y0;
+  cx.strokeStyle = GOLD; cx.lineWidth = Math.max(2, L(3));
+  if (kind === 'arch') {
+    cx.beginPath();
+    cx.ellipse(X(x + TW / 2), Y(capY), L(TW * 0.32), L(26), 0, fromTop ? 0 : Math.PI, fromTop ? Math.PI : 2 * Math.PI);
+    cx.stroke();
+  } else if (kind === 'sphere') {
+    cx.beginPath(); cx.arc(X(x + TW / 2), Y(capY + (fromTop ? 16 : -16)), L(13), 0, 7);
+    cx.fillStyle = GOLD; cx.globalAlpha = 0.85; cx.fill(); cx.globalAlpha = 1;
+  } else {
+    cx.beginPath(); cx.moveTo(X(x - 4), Y(capY)); cx.lineTo(X(x + TW + 4), Y(capY)); cx.stroke();
+  }
+}
+function falcon(x, y, a) {
+  cx.save(); cx.translate(X(x), Y(y)); cx.rotate(a); cx.scale(S, S);
+  const flapP = state === 'play' ? Math.sin(t * 22) : Math.sin(t * 6);
+  cx.shadowColor = GOLD; cx.shadowBlur = 14;
+  cx.fillStyle = GOLD; cx.strokeStyle = GOLD; cx.lineWidth = 2;
+  // body
+  cx.beginPath(); cx.ellipse(0, 0, 18, 10, 0, 0, 7); cx.fill();
+  // head + hooked beak
+  cx.beginPath(); cx.arc(15, -4, 7, 0, 7); cx.fill();
+  cx.beginPath(); cx.moveTo(21, -6); cx.lineTo(29, -2); cx.lineTo(21, 1); cx.fill();
+  cx.shadowBlur = 0;
+  cx.fillStyle = BG; cx.beginPath(); cx.arc(17, -6, 1.8, 0, 7); cx.fill();
+  // wing
+  cx.fillStyle = '#e0ad45';
+  cx.beginPath(); cx.moveTo(-6, -2); cx.quadraticCurveTo(-4, -22 * flapP - 4, -26, -14 * flapP - 2); cx.lineTo(4, 2); cx.fill();
+  // tail
+  cx.fillStyle = GOLD; cx.beginPath(); cx.moveTo(-16, -3); cx.lineTo(-30, -8); cx.lineTo(-30, 6); cx.lineTo(-16, 4); cx.fill();
+  cx.restore();
+}
+function text(s, x, y, size, color, align = 'center', weight = 800) {
+  cx.font = `${weight} ${L(size)}px ${FONT}`; cx.fillStyle = color; cx.textAlign = align;
+  cx.fillText(s, X(x), Y(y));
+}
+
+// ---- draw ----
+function draw() {
+  cx.save();
+  if (shake > 0) cx.translate((Math.random() - 0.5) * 10 * shake, (Math.random() - 0.5) * 10 * shake);
+  cx.fillStyle = BG; cx.fillRect(-20, -20, W + 40, H + 40);
+  // night glow
+  const g = cx.createRadialGradient(W / 2, H * 0.85, 10, W / 2, H * 0.85, H * 0.8);
+  g.addColorStop(0, 'rgba(243,199,102,0.14)'); g.addColorStop(1, 'rgba(5,5,7,0)');
+  cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+  cx.fillStyle = 'rgba(245,242,234,0.6)';
+  for (const s of stars) cx.fillRect(s.x * W, s.y * H, s.r, s.r);
+  // far skyline
+  const off = (dist * 0.25) % (34 * 40);
+  cx.fillStyle = 'rgba(243,199,102,0.08)';
+  for (const b of sky) {
+    let bx = b.x - off; if (bx < -40) bx += 34 * 40;
+    cx.fillRect(X(bx), Y(720 - 40 - b.h), L(b.w), L(b.h));
+  }
+  // towers
+  for (const tw of towers) {
+    towerBody(tw.x, -400, tw.top, tw.kind, true);
+    towerBody(tw.x, tw.top + GAP, 720 - 40, tw.kind, false);
+  }
+  // ground line
+  cx.strokeStyle = GOLD; cx.globalAlpha = 0.5; cx.lineWidth = 1;
+  cx.beginPath(); cx.moveTo(0, Y(680)); cx.lineTo(W, Y(680)); cx.stroke(); cx.globalAlpha = 1;
+  falcon(bird.x, bird.y, bird.a);
+  cx.restore();
+
+  if (state === 'play') text(String(score), 200, 90, 56, FG);
+  if (state === 'menu') {
+    text("عدّي!", 200, 200, 64, GOLD);
+    text('اضغط الشاشة عشان يطير', 200, 250, 20, FG, 'center', 700);
+    text('عدّي بين الأبراج… ولا تلمسها', 200, 280, 16, MUTE, 'center', 700);
+    if (best) text('أفضل نتيجة: ' + best, 200, 560, 18, GOLD, 'center', 700);
+    text('سوّاها Claude في ساعة · anas.ai.ar', 200, 700, 13, MUTE, 'center', 700);
+  }
+  if (state === 'over') {
+    cx.fillStyle = 'rgba(5,5,7,0.65)'; cx.fillRect(0, 0, W, H);
+    text('طحت!', 200, 230, 50, GOLD);
+    text('النتيجة: ' + score, 200, 290, 26, FG);
+    text('أفضل نتيجة: ' + best, 200, 325, 18, MUTE, 'center', 700);
+    if (t - overAt > 0.5) text('اضغط عشان تعيد', 200, 400, 20, FG, 'center', 700);
+    text('صوّر نتيجتك وحطها بالتعليقات 👇', 200, 450, 15, GOLD, 'center', 700);
+  }
+}
+
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(0.033, (now - last) / 1000); last = now;
+  update(dt); draw(); requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+})();
+</script>

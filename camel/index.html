@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>جمل الربع الخالي</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%; overflow: hidden; background: #050507;
+    touch-action: none; user-select: none; -webkit-user-select: none;
+    -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
+    font-family: system-ui, Tahoma, sans-serif; color: #f5f2ea;
+  }
+  canvas { position: fixed; inset: 0; display: block; width: 100%; height: 100%; }
+  #hud {
+    position: fixed; top: 18px; left: 0; right: 0; text-align: center; pointer-events: none;
+    font-size: 54px; font-weight: 800; color: #f3c766; text-shadow: 0 0 18px rgba(243,199,102,.7);
+    transition: transform .12s ease-out; display: none;
+  }
+  #hud.bump { transform: scale(1.3); }
+  #bestSmall {
+    position: fixed; top: 84px; left: 0; right: 0; text-align: center; pointer-events: none;
+    font-size: 16px; color: rgba(245,242,234,.6); display: none;
+  }
+  .screen {
+    position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 18px; text-align: center; padding: 24px; background: rgba(5,5,7,.55);
+  }
+  .hidden { display: none !important; }
+  h1 { font-size: clamp(28px, 8.5vw, 46px); color: #f3c766; text-shadow: 0 0 24px rgba(243,199,102,.75); line-height: 1.3; }
+  .sub { font-size: clamp(16px, 4.2vw, 20px); color: rgba(245,242,234,.85); line-height: 1.6; }
+  .big { font-size: clamp(48px, 14vw, 64px); font-weight: 800; color: #f3c766; text-shadow: 0 0 22px rgba(243,199,102,.7); }
+  .rec { font-size: 24px; font-weight: 700; color: #fff3c4; text-shadow: 0 0 16px rgba(243,199,102,.9); }
+  button.main {
+    min-height: 64px; min-width: 220px; padding: 12px 34px; border-radius: 34px; border: 2px solid #f3c766;
+    background: rgba(243,199,102,.14); color: #f3c766; font-size: 26px; font-weight: 800; font-family: inherit;
+    box-shadow: 0 0 22px rgba(243,199,102,.45), inset 0 0 14px rgba(243,199,102,.15); cursor: pointer;
+  }
+  button.main:disabled { opacity: .4; }
+  #mute {
+    position: fixed; top: 14px; left: 14px; width: 48px; height: 48px; border-radius: 50%;
+    border: 1.5px solid rgba(243,199,102,.6); background: rgba(5,5,7,.6); color: #f3c766;
+    font-size: 20px; font-family: inherit; cursor: pointer; z-index: 5;
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="hud">0</div>
+<div id="bestSmall"></div>
+<button id="mute" aria-label="كتم الصوت">♪</button>
+
+<div id="startScreen" class="screen">
+  <h1>جمل الربع الخالي</h1>
+  <div class="sub">المس الشاشة عشان يقفز الجمل فوق الصبّار<br>كل صبّارة تعديها = نقطة</div>
+  <button class="main" id="startBtn">ابدأ</button>
+</div>
+
+<div id="overScreen" class="screen hidden">
+  <h1>طاح الجمل!</h1>
+  <div class="sub">نتيجتك</div>
+  <div class="big" id="finalScore">0</div>
+  <div class="rec hidden" id="newRec">رقم قياسي جديد!</div>
+  <div class="sub" id="bestLine">أفضل نتيجة: 0</div>
+  <button class="main" id="againBtn">العب مرة ثانية</button>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  // ---------- إعداد الكانفس ----------
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+  let W = 0, H = 0, DPR = 1, groundY = 0;
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 3);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = Math.round(W * DPR); canvas.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    groundY = H * 0.78;
+    buildStars();
+    if (camel) { camel.x = W * 0.24; if (camel.onGround) camel.y = groundY; }
+  }
+
+  // ---------- عناصر الواجهة ----------
+  const hud = document.getElementById('hud');
+  const bestSmall = document.getElementById('bestSmall');
+  const startScreen = document.getElementById('startScreen');
+  const overScreen = document.getElementById('overScreen');
+  const finalScore = document.getElementById('finalScore');
+  const newRec = document.getElementById('newRec');
+  const bestLine = document.getElementById('bestLine');
+  const againBtn = document.getElementById('againBtn');
+  const muteBtn = document.getElementById('mute');
+
+  // ---------- أفضل نتيجة ----------
+  const BEST_KEY = 'camel_rub_khali_best';
+  let memBest = 0;
+  function loadBest() { try { const v = parseInt(localStorage.getItem(BEST_KEY), 10); return isNaN(v) ? memBest : v; } catch (e) { return memBest; } }
+  function saveBest(v) { memBest = v; try { localStorage.setItem(BEST_KEY, String(v)); } catch (e) { /* التخزين ممنوع */ } }
+  let best = loadBest();
+
+  // ---------- الصوت ----------
+  let audio = null, muted = false;
+  function initAudio() {
+    if (audio) return;
+    try { const AC = window.AudioContext || window.webkitAudioContext; if (AC) audio = new AC(); } catch (e) { audio = null; }
+  }
+  function tone(freq, freq2, dur, type, vol) {
+    if (!audio || muted) return;
+    try {
+      const t = audio.currentTime, o = audio.createOscillator(), g = audio.createGain();
+      o.type = type; o.frequency.setValueAtTime(freq, t); o.frequency.exponentialRampToValueAtTime(freq2, t + dur);
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(audio.destination); o.start(t); o.stop(t + dur + 0.02);
+    } catch (e) {}
+  }
+  const sfx = {
+    jump: () => tone(320, 640, 0.16, 'square', 0.06),
+    point: () => { tone(880, 1320, 0.12, 'sine', 0.09); },
+    hit: () => tone(180, 50, 0.45, 'sawtooth', 0.12)
+  };
+
+  // ---------- الحالة ----------
+  let state = 'start'; // start | play | over
+  let score = 0, time = 0, speed = 0, shake = 0, overAt = 0, distToNext = 0;
+  let cacti = [], particles = [], stars = [];
+  let camel = null;
+  const BASE_SPEED_K = 0.45, MAX_SPEED_K = 1.05; // نسبة من العرض في الثانية
+
+  function jumpParams() {
+    const h = H * 0.24;            // ارتفاع القفزة
+    const g = H * 2.7;             // الجاذبية
+    const v0 = Math.sqrt(2 * g * h);
+    return { g, v0, air: 2 * v0 / g };
+  }
+
+  function newCamel() {
+    return { x: W * 0.24, y: groundY, vy: 0, onGround: true, phase: 0, w: Math.max(54, W * 0.13), h: Math.max(54, W * 0.13) };
+  }
+
+  function reset() {
+    score = 0; time = 0; shake = 0;
+    speed = W * BASE_SPEED_K;
+    cacti = []; particles = [];
+    camel = newCamel();
+    distToNext = W * 0.9;
+    hud.textContent = '0';
+  }
+
+  // ---------- الصبّار ----------
+  function cactusHeight() { return H * (0.07 + Math.random() * 0.07); }
+
+  function spawnCactus() {
+    const { v0, g, air } = jumpParams();
+    const hc = cactusHeight();
+    const cw = Math.max(18, W * 0.045);
+    // الوقت اللي تكون فيه رجول الجمل أعلى من الصبّارة
+    const disc = v0 * v0 - 2 * g * hc;
+    const above = disc > 0 ? 2 * Math.sqrt(disc) / g : 0;
+    const safeWidth = speed * above - camel.w * 0.55;
+    let count = 1;
+    if (time > 8 && Math.random() < 0.35 && cw * 2.3 < safeWidth) count = 2;
+    if (time > 18 && Math.random() < 0.2 && cw * 3.6 < safeWidth) count = 3;
+    const group = { x: W + 20, parts: [], passed: false };
+    let off = 0;
+    for (let i = 0; i < count; i++) {
+      const h = i === 0 ? hc : hc * (0.65 + Math.random() * 0.35);
+      group.parts.push({ dx: off, w: cw, h, arms: Math.random() < 0.5 ? 1 : -1 });
+      off += cw * 1.15;
+    }
+    group.width = off;
+    cacti.push(group);
+    // أقل مسافة ممكنة للجمل يلحق ينزل ويقفز مرة ثانية
+    const minGap = speed * (air + 0.32) + group.width;
+    const easy = time < 5 ? 1.6 : 1;
+    distToNext = minGap * easy * (1 + Math.random() * 0.8);
+  }
+
+  // ---------- الجزيئات ----------
+  function burst(x, y, n, color, spread, up) {
+    for (let i = 0; i < n; i++) {
+      particles.push({ x, y, vx: (Math.random() - 0.5) * spread, vy: -Math.random() * up, life: 0.5 + Math.random() * 0.4, t: 0, color, r: 1.5 + Math.random() * 2.5 });
+    }
+  }
+
+  // ---------- النجوم ----------
+  function buildStars() {
+    stars = [];
+    const n = Math.round((W * H) / 5200);
+    for (let i = 0; i < n; i++) stars.push({ x: Math.random() * W, y: Math.random() * H * 0.55, r: Math.random() * 1.4 + 0.3, tw: Math.random() * 6 });
+  }
+
+  // ---------- الإدخال ----------
+  function onPress() {
+    initAudio();
+    if (audio && audio.state === 'suspended') audio.resume();
+    if (state === 'start') { startGame(); return; }
+    if (state === 'play') doJump();
+  }
+  function doJump() {
+    if (!camel.onGround) return;
+    camel.vy = -jumpParams().v0; camel.onGround = false;
+    burst(camel.x, groundY, 10, 'rgba(230,190,120,0.9)', 160, 120);
+    sfx.jump();
+  }
+  window.addEventListener('pointerdown', (e) => {
+    if (e.target.closest && e.target.closest('button')) return;
+    e.preventDefault();
+    onPress();
+  }, { passive: false });
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'Enter') {
+      e.preventDefault();
+      if (state === 'over') { if (!againBtn.disabled) startGame(); return; }
+      onPress();
+    }
+  });
+  document.getElementById('startBtn').addEventListener('pointerdown', (e) => { e.preventDefault(); onPress(); });
+  againBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); if (!againBtn.disabled) { initAudio(); startGame(); } });
+  muteBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); muted = !muted; muteBtn.textContent = muted ? '×' : '♪'; });
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+  let paused = false;
+  document.addEventListener('visibilitychange', () => { paused = document.hidden; last = performance.now(); });
+
+  function startGame() {
+    reset();
+    state = 'play';
+    startScreen.classList.add('hidden'); overScreen.classList.add('hidden');
+    hud.style.display = 'block'; bestSmall.style.display = 'block';
+    bestSmall.textContent = 'أفضل نتيجة: ' + best;
+  }
+
+  function gameOver() {
+    state = 'over'; overAt = time; shake = 0.4;
+    sfx.hit();
+    burst(camel.x, camel.y - camel.h * 0.5, 24, 'rgba(243,199,102,0.95)', 380, 300);
+    const isRec = score > best;
+    if (isRec) { best = score; saveBest(best); }
+    finalScore.textContent = score;
+    bestLine.textContent = 'أفضل نتيجة: ' + best;
+    newRec.classList.toggle('hidden', !isRec);
+    againBtn.disabled = true;
+    setTimeout(() => {
+      overScreen.classList.remove('hidden');
+      setTimeout(() => { againBtn.disabled = false; }, 600);
+    }, 450);
+  }
+
+  // ---------- التحديث ----------
+  function update(dt) {
+    time += dt;
+    if (shake > 0) shake = Math.max(0, shake - dt);
+    for (const p of particles) { p.t += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vy += 600 * dt; }
+    particles = particles.filter(p => p.t < p.life);
+    if (state !== 'play') return;
+
+    const ramp = time < 5 ? 0 : Math.min(1, (time - 5) / 70);
+    speed = W * (BASE_SPEED_K + (MAX_SPEED_K - BASE_SPEED_K) * ramp);
+
+    // الجمل
+    const { g } = jumpParams();
+    camel.phase += dt * speed / (W * 0.05);
+    if (!camel.onGround) {
+      camel.vy += g * dt; camel.y += camel.vy * dt;
+      if (camel.y >= groundY) { camel.y = groundY; camel.vy = 0; camel.onGround = true; burst(camel.x, groundY, 6, 'rgba(230,190,120,0.8)', 120, 60); }
+    }
+
+    // الصبّار
+    distToNext -= speed * dt;
+    if (distToNext <= 0) spawnCactus();
+    for (const c of cacti) c.x -= speed * dt;
+    cacti = cacti.filter(c => c.x + c.width > -40);
+
+    // النقاط والتصادم
+    const cb = { x1: camel.x - camel.w * 0.4, x2: camel.x + camel.w * 0.35, y1: camel.y - camel.h * 0.8, y2: camel.y - 2 };
+    for (const c of cacti) {
+      for (const p of c.parts) {
+        const x = c.x + p.dx, sh = 0.2;
+        const bx1 = x + p.w * sh * 0.5, bx2 = x + p.w * (1 - sh * 0.5), by1 = groundY - p.h * (1 - sh * 0.5);
+        if (cb.x2 > bx1 && cb.x1 < bx2 && cb.y2 > by1) { gameOver(); return; }
+      }
+      if (!c.passed && c.x + c.width < camel.x - camel.w * 0.4) {
+        c.passed = true; score++;
+        hud.textContent = score;
+        hud.classList.add('bump'); setTimeout(() => hud.classList.remove('bump'), 120);
+        burst(camel.x, camel.y - camel.h, 8, 'rgba(243,199,102,1)', 200, 180);
+        sfx.point();
+      }
+    }
+  }
+
+  // ---------- الرسم ----------
+  let scroll = 0;
+  function dune(baseY, amp, len, offset, color) {
+    ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(0, H);
+    for (let x = 0; x <= W + 10; x += 8) {
+      const u = (x + offset) / len;
+      ctx.lineTo(x, baseY - amp * (0.6 * Math.sin(u) + 0.4 * Math.sin(u * 2.3 + 1.7)));
+    }
+    ctx.lineTo(W, H); ctx.closePath(); ctx.fill();
+  }
+
+  function drawBackground() {
+    const sky = ctx.createLinearGradient(0, 0, 0, groundY);
+    sky.addColorStop(0, '#05040a'); sky.addColorStop(0.6, '#140d10'); sky.addColorStop(1, '#2a1a12');
+    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
+    for (const s of stars) {
+      const a = 0.45 + 0.4 * Math.sin(s.tw + time * 1.6);
+      ctx.fillStyle = 'rgba(245,242,234,' + a.toFixed(2) + ')'; ctx.fillRect(s.x, s.y, s.r, s.r);
+    }
+    // القمر
+    const mx = W * 0.78, my = H * 0.17, mr = Math.min(W, H) * 0.075;
+    ctx.save(); ctx.shadowColor = 'rgba(243,199,102,0.8)'; ctx.shadowBlur = 40;
+    ctx.fillStyle = '#f3c766'; ctx.beginPath(); ctx.arc(mx, my, mr, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+    ctx.fillStyle = 'rgba(5,4,10,0.25)'; ctx.beginPath(); ctx.arc(mx - mr * 0.3, my + mr * 0.15, mr * 0.22, 0, Math.PI * 2); ctx.fill();
+    // كثبان بطبقات
+    dune(groundY - H * 0.16, H * 0.05, W * 0.55, scroll * 0.15, '#1b120d');
+    dune(groundY - H * 0.08, H * 0.045, W * 0.38, scroll * 0.35, '#2a1b11');
+    dune(groundY - H * 0.015, H * 0.02, W * 0.22, scroll * 0.6, '#3a2616');
+    // الأرض
+    const gr = ctx.createLinearGradient(0, groundY, 0, H);
+    gr.addColorStop(0, '#5a3b1f'); gr.addColorStop(1, '#1c120a');
+    ctx.fillStyle = gr; ctx.fillRect(0, groundY, W, H - groundY);
+    ctx.save(); ctx.strokeStyle = 'rgba(243,199,102,0.85)'; ctx.lineWidth = 2; ctx.shadowColor = '#f3c766'; ctx.shadowBlur = 12;
+    ctx.beginPath(); ctx.moveTo(0, groundY); ctx.lineTo(W, groundY); ctx.stroke(); ctx.restore();
+    // تموّجات الرمل
+    ctx.strokeStyle = 'rgba(243,199,102,0.14)'; ctx.lineWidth = 1.5;
+    const step = W * 0.18;
+    for (let row = 1; row <= 4; row++) {
+      const y = groundY + row * (H - groundY) / 5;
+      const off = (scroll * (0.8 + row * 0.15)) % step;
+      for (let x = -off; x < W; x += step) { ctx.beginPath(); ctx.moveTo(x, y); ctx.quadraticCurveTo(x + step * 0.25, y - 4, x + step * 0.5, y); ctx.stroke(); }
+    }
+  }
+
+  function drawCactus(x, p) {
+    const by = groundY, w = p.w, h = p.h;
+    ctx.save();
+    ctx.shadowColor = 'rgba(120,230,150,0.8)'; ctx.shadowBlur = 14;
+    ctx.fillStyle = '#1f7a4a'; ctx.strokeStyle = '#7dffb0'; ctx.lineWidth = 2;
+    const r = w / 2;
+    // الجذع
+    ctx.beginPath(); ctx.moveTo(x, by); ctx.lineTo(x, by - h + r); ctx.arc(x + r, by - h + r, r, Math.PI, 0); ctx.lineTo(x + w, by); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // الذراع
+    const side = p.arms, aw = w * 0.55, ay = by - h * 0.55, ax = side > 0 ? x + w : x - aw;
+    ctx.beginPath();
+    ctx.rect(ax, ay, aw, w * 0.45); ctx.fill(); ctx.stroke();
+    const ux = side > 0 ? x + w + aw - w * 0.45 : x - aw;
+    ctx.beginPath(); ctx.moveTo(ux, ay + 2); ctx.lineTo(ux, ay - h * 0.25 + w * 0.22); ctx.arc(ux + w * 0.225, ay - h * 0.25 + w * 0.22, w * 0.225, Math.PI, 0); ctx.lineTo(ux + w * 0.45, ay + 2); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawCamel() {
+    const c = camel, s = c.w / 60;
+    ctx.save();
+    ctx.translate(c.x, c.y);
+    if (!c.onGround) ctx.rotate(Math.max(-0.25, Math.min(0.25, c.vy / 3000)));
+    ctx.scale(s, s);
+    ctx.shadowColor = 'rgba(243,199,102,0.9)'; ctx.shadowBlur = 16;
+    ctx.fillStyle = '#f3c766'; ctx.strokeStyle = '#fff3c4'; ctx.lineWidth = 1.5;
+    // الأرجل
+    const sw = c.onGround ? Math.sin(c.phase) : 0.6;
+    const legs = [[-18, sw], [-10, -sw], [12, -sw], [20, sw]];
+    ctx.lineCap = 'round'; ctx.strokeStyle = '#e0b04f'; ctx.lineWidth = 5;
+    for (const [lx, a] of legs) {
+      ctx.beginPath(); ctx.moveTo(lx, -24); ctx.lineTo(lx + a * 7, -12); ctx.lineTo(lx + a * 3, 0); ctx.stroke();
+    }
+    // الجسم والسنام
+    ctx.fillStyle = '#f3c766';
+    ctx.beginPath(); ctx.ellipse(0, -32, 27, 12, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(-2, -44, 13, 12, 0, Math.PI, 0); ctx.fill();
+    // الرقبة والرأس
+    ctx.beginPath(); ctx.moveTo(20, -36); ctx.quadraticCurveTo(34, -40, 32, -60); ctx.lineTo(40, -62); ctx.quadraticCurveTo(44, -42, 26, -28); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(41, -63, 9, 5.5, 0.15, 0, Math.PI * 2); ctx.fill();
+    // العين والسرج
+    ctx.shadowBlur = 0; ctx.fillStyle = '#050507'; ctx.beginPath(); ctx.arc(43, -65, 1.6, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#8c2f2f'; ctx.fillRect(-14, -45, 10, 6);
+    // الذيل
+    ctx.strokeStyle = '#e0b04f'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(-26, -34); ctx.quadraticCurveTo(-34, -30, -31, -20); ctx.stroke();
+    ctx.restore();
+  }
+
+  function draw() {
+    ctx.save();
+    if (shake > 0) { const m = shake * 22; ctx.translate((Math.random() - 0.5) * m, (Math.random() - 0.5) * m); }
+    drawBackground();
+    for (const c of cacti) for (const p of c.parts) drawCactus(c.x + p.dx, p);
+    if (camel) drawCamel();
+    for (const p of particles) {
+      ctx.globalAlpha = Math.max(0, 1 - p.t / p.life); ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+  }
+
+  // ---------- الحلقة ----------
+  let last = performance.now();
+  function loop(now) {
+    let dt = (now - last) / 1000; last = now;
+    if (!(dt > 0)) dt = 0;
+    dt = Math.min(dt, 0.05);
+    if (!paused) {
+      if (state === 'start') { time += dt; if (camel) camel.phase += dt * 4; }
+      update(state === 'start' ? 0 : dt);
+      scroll += (state === 'play' ? speed : W * 0.12) * dt;
+      draw();
+    }
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  reset();
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

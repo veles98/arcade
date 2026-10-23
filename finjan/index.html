@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>صبّ القهوة</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@700;800&display=swap">
+<style>
+/* One full-screen canvas game: catch falling coffee with the finjan */
+:root{--bg:#050507;--gold:#f3c766;color-scheme:dark}
+html,body{height:100%;margin:0;background:var(--bg);overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+#c{display:block;width:100%;height:100%}
+</style>
+<canvas id="c" aria-label="لعبة صبّ القهوة: حرّك الفنجال يمين ويسار وامسك القهوة"></canvas>
+<script>
+(() => {
+const cv = document.getElementById('c'), cx = cv.getContext('2d');
+const GOLD = '#f3c766', FG = '#f5f2ea', MUTE = '#8a8a92', BG = '#050507', COFFEE = '#c98a3a', RED = '#e0574a';
+const FONT = '"Alexandria", system-ui, sans-serif';
+let W, H, S;
+function resize() {
+  const d = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+  cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0); S = Math.min(W / 400, H / 720);
+}
+addEventListener('resize', resize); resize();
+const X = v => v * S + (W - 400 * S) / 2, Y = v => v * S + (H - 720 * S) / 2, L = v => v * S;
+
+let state = 'menu', cup, drops, score, best = 0, lives, t = 0, overAt = 0, spawnT = 0, dallah, combo, pops;
+try { best = +localStorage.getItem('finjan_best') || 0 } catch (e) {}
+function reset() { cup = { x: 200, fill: 0 }; drops = []; score = 0; lives = 3; spawnT = 0; combo = 0; pops = []; dallah = { x: 200, tx: 200 }; }
+reset();
+
+let ac;
+function blip(f, d, type = 'sine', v = 0.05) {
+  try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), g = ac.createGain();
+    o.type = type; o.frequency.value = f; g.gain.value = v; g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + d);
+    o.connect(g).connect(ac.destination); o.start(); o.stop(ac.currentTime + d); } catch (e) {}
+}
+
+let targetX = 200;
+function pointer(e) { const r = cv.getBoundingClientRect(); targetX = ((e.clientX - r.left) - (W - 400 * S) / 2) / S; }
+addEventListener('pointerdown', e => {
+  e.preventDefault(); pointer(e);
+  if (state === 'menu') { state = 'play'; reset(); }
+  else if (state === 'over' && t - overAt > 0.6) { state = 'play'; reset(); }
+}, { passive: false });
+addEventListener('pointermove', e => { if (e.buttons || e.pointerType === 'touch' || state === 'play') pointer(e); });
+addEventListener('keydown', e => { if (e.code === 'ArrowLeft') targetX -= 40; if (e.code === 'ArrowRight') targetX += 40; if (e.code === 'Space' && state !== 'play') { state = 'play'; reset(); } });
+
+function update(dt) {
+  t += dt;
+  pops = pops.filter(p => (p.t += dt) < 0.8);
+  if (state !== 'play') return;
+  cup.x += (Math.max(40, Math.min(360, targetX)) - cup.x) * Math.min(1, dt * 14);
+  const speed = 1 + score / 25;
+  // the dallah wanders along the top and pours
+  if (Math.abs(dallah.x - dallah.tx) < 4) dallah.tx = 50 + Math.random() * 300;
+  dallah.x += Math.sign(dallah.tx - dallah.x) * Math.min(Math.abs(dallah.tx - dallah.x), 140 * speed * dt);
+  spawnT -= dt;
+  if (spawnT <= 0) {
+    const bad = score > 5 && Math.random() < 0.18;
+    drops.push({ x: dallah.x + 22, y: 230, vy: 160 * speed, bad });
+    spawnT = Math.max(0.28, 0.85 / speed);
+  }
+  for (const d of drops) d.y += d.vy * dt;
+  for (const d of drops) {
+    if (!d.done && d.y > 600 && d.y < 640 && Math.abs(d.x - cup.x) < 38) {
+      d.done = true;
+      if (d.bad) { lives--; combo = 0; blip(140, 0.3, 'sawtooth', 0.06); pops.push({ x: d.x, y: 590, s: 'شاي؟!', c: RED, t: 0 }); }
+      else { combo++; score += combo >= 5 ? 2 : 1; cup.fill = Math.min(1, cup.fill + 0.12); blip(600 + combo * 40, 0.1, 'triangle');
+        if (combo === 5) pops.push({ x: d.x, y: 560, s: 'كفو!', c: GOLD, t: 0 }); }
+      if (cup.fill >= 1) { cup.fill = 0; score += 3; pops.push({ x: cup.x, y: 540, s: '+٣ فنجال مليان', c: GOLD, t: 0 }); blip(980, 0.2); }
+    }
+    if (!d.done && d.y > 700) { d.done = true; if (!d.bad) { lives--; combo = 0; blip(200, 0.25, 'square', 0.04); pops.push({ x: d.x, y: 660, s: 'انكبّت!', c: RED, t: 0 }); } }
+  }
+  drops = drops.filter(d => !d.done);
+  if (lives <= 0) { state = 'over'; overAt = t; if (score > best) { best = score; try { localStorage.setItem('finjan_best', best) } catch (e) {} } }
+}
+
+function text(s, x, y, size, color, w = 800) { cx.font = `${w} ${L(size)}px ${FONT}`; cx.fillStyle = color; cx.textAlign = 'center'; cx.direction = 'rtl'; cx.fillText(s, X(x), Y(y)); }
+function drawDallah(x) {
+  cx.save(); cx.translate(X(x), Y(195)); cx.scale(S, S); cx.rotate(0.35);
+  cx.strokeStyle = GOLD; cx.lineWidth = 3; cx.fillStyle = 'rgba(243,199,102,0.12)'; cx.shadowColor = GOLD; cx.shadowBlur = 10;
+  cx.beginPath(); cx.moveTo(-18, 30); cx.quadraticCurveTo(-26, 0, -12, -18); cx.lineTo(12, -18); cx.quadraticCurveTo(26, 0, 18, 30); cx.closePath(); cx.fill(); cx.stroke();
+  cx.beginPath(); cx.moveTo(-8, -18); cx.lineTo(-4, -34); cx.lineTo(4, -34); cx.lineTo(8, -18); cx.stroke();
+  cx.beginPath(); cx.arc(0, -38, 5, 0, 7); cx.stroke();
+  cx.beginPath(); cx.moveTo(16, -6); cx.quadraticCurveTo(40, -14, 46, -30); cx.stroke();
+  cx.beginPath(); cx.moveTo(-18, 0); cx.quadraticCurveTo(-36, 6, -22, 24); cx.stroke();
+  cx.restore();
+}
+function drawCup(x) {
+  cx.save(); cx.translate(X(x), Y(630)); cx.scale(S, S);
+  cx.strokeStyle = GOLD; cx.lineWidth = 3; cx.shadowColor = GOLD; cx.shadowBlur = 12;
+  cx.beginPath(); cx.moveTo(-34, -22); cx.lineTo(34, -22); cx.lineTo(24, 18); cx.lineTo(-24, 18); cx.closePath();
+  cx.save(); cx.clip(); cx.fillStyle = COFFEE; const h = 40 * cup.fill; cx.fillRect(-40, 18 - h, 80, h); cx.restore(); cx.stroke();
+  cx.shadowBlur = 0; cx.globalAlpha = 0.5; cx.beginPath(); cx.moveTo(-20, -12); cx.lineTo(20, -12); cx.stroke(); cx.globalAlpha = 1;
+  cx.restore();
+}
+function draw() {
+  cx.fillStyle = BG; cx.fillRect(0, 0, W, H);
+  const g = cx.createRadialGradient(W / 2, H * 0.9, 10, W / 2, H * 0.9, H * 0.8);
+  g.addColorStop(0, 'rgba(243,199,102,0.12)'); g.addColorStop(1, 'rgba(5,5,7,0)'); cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+  // majlis carpet line
+  cx.strokeStyle = 'rgba(243,199,102,0.35)'; cx.lineWidth = 1; cx.setLineDash([L(6), L(6)]);
+  cx.beginPath(); cx.moveTo(0, Y(672)); cx.lineTo(W, Y(672)); cx.stroke(); cx.setLineDash([]);
+  drawDallah(state === 'play' ? dallah.x : 200 + Math.sin(t) * 60);
+  for (const d of drops) {
+    cx.fillStyle = d.bad ? RED : COFFEE; cx.beginPath(); cx.ellipse(X(d.x), Y(d.y), L(d.bad ? 8 : 6), L(d.bad ? 8 : 11), 0, 0, 7); cx.fill();
+    if (d.bad) { cx.fillStyle = FG; cx.font = `700 ${L(10)}px ${FONT}`; cx.textAlign = 'center'; cx.fillText('ش', X(d.x), Y(d.y + 4)); }
+  }
+  drawCup(state === 'play' ? cup.x : 200);
+  for (const p of pops) { cx.globalAlpha = 1 - p.t / 0.8; text(p.s, p.x, p.y - p.t * 40, 22, p.c); cx.globalAlpha = 1; }
+  if (state === 'play') {
+    text(String(score), 200, 80, 52, FG);
+    text('♥'.repeat(lives) + '♡'.repeat(3 - lives), 200, 120, 20, GOLD, 700);
+  }
+  if (state === 'menu') {
+    text('صبّ القهوة', 200, 250, 52, GOLD);
+    text('حرّك الفنجال وامسك القهوة', 200, 300, 20, FG, 700);
+    text('ولا تمسك الشاي الأحمر 🔴', 200, 330, 16, MUTE, 700);
+    if (best) text('أفضل نتيجة: ' + best, 200, 520, 18, GOLD, 700);
+    text('اضغط عشان تبدأ', 200, 470, 20, FG, 700);
+    text('سوّاها Claude · anas.ai.ar', 200, 705, 12, MUTE, 700);
+  }
+  if (state === 'over') {
+    cx.fillStyle = 'rgba(5,5,7,0.7)'; cx.fillRect(0, 0, W, H);
+    text('خلصت الدلّة!', 200, 240, 44, GOLD);
+    text('النتيجة: ' + score, 200, 300, 26, FG);
+    text('أفضل نتيجة: ' + best, 200, 335, 18, MUTE, 700);
+    if (t - overAt > 0.6) text('اضغط عشان تعيد', 200, 410, 20, FG, 700);
+    text('صوّر نتيجتك وحطها بالتعليقات 👇', 200, 460, 15, GOLD, 700);
+  }
+}
+let last = performance.now();
+function loop(now) { const dt = Math.min(0.033, (now - last) / 1000); last = now; update(dt); draw(); requestAnimationFrame(loop); }
+requestAnimationFrame(loop);
+window.__game = { get state() { return state }, get score() { return score } };
+})();
+</script>
