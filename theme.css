@@ -2,7 +2,7 @@
 :root{
   --bg:#07070a;--fg:#f5f2ea;--mute:#9a9aa3;--gold:#f3c766;--gold-ink:#111;
   --glass:rgba(22,22,28,.55);--glass-2:rgba(255,255,255,.04);--edge:rgba(255,255,255,.09);--edge-hi:rgba(255,255,255,.16);
-  --glow-a:rgba(243,199,102,.20);--glow-b:rgba(201,138,58,.14);--shadow:0 10px 40px rgba(0,0,0,.45);
+  --glow-a:rgba(243,199,102,.30);--glow-b:rgba(201,138,58,.22);--shadow:0 10px 40px rgba(0,0,0,.45);
   --code-bg:rgba(0,0,0,.35);color-scheme:dark
 }
 :root[data-theme="light"]{
