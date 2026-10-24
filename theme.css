@@ -1,4 +1,4 @@
-/* Shared look for arcade pages: glass cards over soft gold light, dark + light themes */
+/* Shared look for arcade pages: glass cards over soft gold light. Dark by default; light only when the viewer picks it */
 :root{
   --bg:#07070a;--fg:#f5f2ea;--mute:#9a9aa3;--gold:#f3c766;--gold-ink:#111;
   --glass:rgba(22,22,28,.55);--glass-2:rgba(255,255,255,.04);--edge:rgba(255,255,255,.09);--edge-hi:rgba(255,255,255,.16);
@@ -10,14 +10,6 @@
   --glass:rgba(255,255,255,.58);--glass-2:rgba(255,255,255,.5);--edge:rgba(26,23,18,.10);--edge-hi:rgba(255,255,255,.9);
   --glow-a:rgba(243,199,102,.45);--glow-b:rgba(255,183,120,.30);--shadow:0 10px 36px rgba(80,60,20,.12);
   --code-bg:rgba(255,255,255,.55);color-scheme:light
-}
-@media (prefers-color-scheme: light){
-  :root:not([data-theme="dark"]){
-    --bg:#f4f1ea;--fg:#1a1712;--mute:#6b665c;--gold:#a8741a;--gold-ink:#fff;
-    --glass:rgba(255,255,255,.58);--glass-2:rgba(255,255,255,.5);--edge:rgba(26,23,18,.10);--edge-hi:rgba(255,255,255,.9);
-    --glow-a:rgba(243,199,102,.45);--glow-b:rgba(255,183,120,.30);--shadow:0 10px 36px rgba(80,60,20,.12);
-    --code-bg:rgba(255,255,255,.55);color-scheme:light
-  }
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
@@ -44,7 +36,6 @@ a{color:inherit}
 .tt{width:38px;padding:0;justify-content:center}
 .tt svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .tt .sun{display:none}:root[data-theme="light"] .tt .sun{display:block}:root[data-theme="light"] .tt .moon{display:none}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]) .tt .sun{display:block}:root:not([data-theme="dark"]) .tt .moon{display:none}}
 
 /* hero */
 .kicker{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:var(--mute);direction:ltr;text-align:right;letter-spacing:.3px}
