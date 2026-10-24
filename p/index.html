@@ -25,17 +25,17 @@ li a{color:var(--gold);text-decoration:none;font-weight:600}li span{color:var(--
 .gate-box .btn{width:100%;min-height:56px;font-size:17px}.gate-box button{margin-top:12px}
 .gate-box button:disabled{opacity:.35;cursor:default}
 body.locked{overflow:hidden}
-</style></head><body class="locked"><div id="gate" role="dialog" aria-modal="true" aria-labelledby="gt"><div class="gate-box glass">
-<h2 id="gt">تابعني <span>وافتح</span> البرومبتات</h2>
-<p>كل البرومبتات والأكواد والسكيلز هنا مجانًا. بس تابعني على إنستغرام أول، عشان يوصلك الجديد كل أسبوع.</p>
-<a id="gf" class="btn" href="https://www.instagram.com/anas.ai.ar/" target="_blank" rel="noopener">تابع ‎@anas.ai.ar</a>
-<button id="go" class="btn ghost" disabled>تابعت، افتح البرومبتات</button>
-</div></div><div class="wrap">
+.followcta{display:flex;align-items:center;gap:12px;padding:12px 14px;margin:0 0 18px;text-decoration:none}
+.followcta img{width:44px;height:44px;border-radius:50%;box-shadow:0 0 0 2px var(--gold)}
+.followcta span{flex:1;display:flex;flex-direction:column;gap:2px}.followcta b{font-size:15px}.followcta small{color:var(--mute);font-size:13px}
+.followcta em{font-style:normal;font-weight:600;background:var(--gold);color:var(--gold-ink);border-radius:10px;padding:8px 16px}
+</style></head><body><div class="wrap">
 <header class="bar glass"><a class="brand" href="../"><img class="logo" src="../img/avatar.jpg" alt="">anas.ai.ar</a><span class="sp"></span>
 <a class="pill" href="../">الألعاب</a>
 <button class="pill tt" aria-label="تبديل الوضع الفاتح والداكن"><svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></header>
 <div class="kicker">anas.ai.ar / prompts</div>
 <h1>برومبتات <span>أنس</span></h1><p class="lead">كل البرومبتات والأكواد اللي في ريلاتي، جاهزة للنسخ. اضغط «نسخ» والصقها في Claude.</p>
+<a class="followcta glass" href="https://www.instagram.com/anas.ai.ar/"><img src="../img/avatar.jpg" alt="" width="44" height="44"><span><b>كل أسبوع برومبت جديد</b><small>تابع ‎@anas.ai.ar عشان يوصلك أول واحد</small></span><em>تابع</em></a>
 <nav class="chips"><a class="pill" href="#game">برومبت اللعبة</a><a class="pill" href="#char">الشخصية المتحركة</a><a class="pill" href="#city">المدينة بالحروف</a><a class="pill" href="#fx">تأثيرات الفيديو</a><a class="pill" href="#hitstop">كود Hit-stop</a><a class="pill" href="#vision">العدو يشوفك</a><a class="pill" href="#skills">السكيلز</a><a class="pill" href="#tools">الأدوات</a></nav>
 <div class="label">برومبتات</div>
 <section id="game" class="card glass"><h2>برومبت واحد = لعبة جوال كاملة</h2><p class="s">غيّر [فكرة اللعبة] بس، واحفظ الناتج باسم game.html وافتحه من جوالك.</p>
@@ -213,9 +213,5 @@ bool AEnemyCharacter::CanSee(const AActor* Player) const
 
 <section id="tools" class="card glass"><h2>الأدوات اللي أستخدمها</h2><p class="s">روابط رسمية فقط.</p><ul><li><a href="https://claude.com/claude-code">Claude Code</a><span>يكتب الكود ويشغّله بنفسه</span></li><li><a href="https://docs.claude.com/en/docs/claude-code/skills">Skills</a><span>تعلّمه أسلوبك مرة ويعيده كل مرة</span></li><li><a href="https://github.com/ahujasid/blender-mcp">Blender MCP</a><span>يتحكم في Blender ويبني مجسمات</span></li><li><a href="https://ffmpeg.org">ffmpeg</a><span>يقص ويركّب ويصدّر الفيديو</span></li><li><a href="https://github.com/hzwer/ECCV2022-RIFE">RIFE</a><span>يضاعف الفريمات ويختصر الرندر</span></li><li><a href="https://developer.chrome.com/docs/chromium/headless">Headless Chrome</a><span>يرسم الفيديو كصفحة ويب</span></li></ul></section>
 <div class="foot glass">تبي شي ثاني؟ اكتب لي في <a href="https://www.instagram.com/anas.ai.ar/">instagram.com/anas.ai.ar</a></div></div>
-<script>document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{const t=document.getElementById('t-'+b.dataset.t).innerText;const ok=()=>{b.textContent='تم النسخ';setTimeout(()=>b.textContent='نسخ',1500)};(navigator.clipboard?navigator.clipboard.writeText(t).then(ok,()=>{}):0)})</script><script>(function(){var g=document.getElementById('gate'),go=document.getElementById('go');
-function open(){g.remove();document.body.classList.remove('locked')}
-try{if(localStorage.getItem('anas_followed')==='1'){open();return}}catch(e){}
-document.getElementById('gf').addEventListener('click',function(){setTimeout(function(){go.disabled=false},2500)});
-go.addEventListener('click',function(){try{localStorage.setItem('anas_followed','1')}catch(e){}open()});})()</script>
+<script>document.querySelectorAll('.cp').forEach(b=>b.onclick=()=>{const t=document.getElementById('t-'+b.dataset.t).innerText;const ok=()=>{b.textContent='تم النسخ';setTimeout(()=>b.textContent='نسخ',1500)};(navigator.clipboard?navigator.clipboard.writeText(t).then(ok,()=>{}):0)})</script>
 <script>document.querySelectorAll('.more').forEach(function(b){b.onclick=function(){var x=b.closest('.box');x.classList.toggle('open');b.textContent=x.classList.contains('open')?'اطوِ':'اعرض الكل'}})</script></body></html>
