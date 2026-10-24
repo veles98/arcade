@@ -59,7 +59,7 @@ function tapAt(px, py) {
   const u = best;
   if (u.broke) { temp += 3; combo = 0; shake = 0.25; u.hit = 0.3; blip(120, 0.25, 'sawtooth', 0.06);
     pops.push({ x: u.x, y: u.y - 30, s: 'خربان!', c: RED, t: 0 }); return; }
-  if (!u.on) { u.on = true; u.off = 0; combo++; score += combo >= 6 ? 2 : 1; temp = Math.max(24, temp - 1.4); u.hit = 0.3;
+  if (!u.on) { u.on = true; u.off = 0; combo++; score += combo >= 6 ? 2 : 1; temp = Math.max(24, temp - 0.7); u.hit = 0.3;
     blip(520 + combo * 30, 0.08, 'triangle');
     if (combo === 6) pops.push({ x: u.x, y: u.y - 34, s: 'برّدت!', c: ICE, t: 0 }); }
 }
@@ -106,7 +106,7 @@ function update(dt) {
     pops.push({ x: 200, y: 600, s: 'انقطعت الكهربا!', c: GOLD, t: 0 }); blip(90, 0.5, 'square', 0.05); }
   cut = Math.max(0, cut - dt);
   const offN = units.filter(u => !u.on && !u.broke).length;
-  temp += (offN * 0.55 - 0.9) * dt * (0.8 + lvl * 0.25);
+  temp += (offN * 0.8 - 0.5) * dt * (0.8 + lvl * 0.25);
   temp = Math.max(24, temp);
   sun += dt;
   if (temp >= 50) {
@@ -208,8 +208,8 @@ function bot() {
   bot.cd = (bot.cd || 0) - 1;
   if (bot.cd > 0) return;
   if (score >= STOP_AT) return;
-  const off = units.filter(u => !u.on && !u.broke && u.off > 0.12).sort((a, b) => b.off - a.off);
-  if (off.length) { tapAt(off[0].x, off[0].y); bot.cd = 4 + Math.floor(Math.random() * 3); }
+  const off = units.filter(u => !u.on && !u.broke && u.off > 0.3).sort((a, b) => b.off - a.off);
+  if (off.length) { tapAt(off[0].x, off[0].y); bot.cd = 7 + Math.floor(Math.random() * 4); }
 }
 window.__step = dt => { bot(); update(dt); draw(); return { state, score, temp, pops: pops.filter(p => p.t === 0).map(p => p.s) }; };
 window.__start = () => { state = 'play'; reset(); };
