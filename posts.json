@@ -2,6 +2,16 @@
   "_doc": "Home page content. Newest first (date, then n, then list order). Add entries with tools/add_post.py. Fields: type=reel|game|tool, title, desc, cover (image path or null), link, date (YYYY-MM-DD), n (الشحنة number or null), optional icon (SVG inner markup, used when there is no cover), badge, best (localStorage key of the best score).",
   "posts": [
     {
+      "type": "game",
+      "title": "بحيرة الضفادع: كورال يخربه ضفدع نشاز",
+      "desc": "لعبة كمبيوتر مجانية: ضفادع تغني، ولسانك يسرق القبعات",
+      "cover": "img/post-https-anas-ai-ar-itch-io-6a9e4022.jpg",
+      "link": "https://anas-ai-ar.itch.io/ribbit-lagoon",
+      "date": "2026-10-25",
+      "n": 2,
+      "badge": "جديدة"
+    },
+    {
       "type": "reel",
       "title": "موقع لحسابي ببلاش",
       "cover": "img/De4oc-5gNSx.jpg",
