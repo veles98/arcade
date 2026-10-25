@@ -5,33 +5,38 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>أنس | ألعاب وبرومبتات</title>
 <meta name="description" content="برومبتات وأكواد وسكيلز مجانية، وألعاب جوال سوّاها Claude">
+<!--theme-init--><script>/*theme-init*/(function(){var d=document,r=d.documentElement,K='anas_theme',L=[['paper','ورق','#f3efe6','#0b0b0d','11,11,13','linear-gradient(135deg,#f3efe6 50%,#d9b766 50%)'],['night','ليل ذهبي','#07070a','#050507','5,5,7','linear-gradient(135deg,#0b0b10 50%,#f3c766 50%)'],['lake','بحيرة','#f7d6dc','#1f1233','31,18,51','linear-gradient(135deg,#ffc4b0 40%,#f4a6c8 40% 70%,#b7a2f0 70%)'],['neon','نيون','#070a1c','#050a1f','5,10,31','linear-gradient(135deg,#0a1030 40%,#19e1ff 40% 70%,#ff3da8 70%)'],['ink','حبر','#ffffff','#000000','0,0,0','linear-gradient(135deg,#fff 50%,#000 50%)']];function find(i){for(var k=0;k<L.length;k++)if(L[k][0]===i)return L[k]}function apply(i,save){var t=find(i)||L[0],m;r.dataset.theme=t[0];r.style.setProperty('--stage',t[3]);r.style.setProperty('--stage-rgb',t[4]);m=d.querySelector('meta[name=theme-color]');if(!m){m=d.createElement('meta');m.name='theme-color';d.head.appendChild(m)}m.content=t[2];if(save){try{localStorage.setItem(K,t[0])}catch(e){}}return t[0]}var s;try{s=new URLSearchParams(location.search).get('theme')||localStorage.getItem(K)}catch(e){}s={dark:'night',light:'paper'}[s]||s;window.ANAS_THEMES=L;window.ANAS_APPLY_THEME=function(i){return apply(i,false)};window.ANAS_SET_THEME=function(i){return apply(i,true)};apply(s)})();</script><!--/theme-init-->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
-<link rel="stylesheet" href="theme.css"><script src="theme.js"></script>
+<link rel="stylesheet" href="theme.css?v=202610251806"><script src="theme.js?v=202610251806" defer></script>
 <style>
 .grid{display:grid;gap:12px}
 a.game{display:flex;align-items:center;gap:14px;padding:16px;text-decoration:none;transition:transform .2s,border-color .2s}
-a.game:hover,a.game:focus-visible{transform:translateY(-2px);border-color:var(--gold);outline:none}
+a.game:hover,a.game:focus-visible{transform:translateY(-2px);border-color:var(--gold-text)}
 .t{font-family:Alexandria,sans-serif;font-weight:600;font-size:18px}
 .d{color:var(--mute);font-size:14px;margin-top:3px;line-height:1.5}
-.best{margin-inline-start:auto;font-size:12px;color:var(--gold);white-space:nowrap}
+.best{margin-inline-start:auto;font-size:12px;color:var(--gold-text);white-space:nowrap}
+.badge{font-size:12px;color:var(--gold-text);border:1px solid var(--gold-text);border-radius:999px;padding:1px 8px;margin-inline-start:6px;font-family:"IBM Plex Sans Arabic",sans-serif;font-weight:600;white-space:nowrap}
+.chip{font-size:11.5px;color:var(--mute);border:1px solid var(--edge);border-radius:999px;padding:1px 8px;margin-inline-start:6px;font-family:"IBM Plex Sans Arabic",sans-serif;font-weight:600;white-space:nowrap}
+.upd{margin:22px 0 0;text-align:center;font-size:13px;color:var(--mute)}.upd:empty{display:none}
+.upd b{font-weight:600;color:var(--fg)}
+.empty{padding:18px;text-align:center;color:var(--mute);font-size:14px;grid-column:1/-1}
 .arrow{margin-inline-start:auto;color:var(--mute);font-size:18px}
 .prof{padding:20px 18px 16px;margin-bottom:8px}
 .ptop{display:flex;align-items:center;gap:16px}
-.av{flex:0 0 88px;height:88px;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,#f3c766,#c98a3a,#fff1c9,#f3c766)}
+.av{flex:0 0 88px;height:88px;border-radius:50%;padding:3px;background:var(--ring-a)}
 .av img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid var(--bg);display:block}
 .handle{display:flex;align-items:center;gap:6px;font-weight:600;font-size:19px;direction:ltr;justify-content:flex-end}
-.handle svg{width:18px;height:18px;fill:var(--gold);flex:0 0 auto}.handle .ck{fill:none;stroke:var(--gold-ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .name{font-family:Alexandria,sans-serif;font-weight:600;font-size:15px;color:var(--mute);margin-top:4px}
 .bio{margin:14px 0 16px;line-height:1.8;font-size:15px}
 .acts{display:grid;grid-template-columns:1fr auto;gap:8px}
-.btn.follow{min-height:48px;font-size:16px;box-shadow:0 6px 24px rgba(243,199,102,.28)}
+.btn.follow{min-height:48px;font-size:16px;box-shadow:0 6px 24px var(--gold-glow)}
 .hls{display:flex;gap:14px;overflow-x:auto;margin:18px -4px 0;padding:2px 4px 4px;scrollbar-width:none}.hls::-webkit-scrollbar{display:none}
 .hl{flex:0 0 auto;width:66px;text-align:center;text-decoration:none}
-.hl .ring{display:block;width:64px;height:64px;border-radius:50%;padding:2px;background:linear-gradient(135deg,#f3c766,#8a5a1e)}
+.hl .ring{display:block;width:64px;height:64px;border-radius:50%;padding:2px;background:var(--ring-b)}
 .hl .in{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--bg);border:2px solid var(--bg)}
-.hl svg{width:26px;height:26px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.hl svg{width:26px;height:26px;stroke:var(--gold-text);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .hl b{display:block;font-weight:400;font-size:12px;margin-top:6px;white-space:nowrap}
-.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:16px;overflow:hidden}
+.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:16px;overflow:hidden;min-height:120px}
 .reel{display:block;aspect-ratio:3/4;background:var(--glass)}.reel img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s}.reel:hover img{opacity:.8}
 .more-reels{margin:12px auto 0;display:flex;width:max-content}
 </style>
@@ -40,7 +45,7 @@ a.game:hover,a.game:focus-visible{transform:translateY(-2px);border-color:var(--
 <div class="wrap">
   <header class="bar glass"><a class="brand" href="./"><img class="logo" src="img/avatar.jpg" alt="">anas.ai.ar</a><span class="sp"></span>
   <a class="pill" href="p/">البرومبتات</a>
-  <button class="pill tt" aria-label="تبديل الوضع الفاتح والداكن"><svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></header>
+  <div class="tp" data-tp></div></header>
   <section class="prof glass">
     <div class="ptop">
       <a class="av" href="https://www.instagram.com/anas.ai.ar/"><img src="img/avatar.jpg" alt="anas.ai.ar" width="240" height="240"></a>
@@ -53,34 +58,18 @@ a.game:hover,a.game:focus-visible{transform:translateY(-2px);border-color:var(--
     <nav class="hls"><a class="hl" href="p/"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><path d="M11 9l-6 7 6 7M21 9l6 7-6 7M18 7l-4 18"/></svg></span></span><b>البرومبتات</b></a><a class="hl" href="p/#char"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><circle cx="16" cy="13" r="6"/><path d="M6 27c2-5 6-7 10-7s8 2 10 7"/></svg></span></span><b>الشخصية</b></a><a class="hl" href="#games"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><rect x="4" y="10" width="24" height="14" rx="6"/><path d="M10 15v4M8 17h4"/><circle cx="21" cy="16" r="1"/><circle cx="23" cy="19" r="1"/></svg></span></span><b>الألعاب</b></a><a class="hl" href="p/#skills"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><rect x="6" y="8" width="20" height="17" rx="3"/><path d="M12 8V6h8v2M11 15h10M11 19h6"/></svg></span></span><b>السكيلز</b></a><a class="hl" href="p/#hitstop"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><path d="M16 4l10 6v12l-10 6-10-6V10z"/><path d="M16 10v12"/></svg></span></span><b>Unreal</b></a></nav>
   </section>
   <div class="label">آخر الريلات</div>
-  <div class="reels"><a class="reel" href="https://www.instagram.com/reel/De4oc-5gNSx/" target="_blank" rel="noopener"><img src="img/De4oc-5gNSx.jpg" alt="موقع لحسابي ببلاش" loading="lazy" width="360" height="480"></a><a class="reel" href="https://www.instagram.com/reel/De4OgRjAWiC/" target="_blank" rel="noopener"><img src="img/De4OgRjAWiC.jpg" alt="لعبة ٥٠ درجة" loading="lazy" width="360" height="480"></a><a class="reel" href="https://www.instagram.com/reel/De2fsjOgxoZ/" target="_blank" rel="noopener"><img src="img/De2fsjOgxoZ.jpg" alt="7 أدوات خلّت Claude استوديو" loading="lazy" width="360" height="480"></a><a class="reel" href="https://www.instagram.com/reel/De2VhFwAtlu/" target="_blank" rel="noopener"><img src="img/De2VhFwAtlu.jpg" alt="الشخصية اللي تتكلم بصوتي" loading="lazy" width="360" height="480"></a><a class="reel" href="https://www.instagram.com/reel/De2NXexzGPO/" target="_blank" rel="noopener"><img src="img/De2NXexzGPO.jpg" alt="لعبة القهوة" loading="lazy" width="360" height="480"></a><a class="reel" href="https://www.instagram.com/reel/De2BKgqzw9f/" target="_blank" rel="noopener"><img src="img/De2BKgqzw9f.jpg" alt="العدو شافك ولا لا؟" loading="lazy" width="360" height="480"></a><a class="reel" href="https://www.instagram.com/reel/De19w6pzUqn/" target="_blank" rel="noopener"><img src="img/De19w6pzUqn.jpg" alt="لعبة كاملة في ٤ دقايق" loading="lazy" width="360" height="480"></a><a class="reel" href="https://www.instagram.com/reel/De18GBAT5b1/" target="_blank" rel="noopener"><img src="img/De18GBAT5b1.jpg" alt="سر ضربة إلدن رنق" loading="lazy" width="360" height="480"></a><a class="reel" href="https://www.instagram.com/reel/De1pdgxTM5D/" target="_blank" rel="noopener"><img src="img/De1pdgxTM5D.jpg" alt="وش يعني Agent؟" loading="lazy" width="360" height="480"></a></div>
+  <div class="reels" id="reels"></div>
   <a class="more-reels pill" href="https://www.instagram.com/anas.ai.ar/reels/" target="_blank" rel="noopener">كل الريلات على إنستغرام ←</a>
   <div class="label">البرومبتات والأدوات</div>
-  <div class="grid">
-    <a class="game glass" href="p/"><div class="ico"><svg viewBox="0 0 32 32"><path d="M11 9l-6 7 6 7M21 9l6 7-6 7M18 7l-4 18"/></svg></div>
-      <div><div class="t">البرومبتات والأكواد</div><div class="d">برومبت اللعبة، الشخصية، المدينة بالحروف، التأثيرات</div></div></a>
-    <a class="game glass" href="p/#skills"><div class="ico"><svg viewBox="0 0 32 32"><rect x="6" y="8" width="20" height="17" rx="3"/><path d="M12 8V6h8v2M11 15h10M11 19h6"/></svg></div>
-      <div><div class="t">سكيلز صانع المحتوى</div><div class="d">١٤ سكل لـ Claude Code تحمّلها مجانًا</div></div></a>
-  </div>
+  <div class="grid" id="tools"></div>
   <div class="label" id="games">الألعاب</div>
-  <div class="grid">
-    <a class="game glass" href="hot/"><div class="ico"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="5"/><path d="M16 4v3M16 25v3M4 16h3M25 16h3M7.5 7.5l2 2M22.5 22.5l2 2M7.5 24.5l2-2M22.5 9.5l2-2"/></svg></div>
-      <div><div class="t">٥٠ درجة <span style="font-size:12px;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:1px 8px;margin-inline-start:6px">جديدة</span></div><div class="d">المكيفات تطفي… شغّلها قبل لا يولّع البيت</div></div><div class="best" data-k="hot_best"></div></a>
-    <a class="game glass" href="aadi/"><div class="ico"><svg viewBox="0 0 32 32"><path d="M4 18c6-1 9-6 12-6s6 4 12 4"/><path d="M16 12l3-4"/><circle cx="21" cy="14" r="1"/></svg></div>
-      <div><div class="t">عدّي!</div><div class="d">صقر يعدّي بين الأبراج… ولا تلمسها</div></div><div class="best" data-k="falcon_best"></div></a>
-    <a class="game glass" href="finjan/"><div class="ico"><svg viewBox="0 0 32 32"><path d="M9 14h14l-2 10H11z"/><path d="M13 9c0-2 2-2 2-4M18 9c0-2 2-2 2-4"/></svg></div>
-      <div><div class="t">صبّ القهوة</div><div class="d">امسك القهوة بالفنجال… وتفادى الشاي</div></div><div class="best" data-k="finjan_best"></div></a>
-    <a class="game glass" href="camel/"><div class="ico"><svg viewBox="0 0 32 32"><path d="M4 24h24"/><path d="M8 22v-6c0-3 3-4 5-2 1-3 4-3 5 0h3l2-3"/><path d="M24 22v-4"/></svg></div>
-      <div><div class="t">جمل الربع الخالي</div><div class="d">نط فوق الصبّار وكمّل الرحلة</div></div></a>
-    <a class="game glass" href="car/"><div class="ico"><svg viewBox="0 0 32 32"><rect x="10" y="5" width="12" height="22" rx="4"/><path d="M12 11h8M12 21h8"/></svg></div>
-      <div><div class="t">زحمة الطريق</div><div class="d">تفادى السيارات… وكل ما طوّلت تسرع</div></div></a>
-  </div>
+  <div class="grid" id="gameList"></div>
+  <div class="upd" id="upd"></div>
   <div class="foot glass"><a href="p/">البرومبتات</a> · <a href="p/#skills">سكيلز صانع المحتوى</a><br>تبي لعبتك؟ اكتب فكرتك تحت أي ريل في حسابي، وأحسن فكرة أسويها باسمك.<br>
   <a href="p/">كل البرومبتات والأكواد ←</a> · <a href="https://www.instagram.com/anas.ai.ar/">instagram.com/anas.ai.ar</a></div>
 </div>
-<script>
-document.querySelectorAll('.best').forEach(function(e){try{var v=localStorage.getItem(e.dataset.k);if(v&&+v>0)e.textContent='أفضل نتيجة لك: '+v}catch(x){}});
-</script>
-<script src="counter.js" defer></script>
+<noscript><p class="foot glass">فعّل جافاسكربت عشان تظهر القوائم، أو تابعني على <a href="https://www.instagram.com/anas.ai.ar/">إنستغرام</a>.</p></noscript>
+<script src="home.js?v=202610251806" defer></script>
+<script src="counter.js?v=202610251806" defer></script>
 </body>
 </html>

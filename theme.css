@@ -1,57 +1,144 @@
-/* Shared look for arcade pages: glass cards over soft gold light. Dark by default; light only when the viewer picks it */
-:root{
-  --bg:#07070a;--fg:#f5f2ea;--mute:#9a9aa3;--gold:#f3c766;--gold-ink:#111;
-  --glass:rgba(22,22,28,.55);--glass-2:rgba(255,255,255,.04);--edge:rgba(255,255,255,.09);--edge-hi:rgba(255,255,255,.16);
+/* Shared look for arcade pages. Five themes, chosen with the picker in the top bar (saved in localStorage "anas_theme").
+   The theme id lives on <html data-theme="...">; :root without a data-theme is "paper" (the default).
+   Variables:
+     --gold       brand accent used as a FILL / marker (buttons, rings, borders)
+     --gold-text  the same accent made safe for TEXT and thin strokes (WCAG AA on the page background)
+     --gold-ink   text colour that sits on a --gold fill
+   Contrast targets (checked by tools/check_contrast.py): body, muted and accent text all >= 4.5:1 */
+
+/* ---- 1) paper: the default. Brand paper #f3efe6, ink #121214, gold #d9b766 / #e6c46e ---- */
+:root,:root[data-theme="paper"]{
+  --bg:#f3efe6;
+  --bg-img:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .27  0 0 0 0 .12  0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --fg:#121214;--mute:#5a564c;
+  --gold:#d9b766;--gold-2:#e6c46e;--gold-ink:#121214;--gold-text:#7a5a12;--gold-glow:rgba(217,183,102,.45);
+  --glass:rgba(255,253,247,.72);--glass-2:rgba(255,255,255,.6);--glass-bw:1.5px;--glass-edge:#121214;
+  --edge:rgba(18,18,20,.22);--edge-hi:rgba(255,255,255,.9);
+  --glow-a:rgba(230,196,110,.34);--glow-b:rgba(217,183,102,.18);--shadow:0 10px 26px rgba(88,64,12,.14);
+  --code-bg:rgba(255,255,255,.62);--mark-bg:#e6c46e;--mark-fg:#121214;--mark-a:40%;--mark-b:94%;
+  --ring-a:conic-gradient(from 200deg,#d9b766,#a8822f,#f2dd9c,#d9b766);--ring-b:linear-gradient(135deg,#e6c46e,#a8822f);
+  --focus:#121214;--dot-edge:rgba(18,18,20,.55);
+  --stage:#0b0b0d;--stage-rgb:11,11,13;
+  color-scheme:light
+}
+/* ---- 2) night ("ليل ذهبي"): the original black and gold ---- */
+:root[data-theme="night"]{
+  --bg:#07070a;--bg-img:none;--fg:#f5f2ea;--mute:#9a9aa3;
+  --gold:#f3c766;--gold-2:#c98a3a;--gold-ink:#111;--gold-text:#f3c766;--gold-glow:rgba(243,199,102,.28);
+  --glass:rgba(22,22,28,.55);--glass-2:rgba(255,255,255,.04);--glass-bw:1px;--glass-edge:rgba(255,255,255,.09);
+  --edge:rgba(255,255,255,.09);--edge-hi:rgba(255,255,255,.16);
   --glow-a:rgba(243,199,102,.30);--glow-b:rgba(201,138,58,.22);--shadow:0 10px 40px rgba(0,0,0,.45);
-  --code-bg:rgba(0,0,0,.35);color-scheme:dark
+  --code-bg:rgba(0,0,0,.35);--mark-bg:transparent;--mark-fg:#f3c766;
+  --ring-a:conic-gradient(from 200deg,#f3c766,#c98a3a,#fff1c9,#f3c766);--ring-b:linear-gradient(135deg,#f3c766,#8a5a1e);
+  --focus:#f3c766;--dot-edge:rgba(255,255,255,.35);
+  --stage:#050507;--stage-rgb:5,5,7;
+  color-scheme:dark
 }
-:root[data-theme="light"]{
-  --bg:#f4f1ea;--fg:#1a1712;--mute:#6b665c;--gold:#a8741a;--gold-ink:#fff;
-  --glass:rgba(255,255,255,.58);--glass-2:rgba(255,255,255,.5);--edge:rgba(26,23,18,.10);--edge-hi:rgba(255,255,255,.9);
-  --glow-a:rgba(243,199,102,.45);--glow-b:rgba(255,183,120,.30);--shadow:0 10px 36px rgba(80,60,20,.12);
-  --code-bg:rgba(255,255,255,.55);color-scheme:light
+/* ---- 3) lake ("بحيرة"): soft pastel sunset, pinks / lilac / peach (like the frog game key art) ---- */
+:root[data-theme="lake"]{
+  --bg:#f7d6dc;
+  --bg-img:linear-gradient(180deg,#ffd9c6 0%,#fbd0df 42%,#ead9fb 100%);
+  --fg:#2f1d47;--mute:#634c7c;
+  --gold:#ff8aa6;--gold-2:#b7a2f0;--gold-ink:#2b1742;--gold-text:#9c1f50;--gold-glow:rgba(255,138,166,.45);
+  --glass:rgba(255,255,255,.55);--glass-2:rgba(255,255,255,.5);--glass-bw:1px;--glass-edge:rgba(255,255,255,.75);
+  --edge:rgba(47,29,71,.16);--edge-hi:rgba(255,255,255,.95);
+  --glow-a:rgba(255,168,128,.55);--glow-b:rgba(176,150,245,.42);--shadow:0 10px 34px rgba(120,60,120,.16);
+  --code-bg:rgba(255,255,255,.58);--mark-bg:#ffb3c6;--mark-fg:#2f1d47;
+  --ring-a:conic-gradient(from 200deg,#ff8aa6,#b7a2f0,#ffc4a8,#ff8aa6);--ring-b:linear-gradient(135deg,#ff9db4,#a995e8);
+  --focus:#9c1f50;--dot-edge:rgba(47,29,71,.45);
+  --stage:#1f1233;--stage-rgb:31,18,51;
+  color-scheme:light
 }
+/* ---- 4) neon ("نيون"): dark navy with cyan / magenta ---- */
+:root[data-theme="neon"]{
+  --bg:#070a1c;--bg-img:none;--fg:#e9f1ff;--mute:#93a0cc;
+  --gold:#19e1ff;--gold-2:#ff3da8;--gold-ink:#03101a;--gold-text:#3de6ff;--gold-glow:rgba(25,225,255,.35);
+  --glass:rgba(14,20,52,.62);--glass-2:rgba(80,110,255,.08);--glass-bw:1px;--glass-edge:rgba(25,225,255,.28);
+  --edge:rgba(120,150,255,.22);--edge-hi:rgba(25,225,255,.35);
+  --glow-a:rgba(25,225,255,.26);--glow-b:rgba(255,61,168,.22);--shadow:0 10px 40px rgba(0,0,0,.55),0 0 26px rgba(25,225,255,.08);
+  --code-bg:rgba(2,5,22,.6);--mark-bg:transparent;--mark-fg:#3de6ff;
+  --ring-a:conic-gradient(from 200deg,#19e1ff,#ff3da8,#7a5cff,#19e1ff);--ring-b:linear-gradient(135deg,#19e1ff,#ff3da8);
+  --focus:#3de6ff;--dot-edge:rgba(255,255,255,.4);
+  --stage:#050a1f;--stage-rgb:5,10,31;
+  color-scheme:dark
+}
+/* ---- 5) ink ("حبر"): high-contrast black on white, hard edges ---- */
+:root[data-theme="ink"]{
+  --bg:#fff;--bg-img:none;--fg:#000;--mute:#383838;
+  --gold:#000;--gold-2:#555;--gold-ink:#fff;--gold-text:#000;--gold-glow:rgba(0,0,0,.25);
+  --glass:#fff;--glass-2:#fff;--glass-bw:2px;--glass-edge:#000;
+  --edge:#000;--edge-hi:transparent;
+  --glow-a:transparent;--glow-b:transparent;--shadow:4px 4px 0 #000;
+  --code-bg:#f3f3f3;--mark-bg:#000;--mark-fg:#fff;--mark-a:0%;--mark-b:100%;
+  --ring-a:conic-gradient(from 200deg,#000,#666,#000);--ring-b:linear-gradient(135deg,#000,#666);
+  --focus:#000;--dot-edge:#000;
+  --stage:#000;--stage-rgb:0,0,0;
+  color-scheme:light
+}
+/* aliases used by older pages (skills/README.html) */
+:root{--line:var(--edge);--card:var(--code-bg)}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
-body{margin:0;min-height:100vh;background:var(--bg);color:var(--fg);font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;transition:background .3s,color .3s}
+body{margin:0;min-height:100vh;background-color:var(--bg);background-image:var(--bg-img);background-attachment:fixed;color:var(--fg);
+  font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;transition:background-color .3s,color .3s}
 body::before{content:"";position:fixed;inset:-20vmax;z-index:-1;pointer-events:none;
   background:radial-gradient(40vmax 30vmax at 80% 0%,var(--glow-a),transparent 70%),
              radial-gradient(36vmax 30vmax at 0% 45%,var(--glow-b),transparent 70%),
              radial-gradient(30vmax 26vmax at 90% 95%,var(--glow-b),transparent 70%)}
+::selection{background:var(--gold);color:var(--gold-ink)}
 a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 .wrap{max-width:720px;margin:0 auto;padding:18px 16px 70px}
 
 /* glass surface */
-.glass{background:var(--glass);border:1px solid var(--edge);border-radius:20px;box-shadow:var(--shadow),inset 0 1px 0 var(--edge-hi);
+.glass{background:var(--glass);border:var(--glass-bw) solid var(--glass-edge);border-radius:20px;box-shadow:var(--shadow),inset 0 1px 0 var(--edge-hi);
   -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
 
 /* top bar */
 .bar{position:sticky;top:10px;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:26px}
-.brand{font-family:Alexandria,sans-serif;font-weight:800;font-size:16px;text-decoration:none;display:flex;align-items:center;gap:8px}
+.brand{font-family:Alexandria,sans-serif;font-weight:800;font-size:16px;text-decoration:none;color:var(--fg);display:flex;align-items:center;gap:8px}
 .brand .logo{width:30px;height:30px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1.5px var(--gold)}
 .bar .sp{flex:1}
 .pill{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--edge);background:var(--glass-2);
   color:var(--fg);text-decoration:none;font:600 14px inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
-.pill:hover{border-color:var(--gold)}
-.tt{width:38px;padding:0;justify-content:center}
-.tt svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.tt .sun{display:none}:root[data-theme="light"] .tt .sun{display:block}:root[data-theme="light"] .tt .moon{display:none}
+.pill:hover{border-color:var(--gold-text)}
+
+/* theme picker: five colour dots in a pill (built by theme.js into <div class="tp" data-tp>) */
+.tp{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:0;height:38px;min-width:148px;padding:0 5px;border-radius:999px;
+  border:1px solid var(--edge);background:var(--glass-2)}
+.tp .dot{position:relative;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tp .dot::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--sw);border:1.5px solid var(--dot-edge);transition:transform .15s,box-shadow .15s}
+.tp .dot:hover::before,.tp .dot:focus-visible::before{transform:scale(1.14)}
+.tp .dot[aria-checked="true"]::before{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--fg)}
+.tp .dot:focus-visible{outline:3px solid var(--focus);outline-offset:0}
+.tp-tip{position:absolute;top:calc(100% + 8px);left:0;z-index:30;padding:5px 11px;border-radius:999px;background:var(--fg);color:var(--bg);font:600 13px/1.4 inherit;font-family:inherit;
+  white-space:nowrap;pointer-events:none;opacity:0;transform:translateY(-3px);transition:opacity .15s,transform .15s}
+.tp-tip.on{opacity:1;transform:none}
 
 /* hero */
 .kicker{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:var(--mute);direction:ltr;text-align:right;letter-spacing:.3px}
 h1{font-family:Alexandria,sans-serif;font-weight:800;font-size:clamp(32px,8.5vw,50px);line-height:1.15;margin:8px 0 10px}
-h1 span{color:var(--gold)}
+h1 span{color:var(--mark-fg);background:linear-gradient(transparent var(--mark-a),var(--mark-bg) var(--mark-a),var(--mark-bg) var(--mark-b),transparent var(--mark-b));padding:0 .12em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .lead{color:var(--mute);line-height:1.8;margin:0 0 26px;font-size:15.5px}
-.label{font-family:Alexandria,sans-serif;font-weight:600;font-size:13px;color:var(--gold);margin:34px 2px 12px;letter-spacing:.3px}
+.label{font-family:Alexandria,sans-serif;font-weight:600;font-size:13px;color:var(--gold-text);margin:34px 2px 12px;letter-spacing:.3px}
 
 /* icon tiles */
-.ico{flex:0 0 50px;height:50px;border-radius:14px;display:grid;place-items:center;border:1px solid var(--edge);background:var(--glass-2)}
-.ico svg{width:26px;height:26px;stroke:var(--gold);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ico{flex:0 0 50px;height:50px;border-radius:14px;display:grid;place-items:center;border:1px solid var(--edge);background:var(--glass-2);overflow:hidden}
+.ico svg{width:26px;height:26px;stroke:var(--gold-text);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ico img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:14px;border:1px solid transparent;
   background:var(--gold);color:var(--gold-ink);font:600 15px inherit;font-family:inherit;text-decoration:none;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--gold);border-color:var(--gold)}
+.btn.ghost{background:transparent;color:var(--gold-text);border-color:var(--gold-text)}
 .foot{margin-top:40px;padding:18px;color:var(--mute);font-size:14px;line-height:1.9;text-align:center}
-.foot a{color:var(--gold);text-decoration:none}
+.foot a{color:var(--gold-text);text-decoration:none}
+@media (max-width:480px){
+  .bar{gap:6px;padding:8px 10px}
+  .brand{font-size:15px;gap:6px}
+  .bar .pill{padding:0 11px}
+  .tp{min-width:140px}.tp .dot{width:26px;height:26px}.tp .dot::before{inset:4px}
+}
+@media (max-width:380px){.brand{font-size:0;gap:0}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}

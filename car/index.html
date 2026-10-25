@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<!--theme-init--><script>/*theme-init*/(function(){var d=document,r=d.documentElement,K='anas_theme',L=[['paper','ورق','#f3efe6','#0b0b0d','11,11,13','linear-gradient(135deg,#f3efe6 50%,#d9b766 50%)'],['night','ليل ذهبي','#07070a','#050507','5,5,7','linear-gradient(135deg,#0b0b10 50%,#f3c766 50%)'],['lake','بحيرة','#f7d6dc','#1f1233','31,18,51','linear-gradient(135deg,#ffc4b0 40%,#f4a6c8 40% 70%,#b7a2f0 70%)'],['neon','نيون','#070a1c','#050a1f','5,10,31','linear-gradient(135deg,#0a1030 40%,#19e1ff 40% 70%,#ff3da8 70%)'],['ink','حبر','#ffffff','#000000','0,0,0','linear-gradient(135deg,#fff 50%,#000 50%)']];function find(i){for(var k=0;k<L.length;k++)if(L[k][0]===i)return L[k]}function apply(i,save){var t=find(i)||L[0],m;r.dataset.theme=t[0];r.style.setProperty('--stage',t[3]);r.style.setProperty('--stage-rgb',t[4]);m=d.querySelector('meta[name=theme-color]');if(!m){m=d.createElement('meta');m.name='theme-color';d.head.appendChild(m)}m.content=t[2];if(save){try{localStorage.setItem(K,t[0])}catch(e){}}return t[0]}var s;try{s=new URLSearchParams(location.search).get('theme')||localStorage.getItem(K)}catch(e){}s={dark:'night',light:'paper'}[s]||s;window.ANAS_THEMES=L;window.ANAS_APPLY_THEME=function(i){return apply(i,false)};window.ANAS_SET_THEME=function(i){return apply(i,true)};apply(s)})();</script><!--/theme-init-->
 <title>زحمة طريق الملك فهد</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
-    width: 100%; height: 100%; overflow: hidden; background: #050507;
+    width: 100%; height: 100%; overflow: hidden; background: var(--stage, #050507);
     touch-action: none; user-select: none; -webkit-user-select: none;
     -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent;
     font-family: system-ui, Tahoma, sans-serif; color: #f5f2ea;
@@ -22,7 +23,7 @@
   #bestTop { position: fixed; top: 82px; left: 0; right: 0; text-align: center; font-size: 16px; color: rgba(245,242,234,.65); pointer-events: none; display: none; }
   .screen {
     position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 18px; padding: 24px; text-align: center; background: rgba(5,5,7,.6);
+    gap: 18px; padding: 24px; text-align: center; background: rgba(var(--stage-rgb,5,5,7),.6);
   }
   .hidden { display: none !important; }
   h1 { font-size: clamp(26px, 8vw, 44px); line-height: 1.3; color: #f3c766; text-shadow: 0 0 24px rgba(243,199,102,.75); }
@@ -37,7 +38,7 @@
   button.main:disabled { opacity: .4; }
   #mute {
     position: fixed; top: 14px; left: 14px; width: 48px; height: 48px; border-radius: 50%; z-index: 5;
-    border: 1.5px solid rgba(243,199,102,.6); background: rgba(5,5,7,.6); color: #f3c766; font-size: 20px; font-family: inherit; cursor: pointer;
+    border: 1.5px solid rgba(243,199,102,.6); background: rgba(var(--stage-rgb,5,5,7),.6); color: #f3c766; font-size: 20px; font-family: inherit; cursor: pointer;
   }
 </style>
 </head>
@@ -377,6 +378,6 @@
   requestAnimationFrame(loop);
 })();
 </script>
-<script src="../counter.js" defer></script>
+<script src="../counter.js?v=202610251806" defer></script>
 </body>
 </html>
