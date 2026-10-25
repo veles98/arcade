@@ -1,8 +1,9 @@
-// Home page: renders the reels, tools and games from posts.json, newest first.
-// Add an item with tools/add_post.py (or edit posts.json by hand) - no HTML to touch.
+// Home page: hero stats + featured projects from featured.json, reels/tools/games from posts.json (newest first).
+// Add a reel or game with tools/add_post.py; edit featured.json by hand for the hero stats and the project cards.
 (function () {
   var NS = 'http://www.w3.org/2000/svg';
-  var REEL_LIMIT = 12;                       // most reels shown in the cover grid (keep it a multiple of 3)
+  var REEL_LIMIT = 12;                       // most reels shown in the cover grid (keep it a multiple of 6)
+  var WIDE = window.matchMedia ? window.matchMedia('(min-width:760px)') : { matches: false };   // 6 columns, else 3
   var V = '';
   try { V = new URL(document.currentScript.src).searchParams.get('v') || ''; } catch (e) {}
 
@@ -62,6 +63,36 @@
     return a;
   }
 
+  function feature(f, i) {
+    var a = el(f.link ? 'a' : 'div', 'feat glass' + (f.soon ? ' soon' : '')), fm = el('div', 'fm'), img = new Image(), fb = el('div', 'fb');
+    if (f.link) link(a, f);
+    img.src = f.image; img.alt = f.title; img.width = 1200; img.height = 750; img.decoding = 'async';
+    if (i > 0) img.loading = 'lazy';
+    fm.appendChild(img);
+    if (f.badge) fm.appendChild(el('span', 'fbadge', f.badge));
+    if (f.kicker) fb.appendChild(el('div', 'fk', f.kicker));
+    fb.appendChild(el('h3', null, f.title));
+    if (f.desc) fb.appendChild(el('p', null, f.desc));
+    if (f.cta) fb.appendChild(el('span', 'fgo', f.cta + ' ←'));
+    a.appendChild(fm); a.appendChild(fb);
+    return a;
+  }
+
+  function renderHub(data) {
+    var s = document.getElementById('stats');
+    if (s) {
+      s.textContent = '';
+      (data.stats || []).forEach(function (x) {
+        var li = el('li');
+        li.appendChild(el('b', null, x.v));
+        li.appendChild(el('small', null, x.l));
+        s.appendChild(li);
+      });
+    }
+    var box = document.getElementById('feats');
+    if (box) { box.textContent = ''; (data.featured || []).forEach(function (f, i) { box.appendChild(feature(f, i)); }); }
+  }
+
   function fill(id, items, make) {
     var box = document.getElementById(id);
     if (!box) return;
@@ -80,8 +111,9 @@
     var posts = newestFirst(data.posts || []);
     function of(type) { return posts.filter(function (p) { return p.type === type; }); }
     var reels = of('reel');
-    // full rows only: the newest multiple of 3 (at most REEL_LIMIT), so the grid never ends with a lonely tile
-    fill('reels', reels.slice(0, Math.min(REEL_LIMIT, Math.max(3, reels.length - reels.length % 3))), reel);
+    // full rows only: the newest multiple of the column count (at most REEL_LIMIT), so the grid never ends with a lonely tile
+    var cols = WIDE.matches ? 6 : 3;
+    fill('reels', reels.slice(0, Math.min(REEL_LIMIT, Math.max(cols, reels.length - reels.length % cols))), reel);
     fill('tools', of('tool'), card);
     fill('gameList', of('game'), card);
     var upd = document.getElementById('upd');
@@ -95,6 +127,11 @@
     var r = document.getElementById('reels');
     if (r) { r.textContent = ''; r.appendChild(el('div', 'empty', 'تعذّر تحميل القائمة، حدّث الصفحة.')); }
   }
+
+  fetch('featured.json' + (V ? '?v=' + encodeURIComponent(V) : ''), { cache: 'no-cache' })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(renderHub)
+    .catch(function () {});
 
   // cache: 'no-cache' = always revalidate, so a new post shows up even when this page itself is still cached
   fetch('posts.json' + (V ? '?v=' + encodeURIComponent(V) : ''), { cache: 'no-cache' })

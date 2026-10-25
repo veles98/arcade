@@ -22,6 +22,12 @@ English: everything on the home page (reels, tools, games) is rendered from `pos
 `tools/add_post.py "<title>" <cover> <link> [--type reel|game|tool] [--n N] [--desc ..] [--badge ..] [--date ..]` copies the cover into `img/`,
 puts the entry on top of `posts.json`, bumps the cache versions and prints the git commands. Newest first = date, then `n` (الشحنة), then list order.
 
+## الواجهة والمشاريع | Hero and featured projects
+
+العربي: أرقام الواجهة (المشاهدات، المتابعين، الألعاب) وبطاقات «المشاريع» في الملف `featured.json`. عدّل النص بيده ثم `python tools/bump_version.py` وادفع. أول بطاقة تظهر عريضة على الكمبيوتر. `"soon": true` = بطاقة «قريبًا» بدون رابط. الصور في `img/feat_*.webp` (1200×750، أقل من 100 KB).
+
+English: hero stats and the featured project cards live in `featured.json` (`stats: [{v,l}]`, `featured: [{title,kicker,desc,image,link,cta,badge,soon}]`), fetched by `home.js` with `cache: no-cache`. The first card is drawn wide on desktop. The «أ» medallion is `img/hero_medallion.webp` (cropped from brand/assets_pack_v1/04_end_card.png). Reel grid: 3 columns on phones, 6 on desktop, full rows only.
+
 ## ليش الموقع ما يتحدّث | Why the site did not update
 
 العربي: GitHub Pages والمتصفح يخزّنون `theme.css` و`theme.js` و`counter.js` مدة طويلة. الحل: كل صفحة تطلبها برقم نسخة `?v=YYYYMMDDHHMM`.
@@ -49,5 +55,5 @@ only the stage colour behind the canvas follows the theme (`--stage`).
 
 ## ملفات | Files
 
-`index.html` · `home.js` · `posts.json` · `theme.css` · `theme.js` · `counter.js` (hits.sh visit counter) · `img/` · `tools/` (`add_post.py`, `bump_version.py`, `check_contrast.py`, `theme_init.html`).
+`index.html` · `home.js` · `posts.json` · `featured.json` · `theme.css` · `theme.js` · `counter.js` (hits.sh visit counter) · `img/` · `tools/` (`add_post.py`, `bump_version.py`, `check_contrast.py`, `theme_init.html`).
 Requires Python 3.10+; Pillow is optional (shrinks covers).

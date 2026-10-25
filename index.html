@@ -3,73 +3,151 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>أنس | ألعاب وبرومبتات</title>
-<meta name="description" content="برومبتات وأكواد وسكيلز مجانية، وألعاب جوال سوّاها Claude">
+<title>أنس | نبني بالذكاء الاصطناعي</title>
+<meta name="description" content="أنس (anas.ai.ar): ما نشرح الذكاء الاصطناعي، نبني فيه. ألعاب مجانية، إعلانات، مواقع وبرومبتات جاهزة.">
+<meta property="og:title" content="أنس | نبني بالذكاء الاصطناعي">
+<meta property="og:description" content="ألعاب مجانية، إعلانات، مواقع وبرومبتات جاهزة، كلها مبنية بالذكاء الاصطناعي.">
+<meta property="og:image" content="https://veles98.github.io/arcade/img/hero_medallion.webp">
 <!--theme-init--><script>/*theme-init*/(function(){var d=document,r=d.documentElement,K='anas_theme',L=[['paper','ورق','#f3efe6','#0b0b0d','11,11,13','linear-gradient(135deg,#f3efe6 50%,#d9b766 50%)'],['night','ليل ذهبي','#07070a','#050507','5,5,7','linear-gradient(135deg,#0b0b10 50%,#f3c766 50%)'],['lake','بحيرة','#f7d6dc','#1f1233','31,18,51','linear-gradient(135deg,#ffc4b0 40%,#f4a6c8 40% 70%,#b7a2f0 70%)'],['neon','نيون','#070a1c','#050a1f','5,10,31','linear-gradient(135deg,#0a1030 40%,#19e1ff 40% 70%,#ff3da8 70%)'],['ink','حبر','#ffffff','#000000','0,0,0','linear-gradient(135deg,#fff 50%,#000 50%)']];function find(i){for(var k=0;k<L.length;k++)if(L[k][0]===i)return L[k]}function apply(i,save){var t=find(i)||L[0],m;r.dataset.theme=t[0];r.style.setProperty('--stage',t[3]);r.style.setProperty('--stage-rgb',t[4]);m=d.querySelector('meta[name=theme-color]');if(!m){m=d.createElement('meta');m.name='theme-color';d.head.appendChild(m)}m.content=t[2];if(save){try{localStorage.setItem(K,t[0])}catch(e){}}return t[0]}var s;try{s=new URLSearchParams(location.search).get('theme')||localStorage.getItem(K)}catch(e){}s={dark:'night',light:'paper'}[s]||s;window.ANAS_THEMES=L;window.ANAS_APPLY_THEME=function(i){return apply(i,false)};window.ANAS_SET_THEME=function(i){return apply(i,true)};apply(s)})();</script><!--/theme-init-->
+<link rel="preload" as="image" href="img/hero_medallion.webp" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
-<link rel="stylesheet" href="theme.css?v=202610252059"><script src="theme.js?v=202610252059" defer></script>
+<link rel="stylesheet" href="theme.css?v=202610252130"><script src="theme.js?v=202610252130" defer></script>
 <style>
+.wrap.hub{max-width:1040px}
+:root{--sheen:rgba(255,236,170,.22)}
+:root[data-theme="night"]{--sheen:rgba(243,199,102,.07)}
+:root[data-theme="lake"]{--sheen:rgba(255,255,255,.4)}
+:root[data-theme="neon"]{--sheen:rgba(25,225,255,.07)}
+:root[data-theme="ink"]{--sheen:transparent}
+.ask{margin:0;font-size:14px;line-height:1.8}
+/* ---------- hero ---------- */
+.hero{position:relative;display:grid;justify-items:center;text-align:center;padding:34px 20px 30px;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 35%,var(--sheen) 48%,transparent 60%);background-size:260% 100%;animation:sweep 7s ease-in-out infinite}
+.medal{position:relative;width:min(200px,52vw);aspect-ratio:1;border-radius:50%;padding:7px;margin-bottom:18px;
+  box-shadow:0 18px 50px var(--gold-glow),0 0 0 1px var(--edge)}
+.medal::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ring-a);animation:spin 12s linear infinite}
+.medal img{position:relative;display:block;width:100%;height:100%;border-radius:50%;background:#000}
+.hand{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:var(--mute);direction:ltr;margin:0;letter-spacing:.4px}
+.nm{font-family:Alexandria,sans-serif;font-weight:800;font-size:clamp(46px,13vw,76px);line-height:1.1;margin:14px 0 8px}
+.tag{font-family:Alexandria,sans-serif;font-weight:600;font-size:clamp(17px,4.6vw,24px);line-height:1.6;margin:0 0 18px;max-width:22em}
+.tag span{color:var(--mark-fg);background:linear-gradient(transparent var(--mark-a,40%),var(--mark-bg) var(--mark-a,40%),var(--mark-bg) var(--mark-b,94%),transparent var(--mark-b,94%));padding:0 .12em;white-space:nowrap}
+.stats{list-style:none;margin:0 0 22px;padding:0;display:flex;justify-content:center;flex-wrap:wrap;min-height:46px}
+.stats li{display:grid;padding:0 16px;line-height:1.35}
+.stats li+li{border-inline-start:1px solid var(--edge)}
+.stats b{font-family:Alexandria,sans-serif;font-weight:800;font-size:19px;color:var(--gold-text)}
+.stats small{font-size:12.5px;color:var(--mute)}
+.cta{display:grid;gap:10px;width:100%;max-width:380px}
+.btn.big{min-height:54px;font-size:16.5px;border-radius:16px}
+.btn.shine{position:relative;overflow:hidden;box-shadow:0 8px 26px var(--gold-glow)}
+.btn.shine::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);
+  transform:translateX(120%);animation:shine 4.5s ease-in-out infinite}
+.btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shine{0%,62%{transform:translateX(120%)}100%{transform:translateX(-120%)}}
+@keyframes sweep{0%,55%{background-position:120% 0}100%{background-position:-60% 0}}
+/* ---------- section heads ---------- */
+.sh{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:46px 2px 16px;padding-bottom:10px;border-bottom:1px solid var(--edge)}
+.sh h2{font-family:Alexandria,sans-serif;font-weight:800;font-size:22px;margin:0;line-height:1.2}
+.sh p{margin:4px 0 0;color:var(--mute);font-size:13.5px}
+.sh .more{font-size:13.5px;font-weight:600;color:var(--gold-text);text-decoration:none;white-space:nowrap}
+/* ---------- featured projects ---------- */
+.feats{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.feats>*,.grid>*,.hero>*{min-width:0}
+.feat{display:flex;flex-direction:column;overflow:hidden;text-decoration:none;transition:transform .25s}
+a.feat:hover,a.feat:focus-visible{transform:translateY(-3px)}
+.fm{position:relative;aspect-ratio:16/10;background:#111;overflow:hidden}
+.fm img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s}
+a.feat:hover .fm img{transform:scale(1.03)}
+.fbadge{position:absolute;top:12px;inset-inline-start:12px;padding:4px 11px;border-radius:999px;font-size:12.5px;font-weight:600;
+  background:rgba(10,10,12,.74);color:#f6e7bf;border:1px solid rgba(243,199,102,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.fb{display:flex;flex-direction:column;gap:6px;padding:16px 18px 18px;flex:1}
+.fk{font-size:12.5px;color:var(--gold-text);font-weight:600}
+.fb h3{font-family:Alexandria,sans-serif;font-weight:800;font-size:20px;line-height:1.35;margin:0}
+.fb p{margin:0;color:var(--mute);font-size:14.5px;line-height:1.7}
+.fgo{margin-top:auto;padding-top:10px;font-weight:600;font-size:15px;color:var(--gold-text)}
+.feat.soon .fm img{filter:saturate(.6) brightness(.82)}
+.feat.soon .fbadge{background:var(--gold);color:var(--gold-ink);border-color:transparent}
+/* ---------- reels / cards ---------- */
+.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;border-radius:18px;overflow:hidden;min-height:120px}
+.reel{display:block;aspect-ratio:3/4;background:var(--glass)}.reel img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s}.reel:hover img{opacity:.82}
 .grid{display:grid;gap:12px}
 a.game{display:flex;align-items:center;gap:14px;padding:16px;text-decoration:none;transition:transform .2s,border-color .2s}
 a.game:hover,a.game:focus-visible{transform:translateY(-2px);border-color:var(--gold-text)}
-.t{font-family:Alexandria,sans-serif;font-weight:600;font-size:18px}
+.t{font-family:Alexandria,sans-serif;font-weight:600;font-size:17px}
 .d{color:var(--mute);font-size:14px;margin-top:3px;line-height:1.5}
 .best{margin-inline-start:auto;font-size:12px;color:var(--gold-text);white-space:nowrap}
 .badge{font-size:12px;color:var(--gold-text);border:1px solid var(--gold-text);border-radius:999px;padding:1px 8px;margin-inline-start:6px;font-family:"IBM Plex Sans Arabic",sans-serif;font-weight:600;white-space:nowrap}
 .chip{font-size:11.5px;color:var(--mute);border:1px solid var(--edge);border-radius:999px;padding:1px 8px;margin-inline-start:6px;font-family:"IBM Plex Sans Arabic",sans-serif;font-weight:600;white-space:nowrap}
-.upd{margin:22px 0 0;text-align:center;font-size:13px;color:var(--mute)}.upd:empty{display:none}
-.upd b{font-weight:600;color:var(--fg)}
 .empty{padding:18px;text-align:center;color:var(--mute);font-size:14px;grid-column:1/-1}
-.arrow{margin-inline-start:auto;color:var(--mute);font-size:18px}
-.prof{padding:20px 18px 16px;margin-bottom:8px}
-.ptop{display:flex;align-items:center;gap:16px}
-.av{flex:0 0 88px;height:88px;border-radius:50%;padding:3px;background:var(--ring-a)}
-.av img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:3px solid var(--bg);display:block}
-.handle{display:flex;align-items:center;gap:6px;font-weight:600;font-size:19px;direction:ltr;justify-content:flex-end}
-.name{font-family:Alexandria,sans-serif;font-weight:600;font-size:15px;color:var(--mute);margin-top:4px}
-.bio{margin:14px 0 16px;line-height:1.8;font-size:15px}
-.acts{display:grid;grid-template-columns:1fr auto;gap:8px}
-.btn.follow{min-height:48px;font-size:16px;box-shadow:0 6px 24px var(--gold-glow)}
-.hls{display:flex;gap:14px;overflow-x:auto;margin:18px -4px 0;padding:2px 4px 4px;scrollbar-width:none}.hls::-webkit-scrollbar{display:none}
-.hl{flex:0 0 auto;width:66px;text-align:center;text-decoration:none}
-.hl .ring{display:block;width:64px;height:64px;border-radius:50%;padding:2px;background:var(--ring-b)}
-.hl .in{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--bg);border:2px solid var(--bg)}
-.hl svg{width:26px;height:26px;stroke:var(--gold-text);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.hl b{display:block;font-weight:400;font-size:12px;margin-top:6px;white-space:nowrap}
-.reels{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:16px;overflow:hidden;min-height:120px}
-.reel{display:block;aspect-ratio:3/4;background:var(--glass)}.reel img{width:100%;height:100%;object-fit:cover;display:block;transition:opacity .2s}.reel:hover img{opacity:.8}
-.more-reels{margin:12px auto 0;display:flex;width:max-content}
+/* ---------- footer ---------- */
+.foot{margin-top:52px;padding:26px 18px}
+.socials{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.socials a{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--edge);background:var(--glass-2);color:var(--fg);font-weight:600}
+.socials a:hover{border-color:var(--gold-text)}
+.socials svg{width:20px;height:20px;fill:none;stroke:var(--gold-text);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.upd{margin:12px 0 0;font-size:13px;color:var(--mute)}.upd:empty{display:none}
+.upd b{font-weight:600;color:var(--fg)}
+@media (min-width:760px){
+  .hero{grid-template-columns:auto 1fr;justify-items:start;align-content:center;text-align:start;column-gap:48px;padding:48px 56px}
+  .medal{grid-row:1/span 6;width:250px;margin:0;align-self:center}
+  .stats{justify-content:flex-start}.stats li:first-child{padding-inline-start:0}
+  .cta{grid-template-columns:1fr 1fr;max-width:540px}
+  .feats{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .feat:first-child{grid-column:1/-1;flex-direction:row}
+  .feat:first-child .fm{flex:0 0 62%}
+  .feats .feat:not(:first-child) h3{font-size:18px}
+  .feat:first-child .fb{padding:28px 32px;justify-content:center}
+  .feat:first-child h3{font-size:30px}
+  .feat:first-child p{font-size:16px}
+  .reels{grid-template-columns:repeat(6,1fr)}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion: reduce){.medal::before,.btn.shine::after,.hero::after{animation:none}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header class="bar glass"><a class="brand" href="./"><img class="logo" src="img/avatar.jpg" alt="">anas.ai.ar</a><span class="sp"></span>
+<div class="wrap hub">
+  <header class="bar glass"><a class="brand" href="./"><img class="logo" src="img/hero_medallion_96.webp" alt="" width="30" height="30">anas.ai.ar</a><span class="sp"></span>
   <a class="pill" href="p/">البرومبتات</a>
   <div class="tp" data-tp></div></header>
-  <section class="prof glass">
-    <div class="ptop">
-      <a class="av" href="https://www.instagram.com/anas.ai.ar/"><img src="img/avatar.jpg" alt="anas.ai.ar" width="240" height="240"></a>
-      <div class="who"><div class="handle">anas.ai.ar</div>
-        <div class="name">أنس | Game Dev</div></div>
+
+  <section class="hero glass">
+    <div class="medal"><img src="img/hero_medallion.webp" alt="أنس" width="640" height="640" fetchpriority="high"></div>
+    <p class="hand">@anas.ai.ar</p>
+    <h1 class="nm">أنس</h1>
+    <p class="tag">ما نشرح الذكاء الاصطناعي، <span>نبني فيه</span></p>
+    <ul class="stats" id="stats" aria-label="أرقام"></ul>
+    <div class="cta">
+      <a class="btn big shine" href="https://anas-ai-ar.itch.io/ribbit-lagoon" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="11" rx="5"/><path d="M8 10.5v4M6 12.5h4"/><circle cx="16" cy="11.5" r=".6"/><circle cx="17.6" cy="14" r=".6"/></svg>العب لعبة الضفادع</a>
+      <a class="btn big ghost" href="https://instagram.com/anas.ai.ar" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/></svg>تابعني على إنستغرام</a>
     </div>
-    <p class="bio">◆ أبني بالذكاء الاصطناعي: مواقع، ألعاب، إعلانات<br>◆ وأشرح لك الطريقة خطوة بخطوة<br>◆ ألعابي ومواقعي المجانية هنا ↓</p>
-    <div class="acts"><a class="btn follow" href="https://www.instagram.com/anas.ai.ar/">تابعني على إنستغرام</a>
-      <a class="btn ghost" href="https://ig.me/m/anas.ai.ar" target="_blank" rel="noopener">راسلني</a></div>
-    <nav class="hls"><a class="hl" href="p/"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><path d="M11 9l-6 7 6 7M21 9l6 7-6 7M18 7l-4 18"/></svg></span></span><b>البرومبتات</b></a><a class="hl" href="p/#char"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><circle cx="16" cy="13" r="6"/><path d="M6 27c2-5 6-7 10-7s8 2 10 7"/></svg></span></span><b>الشخصية</b></a><a class="hl" href="#games"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><rect x="4" y="10" width="24" height="14" rx="6"/><path d="M10 15v4M8 17h4"/><circle cx="21" cy="16" r="1"/><circle cx="23" cy="19" r="1"/></svg></span></span><b>الألعاب</b></a><a class="hl" href="p/#skills"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><rect x="6" y="8" width="20" height="17" rx="3"/><path d="M12 8V6h8v2M11 15h10M11 19h6"/></svg></span></span><b>السكيلز</b></a><a class="hl" href="p/#hitstop"><span class="ring"><span class="in"><svg viewBox="0 0 32 32"><path d="M16 4l10 6v12l-10 6-10-6V10z"/><path d="M16 10v12"/></svg></span></span><b>Unreal</b></a></nav>
   </section>
-  <div class="label">آخر الريلات</div>
+
+  <div class="sh"><div><h2>المشاريع</h2><p>أشياء حقيقية بنيتها بالذكاء الاصطناعي</p></div></div>
+  <div class="feats" id="feats"></div>
+
+  <div class="sh"><div><h2>آخر الريلات</h2><p>الطريقة كاملة، خطوة بخطوة</p></div><a class="more" href="https://www.instagram.com/anas.ai.ar/reels/" target="_blank" rel="noopener">كل الريلات ←</a></div>
   <div class="reels" id="reels"></div>
-  <a class="more-reels pill" href="https://www.instagram.com/anas.ai.ar/reels/" target="_blank" rel="noopener">كل الريلات على إنستغرام ←</a>
-  <div class="label">البرومبتات والأدوات</div>
-  <div class="grid" id="tools"></div>
-  <div class="label" id="games">الألعاب</div>
+
+  <div class="sh" id="games"><div><h2>ألعاب صغيرة</h2><p>تنلعب من الجوال مباشرة، بدون تحميل</p></div></div>
   <div class="grid" id="gameList"></div>
-  <div class="upd" id="upd"></div>
-  <div class="foot glass"><a href="p/">البرومبتات</a> · <a href="p/#skills">سكيلز صانع المحتوى</a><br>تبي لعبتك؟ اكتب فكرتك تحت أي ريل في حسابي، وأحسن فكرة أسويها باسمك.<br>
-  <a href="p/">كل البرومبتات والأكواد ←</a> · <a href="https://www.instagram.com/anas.ai.ar/">instagram.com/anas.ai.ar</a></div>
+
+  <div class="sh"><div><h2>البرومبتات والأدوات</h2><p>انسخها واستخدمها مجانًا</p></div><a class="more" href="p/">الكل ←</a></div>
+  <div class="grid" id="tools"></div>
+
+  <footer class="foot glass">
+    <nav class="socials" aria-label="حساباتي">
+      <a href="https://instagram.com/anas.ai.ar" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".6"/></svg>إنستغرام</a>
+      <a href="https://www.youtube.com/@anas_ai_ar" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.3v5.4l4.6-2.7z"/></svg>يوتيوب</a>
+      <a href="https://anas-ai-ar.itch.io" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 9l1.5-4h13L20 9v1.5a2.7 2.7 0 0 1-5.3 0 2.7 2.7 0 0 1-5.4 0 2.7 2.7 0 0 1-5.3 0z"/><path d="M5 12.5V19h14v-6.5"/><path d="M10 19v-4h4v4"/></svg>itch.io</a>
+    </nav>
+    <p class="ask">تبي لعبتك؟ اكتب فكرتك تحت أي ريل في حسابي، وأحسن فكرة أسويها باسمك.</p>
+    <div class="upd" id="upd"></div>
+  </footer>
 </div>
 <noscript><p class="foot glass">فعّل جافاسكربت عشان تظهر القوائم، أو تابعني على <a href="https://www.instagram.com/anas.ai.ar/">إنستغرام</a>.</p></noscript>
-<script src="home.js?v=202610252059" defer></script>
-<script src="counter.js?v=202610252059" defer></script>
+<script src="home.js?v=202610252130" defer></script>
+<script src="counter.js?v=202610252130" defer></script>
 </body>
 </html>

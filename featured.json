@@ -1,0 +1,47 @@
+{
+ "_doc": "Home page hero stats and the featured projects (portfolio cards). Edit by hand; home.js reads it with cache: no-cache. stats: [{v: big value, l: small label}]. featured (in display order, the first card is shown wide): title, kicker (small line above the title), desc, image (img/...), link (null = not clickable), cta (button text), badge (chip on the image), soon (true = greyed 'coming soon' card).",
+ "stats": [
+  { "v": "+٢٤ ألف", "l": "مشاهدة هالشهر" },
+  { "v": "١٠٠", "l": "متابع" },
+  { "v": "لعبتين", "l": "مجانية" }
+ ],
+ "featured": [
+  {
+   "title": "بحيرة الضفادع",
+   "kicker": "Ribbit Lagoon · لعبة كمبيوتر",
+   "desc": "ضفادع تغني، وواحد منها يخرب الأغنية… ولسانك يسرق القبعات.",
+   "image": "img/feat_ribbit.webp",
+   "link": "https://anas-ai-ar.itch.io/ribbit-lagoon",
+   "cta": "العبها مجانًا",
+   "badge": "مجانية على itch.io"
+  },
+  {
+   "title": "إعلان آيفون صممته بالذكاء الاصطناعي",
+   "kicker": "إعلان · ريل",
+   "desc": "من الفكرة للصورة للحركة، بدون كاميرا ولا استوديو.",
+   "image": "img/feat_iphone_ad.webp",
+   "link": "https://www.instagram.com/anas.ai.ar/reel/De6HRBaA2dv/",
+   "cta": "شوف الريل",
+   "badge": "إعلان تخيّلي غير رسمي"
+  },
+  {
+   "title": "موقع كامل بطلب واحد",
+   "kicker": "موقع · برومبتات",
+   "desc": "هذا الموقع نفسه، والبرومبتات والأكواد اللي استخدمتها، جاهزة للنسخ.",
+   "image": "img/feat_prompts.webp",
+   "link": "p/",
+   "cta": "خذ البرومبتات",
+   "badge": "مجاني"
+  },
+  {
+   "title": "Taskbar Moles",
+   "kicker": "لعبة خاملة · سطح المكتب",
+   "desc": "مستعمرة خُلد تعيش تحت شريط المهام، تحفر وتجمع لك الكنوز وأنت تشتغل.",
+   "image": "img/feat_moles.webp",
+   "link": null,
+   "cta": "",
+   "badge": "قريبًا",
+   "soon": true
+  }
+ ]
+}
