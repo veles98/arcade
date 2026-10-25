@@ -1,11 +1,29 @@
 {
  "_doc": "Home page hero stats and the featured projects (portfolio cards). Edit by hand; home.js reads it with cache: no-cache. stats: [{v: big value, l: small label}]. featured (in display order, the first card is shown wide): title, kicker (small line above the title), desc, image (img/...), link (null = not clickable), cta (button text), badge (chip on the image), soon (true = greyed 'coming soon' card).",
  "stats": [
-  { "v": "+٢٤ ألف", "l": "مشاهدة هالشهر" },
-  { "v": "١٠٠", "l": "متابع" },
-  { "v": "٦ ألعاب", "l": "مجانية" }
+  {
+   "v": "+٢٤ ألف",
+   "l": "مشاهدة هالشهر"
+  },
+  {
+   "v": "١٠٠",
+   "l": "متابع"
+  },
+  {
+   "v": "٦ ألعاب",
+   "l": "مجانية"
+  }
  ],
  "featured": [
+  {
+   "title": "صرّخ!",
+   "kicker": "لعبة صوت · تنلعب من الجوال",
+   "desc": "تكلّم يمشي، اصرخ ينط. العبها لحالك أو مع خويانك على جوال واحد.",
+   "image": "img/feat_sarrikh.webp",
+   "link": "sarrikh/",
+   "cta": "العبها الحين",
+   "badge": "جديدة"
+  },
   {
    "title": "بحيرة الضفادع",
    "kicker": "Ribbit Lagoon · لعبة كمبيوتر",
