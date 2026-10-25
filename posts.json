@@ -1,161 +1,161 @@
 {
-  "_doc": "Home page content. Newest first (date, then n, then list order). Add entries with tools/add_post.py. Fields: type=reel|game|tool, title, desc, cover (image path or null), link, date (YYYY-MM-DD), n (الشحنة number or null), optional icon (SVG inner markup, used when there is no cover), badge, best (localStorage key of the best score).",
-  "posts": [
-    {
-      "type": "game",
-      "title": "بحيرة الضفادع: كورال يخربه ضفدع نشاز",
-      "desc": "لعبة كمبيوتر مجانية: ضفادع تغني، ولسانك يسرق القبعات",
-      "cover": "img/post-https-anas-ai-ar-itch-io-6a9e4022.jpg",
-      "link": "https://anas-ai-ar.itch.io/ribbit-lagoon",
-      "date": "2026-10-25",
-      "n": 2,
-      "badge": "جديدة"
-    },
-    {
-      "type": "reel",
-      "title": "موقع لحسابي ببلاش",
-      "cover": "img/De4oc-5gNSx.jpg",
-      "link": "https://www.instagram.com/reel/De4oc-5gNSx/",
-      "date": "2026-10-24",
-      "n": null
-    },
-    {
-      "type": "reel",
-      "title": "لعبة ٥٠ درجة",
-      "cover": "img/De4OgRjAWiC.jpg",
-      "link": "https://www.instagram.com/reel/De4OgRjAWiC/",
-      "date": "2026-10-24",
-      "n": null
-    },
-    {
-      "type": "reel",
-      "title": "7 أدوات خلّت Claude استوديو",
-      "cover": "img/De2fsjOgxoZ.jpg",
-      "link": "https://www.instagram.com/reel/De2fsjOgxoZ/",
-      "date": "2026-10-24",
-      "n": null
-    },
-    {
-      "type": "reel",
-      "title": "الشخصية اللي تتكلم بصوتي",
-      "cover": "img/De2VhFwAtlu.jpg",
-      "link": "https://www.instagram.com/reel/De2VhFwAtlu/",
-      "date": "2026-10-23",
-      "n": null
-    },
-    {
-      "type": "reel",
-      "title": "لعبة القهوة",
-      "cover": "img/De2NXexzGPO.jpg",
-      "link": "https://www.instagram.com/reel/De2NXexzGPO/",
-      "date": "2026-10-23",
-      "n": null
-    },
-    {
-      "type": "reel",
-      "title": "العدو شافك ولا لا؟",
-      "cover": "img/De2BKgqzw9f.jpg",
-      "link": "https://www.instagram.com/reel/De2BKgqzw9f/",
-      "date": "2026-10-23",
-      "n": null
-    },
-    {
-      "type": "reel",
-      "title": "لعبة كاملة في ٤ دقايق",
-      "cover": "img/De19w6pzUqn.jpg",
-      "link": "https://www.instagram.com/reel/De19w6pzUqn/",
-      "date": "2026-10-23",
-      "n": null
-    },
-    {
-      "type": "reel",
-      "title": "سر ضربة إلدن رنق",
-      "cover": "img/De18GBAT5b1.jpg",
-      "link": "https://www.instagram.com/reel/De18GBAT5b1/",
-      "date": "2026-10-23",
-      "n": null
-    },
-    {
-      "type": "reel",
-      "title": "وش يعني Agent؟",
-      "cover": "img/De1pdgxTM5D.jpg",
-      "link": "https://www.instagram.com/reel/De1pdgxTM5D/",
-      "date": "2026-10-23",
-      "n": null
-    },
-    {
-      "type": "tool",
-      "title": "البرومبتات والأكواد",
-      "desc": "برومبت اللعبة، الشخصية، المدينة بالحروف، التأثيرات",
-      "cover": null,
-      "link": "p/",
-      "date": "2026-10-24",
-      "n": null,
-      "icon": "<path d=\"M11 9l-6 7 6 7M21 9l6 7-6 7M18 7l-4 18\"/>"
-    },
-    {
-      "type": "tool",
-      "title": "سكيلز صانع المحتوى",
-      "desc": "١٤ سكل لـ Claude Code تحمّلها مجانًا",
-      "cover": null,
-      "link": "p/#skills",
-      "date": "2026-10-24",
-      "n": null,
-      "icon": "<rect x=\"6\" y=\"8\" width=\"20\" height=\"17\" rx=\"3\"/><path d=\"M12 8V6h8v2M11 15h10M11 19h6\"/>"
-    },
-    {
-      "type": "game",
-      "title": "٥٠ درجة",
-      "desc": "المكيفات تطفي… شغّلها قبل لا يولّع البيت",
-      "cover": null,
-      "link": "hot/",
-      "date": "2026-10-24",
-      "n": null,
-      "badge": "جديدة",
-      "best": "hot_best",
-      "icon": "<circle cx=\"16\" cy=\"16\" r=\"5\"/><path d=\"M16 4v3M16 25v3M4 16h3M25 16h3M7.5 7.5l2 2M22.5 22.5l2 2M7.5 24.5l2-2M22.5 9.5l2-2\"/>"
-    },
-    {
-      "type": "game",
-      "title": "عدّي!",
-      "desc": "صقر يعدّي بين الأبراج… ولا تلمسها",
-      "cover": null,
-      "link": "aadi/",
-      "date": "2026-10-24",
-      "n": null,
-      "best": "falcon_best",
-      "icon": "<path d=\"M4 18c6-1 9-6 12-6s6 4 12 4\"/><path d=\"M16 12l3-4\"/><circle cx=\"21\" cy=\"14\" r=\"1\"/>"
-    },
-    {
-      "type": "game",
-      "title": "صبّ القهوة",
-      "desc": "امسك القهوة بالفنجال… وتفادى الشاي",
-      "cover": null,
-      "link": "finjan/",
-      "date": "2026-10-24",
-      "n": null,
-      "best": "finjan_best",
-      "icon": "<path d=\"M9 14h14l-2 10H11z\"/><path d=\"M13 9c0-2 2-2 2-4M18 9c0-2 2-2 2-4\"/>"
-    },
-    {
-      "type": "game",
-      "title": "جمل الربع الخالي",
-      "desc": "نط فوق الصبّار وكمّل الرحلة",
-      "cover": null,
-      "link": "camel/",
-      "date": "2026-10-24",
-      "n": null,
-      "icon": "<path d=\"M4 24h24\"/><path d=\"M8 22v-6c0-3 3-4 5-2 1-3 4-3 5 0h3l2-3\"/><path d=\"M24 22v-4\"/>"
-    },
-    {
-      "type": "game",
-      "title": "زحمة الطريق",
-      "desc": "تفادى السيارات… وكل ما طوّلت تسرع",
-      "cover": null,
-      "link": "car/",
-      "date": "2026-10-24",
-      "n": null,
-      "icon": "<rect x=\"10\" y=\"5\" width=\"12\" height=\"22\" rx=\"4\"/><path d=\"M12 11h8M12 21h8\"/>"
-    }
-  ]
+ "_doc": "Home page content. Newest first (date, then n, then list order). Add entries with tools/add_post.py. Fields: type=reel|game|tool, title, desc, cover (image path or null), link, date (YYYY-MM-DD), n (الشحنة number or null), optional icon (SVG inner markup, used when there is no cover), badge, best (localStorage key of the best score).",
+ "posts": [
+  {
+   "type": "game",
+   "title": "بحيرة الضفادع: ضفدع واحد يخرب الأغنية",
+   "desc": "لعبة كمبيوتر مجانية: ضفادع تغني، ولسانك يسرق القبعات",
+   "cover": "img/post-https-anas-ai-ar-itch-io-6a9e4022.jpg",
+   "link": "https://anas-ai-ar.itch.io/ribbit-lagoon",
+   "date": "2026-10-25",
+   "n": 2,
+   "badge": "جديدة"
+  },
+  {
+   "type": "reel",
+   "title": "موقع لحسابي ببلاش",
+   "cover": "img/De4oc-5gNSx.jpg",
+   "link": "https://www.instagram.com/reel/De4oc-5gNSx/",
+   "date": "2026-10-24",
+   "n": null
+  },
+  {
+   "type": "reel",
+   "title": "لعبة ٥٠ درجة",
+   "cover": "img/De4OgRjAWiC.jpg",
+   "link": "https://www.instagram.com/reel/De4OgRjAWiC/",
+   "date": "2026-10-24",
+   "n": null
+  },
+  {
+   "type": "reel",
+   "title": "7 أدوات خلّت Claude استوديو",
+   "cover": "img/De2fsjOgxoZ.jpg",
+   "link": "https://www.instagram.com/reel/De2fsjOgxoZ/",
+   "date": "2026-10-24",
+   "n": null
+  },
+  {
+   "type": "reel",
+   "title": "الشخصية اللي تتكلم بصوتي",
+   "cover": "img/De2VhFwAtlu.jpg",
+   "link": "https://www.instagram.com/reel/De2VhFwAtlu/",
+   "date": "2026-10-23",
+   "n": null
+  },
+  {
+   "type": "reel",
+   "title": "لعبة القهوة",
+   "cover": "img/De2NXexzGPO.jpg",
+   "link": "https://www.instagram.com/reel/De2NXexzGPO/",
+   "date": "2026-10-23",
+   "n": null
+  },
+  {
+   "type": "reel",
+   "title": "العدو شافك ولا لا؟",
+   "cover": "img/De2BKgqzw9f.jpg",
+   "link": "https://www.instagram.com/reel/De2BKgqzw9f/",
+   "date": "2026-10-23",
+   "n": null
+  },
+  {
+   "type": "reel",
+   "title": "لعبة كاملة في ٤ دقايق",
+   "cover": "img/De19w6pzUqn.jpg",
+   "link": "https://www.instagram.com/reel/De19w6pzUqn/",
+   "date": "2026-10-23",
+   "n": null
+  },
+  {
+   "type": "reel",
+   "title": "سر ضربة إلدن رنق",
+   "cover": "img/De18GBAT5b1.jpg",
+   "link": "https://www.instagram.com/reel/De18GBAT5b1/",
+   "date": "2026-10-23",
+   "n": null
+  },
+  {
+   "type": "reel",
+   "title": "وش يعني Agent؟",
+   "cover": "img/De1pdgxTM5D.jpg",
+   "link": "https://www.instagram.com/reel/De1pdgxTM5D/",
+   "date": "2026-10-23",
+   "n": null
+  },
+  {
+   "type": "tool",
+   "title": "البرومبتات والأكواد",
+   "desc": "برومبت اللعبة، الشخصية، المدينة بالحروف، التأثيرات",
+   "cover": null,
+   "link": "p/",
+   "date": "2026-10-24",
+   "n": null,
+   "icon": "<path d=\"M11 9l-6 7 6 7M21 9l6 7-6 7M18 7l-4 18\"/>"
+  },
+  {
+   "type": "tool",
+   "title": "سكيلز صانع المحتوى",
+   "desc": "١٤ سكل لـ Claude Code تحمّلها مجانًا",
+   "cover": null,
+   "link": "p/#skills",
+   "date": "2026-10-24",
+   "n": null,
+   "icon": "<rect x=\"6\" y=\"8\" width=\"20\" height=\"17\" rx=\"3\"/><path d=\"M12 8V6h8v2M11 15h10M11 19h6\"/>"
+  },
+  {
+   "type": "game",
+   "title": "٥٠ درجة",
+   "desc": "المكيفات تطفي… شغّلها قبل لا يولّع البيت",
+   "cover": null,
+   "link": "hot/",
+   "date": "2026-10-24",
+   "n": null,
+   "badge": "جديدة",
+   "best": "hot_best",
+   "icon": "<circle cx=\"16\" cy=\"16\" r=\"5\"/><path d=\"M16 4v3M16 25v3M4 16h3M25 16h3M7.5 7.5l2 2M22.5 22.5l2 2M7.5 24.5l2-2M22.5 9.5l2-2\"/>"
+  },
+  {
+   "type": "game",
+   "title": "عدّي!",
+   "desc": "صقر يعدّي بين الأبراج… ولا تلمسها",
+   "cover": null,
+   "link": "aadi/",
+   "date": "2026-10-24",
+   "n": null,
+   "best": "falcon_best",
+   "icon": "<path d=\"M4 18c6-1 9-6 12-6s6 4 12 4\"/><path d=\"M16 12l3-4\"/><circle cx=\"21\" cy=\"14\" r=\"1\"/>"
+  },
+  {
+   "type": "game",
+   "title": "صبّ القهوة",
+   "desc": "امسك القهوة بالفنجال… وتفادى الشاي",
+   "cover": null,
+   "link": "finjan/",
+   "date": "2026-10-24",
+   "n": null,
+   "best": "finjan_best",
+   "icon": "<path d=\"M9 14h14l-2 10H11z\"/><path d=\"M13 9c0-2 2-2 2-4M18 9c0-2 2-2 2-4\"/>"
+  },
+  {
+   "type": "game",
+   "title": "جمل الربع الخالي",
+   "desc": "نط فوق الصبّار وكمّل الرحلة",
+   "cover": null,
+   "link": "camel/",
+   "date": "2026-10-24",
+   "n": null,
+   "icon": "<path d=\"M4 24h24\"/><path d=\"M8 22v-6c0-3 3-4 5-2 1-3 4-3 5 0h3l2-3\"/><path d=\"M24 22v-4\"/>"
+  },
+  {
+   "type": "game",
+   "title": "زحمة الطريق",
+   "desc": "تفادى السيارات… وكل ما طوّلت تسرع",
+   "cover": null,
+   "link": "car/",
+   "date": "2026-10-24",
+   "n": null,
+   "icon": "<rect x=\"10\" y=\"5\" width=\"12\" height=\"22\" rx=\"4\"/><path d=\"M12 11h8M12 21h8\"/>"
+  }
+ ]
 }
