@@ -139,3 +139,15 @@
     .then(render)
     .catch(fail);
 })();
+
+// hero medallion: replay the gold redraw / flip / glint each time the theme changes (theme.js fires `anas:theme`)
+(function () {
+  var m = document.getElementById('medal');
+  if (!m) return;
+  document.addEventListener('anas:theme', function () {
+    m.classList.remove('swap');
+    void m.offsetWidth;
+    m.classList.add('swap');
+  });
+  m.addEventListener('animationend', function (e) { if (e.animationName === 'draw') m.classList.remove('swap'); });
+})();

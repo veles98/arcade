@@ -12,7 +12,7 @@ import re
 import sys
 
 CSS = pathlib.Path(__file__).resolve().parent.parent / "theme.css"
-THEMES = ["paper", "night", "lake", "neon", "ink"]
+THEMES = ["paper", "night", "lake", "neon", "ink", "hybrid", "inkgold", "gallery", "emerald", "midnight", "desert", "ember"]
 
 
 def parse_color(v):

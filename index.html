@@ -8,26 +8,45 @@
 <meta property="og:title" content="أنس | نبني بالذكاء الاصطناعي">
 <meta property="og:description" content="ألعاب مجانية، إعلانات، مواقع وبرومبتات جاهزة، كلها مبنية بالذكاء الاصطناعي.">
 <meta property="og:image" content="https://veles98.github.io/arcade/img/hero_medallion.webp">
-<!--theme-init--><script>/*theme-init*/(function(){var d=document,r=d.documentElement,K='anas_theme',L=[['paper','ورق','#f3efe6','#0b0b0d','11,11,13','linear-gradient(135deg,#f3efe6 50%,#d9b766 50%)'],['night','ليل ذهبي','#07070a','#050507','5,5,7','linear-gradient(135deg,#0b0b10 50%,#f3c766 50%)'],['lake','بحيرة','#f7d6dc','#1f1233','31,18,51','linear-gradient(135deg,#ffc4b0 40%,#f4a6c8 40% 70%,#b7a2f0 70%)'],['neon','نيون','#070a1c','#050a1f','5,10,31','linear-gradient(135deg,#0a1030 40%,#19e1ff 40% 70%,#ff3da8 70%)'],['ink','حبر','#ffffff','#000000','0,0,0','linear-gradient(135deg,#fff 50%,#000 50%)']];function find(i){for(var k=0;k<L.length;k++)if(L[k][0]===i)return L[k]}function apply(i,save){var t=find(i)||L[0],m;r.dataset.theme=t[0];r.style.setProperty('--stage',t[3]);r.style.setProperty('--stage-rgb',t[4]);m=d.querySelector('meta[name=theme-color]');if(!m){m=d.createElement('meta');m.name='theme-color';d.head.appendChild(m)}m.content=t[2];if(save){try{localStorage.setItem(K,t[0])}catch(e){}}return t[0]}var s;try{s=new URLSearchParams(location.search).get('theme')||localStorage.getItem(K)}catch(e){}s={dark:'night',light:'paper'}[s]||s;window.ANAS_THEMES=L;window.ANAS_APPLY_THEME=function(i){return apply(i,false)};window.ANAS_SET_THEME=function(i){return apply(i,true)};apply(s)})();</script><!--/theme-init-->
+<!--theme-init--><script>/*theme-init*/(function(){var d=document,r=d.documentElement,K='anas_theme',KC='anas_theme_custom',L=[['paper','ورق','#f3efe6','#0b0b0d','11,11,13','linear-gradient(135deg,#f3efe6 50%,#d9b766 50%)'],['hybrid','هجين','#ebe4d4','#0b0b0d','11,11,13','linear-gradient(135deg,#ebe4d4 45%,#141416 45% 72%,#c9a24e 72%)'],['inkgold','حبر وذهب','#0e0d0b','#0b0a08','11,10,8','linear-gradient(135deg,#1a1712 55%,#d9b766 55%)'],['night','ليل ذهبي','#07070a','#050507','5,5,7','linear-gradient(135deg,#0b0b10 50%,#f3c766 50%)'],['gallery','معرض','#e7dfd0','#111111','17,17,17','linear-gradient(135deg,#e7dfd0 55%,#111 55%)'],['emerald','زمرد','#05241d','#03180f','3,24,15','linear-gradient(135deg,#0b3a2e 55%,#e0bd6a 55%)'],['midnight','منتصف الليل','#0a1230','#060b1f','6,11,31','linear-gradient(135deg,#16245a 55%,#e8c36f 55%)'],['desert','صحراء','#ecdcbc','#1d1208','29,18,8','linear-gradient(135deg,#f3e6cb 50%,#c4692e 50%)'],['lake','بحيرة','#f7d6dc','#1f1233','31,18,51','linear-gradient(135deg,#ffc4b0 40%,#f4a6c8 40% 70%,#b7a2f0 70%)'],['neon','نيون','#070a1c','#050a1f','5,10,31','linear-gradient(135deg,#0a1030 40%,#19e1ff 40% 70%,#ff3da8 70%)'],['ember','جمر','#120707','#0c0403','12,4,3','linear-gradient(135deg,#3a0d06 45%,#ff5a2c 45% 75%,#ffb03a 75%)'],['ink','حبر','#ffffff','#000000','0,0,0','linear-gradient(135deg,#fff 50%,#000 50%)']],VK=['--bg','--bg-img','--fg','--mute','--gold','--gold-2','--gold-ink','--gold-text','--gold-glow','--glass','--glass-2','--glass-edge','--edge','--glow-a','--glow-b','--mark-bg','--mark-fg','--ring-a','--ring-b','--focus','--sheen'];function rgb(h){h=h.replace('#','');if(h.length==3)h=h.replace(/./g,'$&$&');return[0,2,4].map(function(i){return parseInt(h.substr(i,2),16)})}function hex(c){return'#'+c.map(function(v){v=Math.max(0,Math.min(255,Math.round(v)));return(v<16?'0':'')+v.toString(16)}).join('')}function lum(c){c=c.map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}function cr(a,b){var x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)}function mix(a,b,t){return a.map(function(v,i){return v+(b[i]-v)*t})}function rgba(c,a){return'rgba('+c.map(Math.round).join(',')+','+a+')'}function vars(C){var dk=C.base=='dark',bg=rgb(C.tone||(dk?'#0e0d0b':'#f3efe6')),ac=rgb(C.accent||'#d9b766'),fg=rgb(dk?'#f3efe6':'#141416'),t=0,tx=ac;while(cr(tx,bg)<4.6&&t<1){t+=.05;tx=mix(ac,fg,t)}var mu=mix(fg,bg,dk?.36:.4);t=.4;while(cr(mu,bg)<4.6&&t>0){t-=.04;mu=mix(fg,bg,t)}var ink=cr([17,17,17],ac)>=cr([255,255,255],ac)?'#111111':'#ffffff';return{'--bg':hex(bg),'--bg-img':'none','--fg':hex(fg),'--mute':hex(mu),'--gold':hex(ac),'--gold-2':hex(mix(ac,bg,.35)),'--gold-ink':ink,'--gold-text':hex(tx),'--gold-glow':rgba(ac,.32),'--glass':dk?'rgba(255,255,255,.05)':'rgba(255,255,255,.6)','--glass-2':rgba(ac,.07),'--glass-edge':dk?rgba(ac,.28):'rgba(0,0,0,.14)','--edge':dk?rgba(ac,.2):'rgba(0,0,0,.18)','--glow-a':rgba(ac,.22),'--glow-b':rgba(mix(ac,bg,.5),.18),'--mark-bg':'transparent','--mark-fg':hex(tx),'--ring-a':'conic-gradient(from 200deg,'+hex(ac)+','+hex(mix(ac,[0,0,0],.45))+','+hex(mix(ac,[255,255,255],.55))+','+hex(ac)+')','--ring-b':'linear-gradient(135deg,'+hex(ac)+','+hex(mix(ac,[0,0,0],.45))+')','--focus':hex(tx),'--sheen':rgba(ac,.1)}}function getC(){try{var c=JSON.parse(localStorage.getItem(KC)||'null');if(c&&typeof c=='object')return c}catch(e){}return null}function sz(C){r.style.setProperty('--fs',C&&+C.fs?C.fs:1);r.style.setProperty('--rad',C&&C.rad!=null&&isFinite(+C.rad)?C.rad:1)}function find(i){for(var k=0;k<L.length;k++)if(L[k][0]===i)return L[k]}function apply(i,save,C){var t,m,v,k,cu=i==='custom';C=C||getC();if(cu&&!C)cu=false,i='paper';VK.forEach(function(k){r.style.removeProperty(k)});if(cu){t=find(C.base=='dark'?'inkgold':'paper');v=vars(C);for(k in v)r.style.setProperty(k,v[k]);r.dataset.custom='1'}else{t=find(i)||L[0];delete r.dataset.custom}r.dataset.theme=t[0];sz(C);r.style.setProperty('--stage',t[3]);r.style.setProperty('--stage-rgb',t[4]);m=d.querySelector('meta[name=theme-color]');if(!m){m=d.createElement('meta');m.name='theme-color';d.head.appendChild(m)}m.content=cu?v['--bg']:t[2];if(save){try{localStorage.setItem(K,cu?'custom':t[0])}catch(e){}}return cu?'custom':t[0]}var s;try{s=new URLSearchParams(location.search).get('theme')||localStorage.getItem(K)}catch(e){}s={dark:'night',light:'paper'}[s]||s;window.ANAS_THEMES=L;window.ANAS_THEME_VARS=vars;window.ANAS_GET_CUSTOM=getC;window.ANAS_CURRENT=function(){return r.dataset.custom?'custom':r.dataset.theme};window.ANAS_APPLY_THEME=function(i,C){return apply(i,false,C)};window.ANAS_SET_THEME=function(i){return apply(i,true)};apply(s)})();</script><!--/theme-init-->
 <link rel="preload" as="image" href="img/hero_medallion.webp" fetchpriority="high">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
-<link rel="stylesheet" href="theme.css?v=202610252130"><script src="theme.js?v=202610252130" defer></script>
+<link rel="stylesheet" href="theme.css?v=202610261300"><script src="theme.js?v=202610261300" defer></script>
 <style>
 .wrap.hub{max-width:1040px}
 :root{--sheen:rgba(255,236,170,.22)}
 :root[data-theme="night"]{--sheen:rgba(243,199,102,.07)}
 :root[data-theme="lake"]{--sheen:rgba(255,255,255,.4)}
 :root[data-theme="neon"]{--sheen:rgba(25,225,255,.07)}
-:root[data-theme="ink"]{--sheen:transparent}
+:root[data-theme="ink"],:root[data-theme="gallery"]{--sheen:transparent}
+:root[data-theme="inkgold"],:root[data-theme="emerald"],:root[data-theme="midnight"]{--sheen:rgba(232,195,111,.08)}
+:root[data-theme="ember"]{--sheen:rgba(255,120,60,.08)}
 .ask{margin:0;font-size:14px;line-height:1.8}
 /* ---------- hero ---------- */
 .hero{position:relative;display:grid;justify-items:center;text-align:center;padding:34px 20px 30px;overflow:hidden}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
   background:linear-gradient(115deg,transparent 35%,var(--sheen) 48%,transparent 60%);background-size:260% 100%;animation:sweep 7s ease-in-out infinite}
-.medal{position:relative;width:min(200px,52vw);aspect-ratio:1;border-radius:50%;padding:7px;margin-bottom:18px;
-  box-shadow:0 18px 50px var(--gold-glow),0 0 0 1px var(--edge)}
+.medal{position:relative;isolation:isolate;width:min(200px,52vw);aspect-ratio:1;border-radius:50%;padding:7px;margin-bottom:18px;
+  box-shadow:0 18px 50px var(--gold-glow),0 0 0 1px var(--edge);animation:float 7s ease-in-out infinite;perspective:700px}
 .medal::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--ring-a);animation:spin 12s linear infinite}
-.medal img{position:relative;display:block;width:100%;height:100%;border-radius:50%;background:#000}
+.medal::after{content:"";position:absolute;inset:-18%;z-index:-1;border-radius:50%;background:radial-gradient(circle,var(--gold-glow) 0%,transparent 66%);animation:breathe 5.5s ease-in-out infinite}
+.mface{position:relative;display:block;width:100%;height:100%;border-radius:50%;overflow:hidden;background:#000;transform-style:preserve-3d}
+.mface img{display:block;width:100%;height:100%;border-radius:50%}
+.mtint{position:absolute;inset:0;border-radius:50%;background:var(--gold);mix-blend-mode:color;opacity:.5;transition:background-color .6s}
+:root[data-theme="paper"]:not([data-custom]) .mtint,:root[data-theme="night"] .mtint{opacity:0}
+.mflash{position:absolute;inset:0;border-radius:50%;opacity:0;background:conic-gradient(from 0deg,transparent 0 62%,var(--gold-2) 78%,#fff 84%,transparent 92%);mix-blend-mode:screen}
+.mdraw{position:absolute;inset:-5px;width:calc(100% + 10px);height:calc(100% + 10px);overflow:visible;pointer-events:none;transform:rotate(-90deg)}
+.mdraw circle{fill:none;stroke:var(--gold-text);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;filter:drop-shadow(0 0 4px var(--gold))}
+.medal.swap .mface{animation:flip .9s cubic-bezier(.5,0,.2,1)}
+.medal.swap .mflash{animation:glint 1.1s ease-out}
+.medal.swap .mdraw circle{animation:draw 1.2s cubic-bezier(.6,0,.2,1)}
+.medal.swap::after{animation:burst 1.2s ease-out,breathe 5.5s ease-in-out 1.2s infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes breathe{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+@keyframes burst{0%{opacity:.4;transform:scale(.9)}35%{opacity:1;transform:scale(1.18)}100%{opacity:.6;transform:scale(1)}}
+@keyframes flip{0%{transform:rotateY(0);filter:none}45%{transform:rotateY(76deg);filter:brightness(1.8) saturate(1.3)}55%{transform:rotateY(-76deg);filter:brightness(1.8) saturate(1.3)}100%{transform:rotateY(0);filter:none}}
+@keyframes glint{0%{opacity:0;transform:rotate(-60deg)}25%{opacity:.9}100%{opacity:0;transform:rotate(300deg)}}
+@keyframes draw{0%{stroke-dashoffset:1;opacity:1}70%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
 .hand{font-family:ui-monospace,Consolas,monospace;font-size:13px;color:var(--mute);direction:ltr;margin:0;letter-spacing:.4px}
 .nm{font-family:Alexandria,sans-serif;font-weight:800;font-size:clamp(46px,13vw,76px);line-height:1.1;margin:14px 0 8px}
 .tag{font-family:Alexandria,sans-serif;font-weight:600;font-size:clamp(17px,4.6vw,24px);line-height:1.6;margin:0 0 18px;max-width:22em}
@@ -103,7 +122,7 @@ a.game:hover,a.game:focus-visible{transform:translateY(-2px);border-color:var(--
   .reels{grid-template-columns:repeat(6,1fr)}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-@media (prefers-reduced-motion: reduce){.medal::before,.btn.shine::after,.hero::after{animation:none}}
+@media (prefers-reduced-motion: reduce){.medal,.medal::before,.medal::after,.medal.swap::after,.medal.swap .mface,.medal.swap .mflash,.medal.swap .mdraw circle,.btn.shine::after,.hero::after{animation:none}.mtint{transition:none}}
 </style>
 </head>
 <body>
@@ -113,7 +132,7 @@ a.game:hover,a.game:focus-visible{transform:translateY(-2px);border-color:var(--
   <div class="tp" data-tp></div></header>
 
   <section class="hero glass">
-    <div class="medal"><img src="img/hero_medallion.webp" alt="أنس" width="640" height="640" fetchpriority="high"></div>
+    <div class="medal" id="medal"><span class="mface"><img src="img/hero_medallion.webp" alt="أنس" width="640" height="640" fetchpriority="high"><span class="mtint"></span><span class="mflash"></span></span><svg class="mdraw" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" pathLength="1"/></svg></div>
     <p class="hand">@anas.ai.ar</p>
     <h1 class="nm">أنس</h1>
     <p class="tag">ما نشرح الذكاء الاصطناعي، <span>نبني فيه</span></p>
@@ -147,7 +166,7 @@ a.game:hover,a.game:focus-visible{transform:translateY(-2px);border-color:var(--
   </footer>
 </div>
 <noscript><p class="foot glass">فعّل جافاسكربت عشان تظهر القوائم، أو تابعني على <a href="https://www.instagram.com/anas.ai.ar/">إنستغرام</a>.</p></noscript>
-<script src="home.js?v=202610252130" defer></script>
-<script src="counter.js?v=202610252130" defer></script>
+<script src="home.js?v=202610261300" defer></script>
+<script src="counter.js?v=202610261300" defer></script>
 </body>
 </html>

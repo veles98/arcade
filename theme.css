@@ -1,4 +1,4 @@
-/* Shared look for arcade pages. Five themes, chosen with the picker in the top bar (saved in localStorage "anas_theme").
+/* Shared look for arcade pages. Twelve themes + a visitor customiser, chosen with the picker in the top bar (saved in localStorage "anas_theme").
    The theme id lives on <html data-theme="...">; :root without a data-theme is "paper" (the default).
    Variables:
      --gold       brand accent used as a FILL / marker (buttons, rings, borders)
@@ -75,6 +75,98 @@
   --stage:#000;--stage-rgb:0,0,0;
   color-scheme:light
 }
+/* ---- 6) hybrid ("هجين"): paper page, ink bands, gold seal ---- */
+:root[data-theme="hybrid"]{
+  --bg:#ebe4d4;--bg-img:linear-gradient(180deg,#efe9dc 0%,#e6dcc6 100%);
+  --fg:#141416;--mute:#55503f;
+  --gold:#c9a24e;--gold-2:#e2c27a;--gold-ink:#141416;--gold-text:#6c4d0b;--gold-glow:rgba(201,162,78,.42);
+  --glass:rgba(250,246,236,.8);--glass-2:rgba(20,20,22,.05);--glass-bw:1.5px;--glass-edge:#141416;
+  --edge:rgba(20,20,22,.24);--edge-hi:rgba(255,255,255,.85);
+  --glow-a:rgba(201,162,78,.30);--glow-b:rgba(20,20,22,.08);--shadow:0 12px 28px rgba(20,20,22,.16),0 2px 0 rgba(20,20,22,.9);
+  --code-bg:rgba(255,255,255,.6);--mark-bg:#141416;--mark-fg:#e2c27a;--mark-a:12%;--mark-b:100%;
+  --ring-a:conic-gradient(from 200deg,#141416,#c9a24e,#f2dd9c,#141416);--ring-b:linear-gradient(135deg,#c9a24e,#141416);
+  --focus:#141416;--dot-edge:rgba(20,20,22,.55);
+  --stage:#0b0b0d;--stage-rgb:11,11,13;
+  color-scheme:light
+}
+/* ---- 7) inkgold ("حبر وذهب"): warm ink black, brushed gold ---- */
+:root[data-theme="inkgold"]{
+  --bg:#0e0d0b;--bg-img:radial-gradient(120% 80% at 50% 0%,#1a1712 0%,#0e0d0b 60%);--fg:#f3ece0;--mute:#a59d8d;
+  --gold:#d9b766;--gold-2:#9c7a34;--gold-ink:#141210;--gold-text:#e6c87e;--gold-glow:rgba(217,183,102,.26);
+  --glass:rgba(28,25,20,.72);--glass-2:rgba(217,183,102,.06);--glass-bw:1px;--glass-edge:rgba(217,183,102,.30);
+  --edge:rgba(217,183,102,.18);--edge-hi:rgba(255,236,190,.10);
+  --glow-a:rgba(217,183,102,.20);--glow-b:rgba(120,90,40,.18);--shadow:0 14px 40px rgba(0,0,0,.6);
+  --code-bg:rgba(0,0,0,.4);--mark-bg:transparent;--mark-fg:#e6c87e;
+  --ring-a:conic-gradient(from 200deg,#d9b766,#5e4a1f,#f6e3ae,#d9b766);--ring-b:linear-gradient(135deg,#e6c87e,#6e5520);
+  --focus:#e6c87e;--dot-edge:rgba(255,255,255,.35);
+  --stage:#0b0a08;--stage-rgb:11,10,8;
+  color-scheme:dark
+}
+/* ---- 8) gallery ("معرض"): beige walls, black frames, no glow ---- */
+:root[data-theme="gallery"]{
+  --bg:#e7dfd0;--bg-img:none;--fg:#111;--mute:#4e4a42;
+  --gold:#111;--gold-2:#8a7550;--gold-ink:#f1ead9;--gold-text:#111;--gold-glow:rgba(17,17,17,.18);
+  --glass:#f4efe4;--glass-2:rgba(17,17,17,.04);--glass-bw:1px;--glass-edge:#111;
+  --edge:rgba(17,17,17,.28);--edge-hi:transparent;
+  --glow-a:transparent;--glow-b:transparent;--shadow:0 1px 0 #111,0 18px 30px -18px rgba(17,17,17,.35);
+  --code-bg:#ece5d6;--mark-bg:#111;--mark-fg:#f1ead9;--mark-a:8%;--mark-b:100%;
+  --ring-a:conic-gradient(from 200deg,#111,#8a7550,#d8c9a6,#111);--ring-b:linear-gradient(135deg,#111,#8a7550);
+  --focus:#111;--dot-edge:#111;
+  --stage:#111;--stage-rgb:17,17,17;
+  color-scheme:light
+}
+/* ---- 9) emerald ("زمرد"): deep green + gold ---- */
+:root[data-theme="emerald"]{
+  --bg:#05241d;--bg-img:radial-gradient(120% 80% at 80% 0%,#0b3a2e 0%,#05241d 55%,#03180f 100%);--fg:#eef4ee;--mute:#9dbcb0;
+  --gold:#e0bd6a;--gold-2:#a8822f;--gold-ink:#06251c;--gold-text:#ecca7c;--gold-glow:rgba(224,189,106,.26);
+  --glass:rgba(8,48,38,.66);--glass-2:rgba(224,189,106,.07);--glass-bw:1px;--glass-edge:rgba(224,189,106,.28);
+  --edge:rgba(224,189,106,.18);--edge-hi:rgba(255,255,255,.08);
+  --glow-a:rgba(224,189,106,.18);--glow-b:rgba(40,160,120,.22);--shadow:0 14px 40px rgba(0,10,6,.55);
+  --code-bg:rgba(0,0,0,.3);--mark-bg:transparent;--mark-fg:#ecca7c;
+  --ring-a:conic-gradient(from 200deg,#e0bd6a,#1d6b52,#f6e3ae,#e0bd6a);--ring-b:linear-gradient(135deg,#ecca7c,#1d6b52);
+  --focus:#ecca7c;--dot-edge:rgba(255,255,255,.35);
+  --stage:#03180f;--stage-rgb:3,24,15;
+  color-scheme:dark
+}
+/* ---- 10) midnight ("منتصف الليل"): deep blue + gold ---- */
+:root[data-theme="midnight"]{
+  --bg:#0a1230;--bg-img:radial-gradient(120% 80% at 20% 0%,#16245a 0%,#0a1230 55%,#060b1f 100%);--fg:#eef1fb;--mute:#a1abcf;
+  --gold:#e8c36f;--gold-2:#9a7a35;--gold-ink:#0a1230;--gold-text:#f0cf82;--gold-glow:rgba(232,195,111,.26);
+  --glass:rgba(18,30,74,.62);--glass-2:rgba(232,195,111,.07);--glass-bw:1px;--glass-edge:rgba(232,195,111,.26);
+  --edge:rgba(160,180,255,.18);--edge-hi:rgba(255,255,255,.08);
+  --glow-a:rgba(232,195,111,.18);--glow-b:rgba(70,100,230,.26);--shadow:0 14px 40px rgba(0,3,20,.6);
+  --code-bg:rgba(0,0,0,.3);--mark-bg:transparent;--mark-fg:#f0cf82;
+  --ring-a:conic-gradient(from 200deg,#e8c36f,#2a3f8f,#fbe7b5,#e8c36f);--ring-b:linear-gradient(135deg,#f0cf82,#2a3f8f);
+  --focus:#f0cf82;--dot-edge:rgba(255,255,255,.4);
+  --stage:#060b1f;--stage-rgb:6,11,31;
+  color-scheme:dark
+}
+/* ---- 11) desert ("صحراء"): warm sand + terracotta ---- */
+:root[data-theme="desert"]{
+  --bg:#ecdcbc;--bg-img:linear-gradient(180deg,#f3e6cb 0%,#e8d2a8 100%);--fg:#2a1b0c;--mute:#634b30;
+  --gold:#a54d1b;--gold-2:#e0a35c;--gold-ink:#fff8ec;--gold-text:#8a3a0e;--gold-glow:rgba(196,105,46,.38);
+  --glass:rgba(255,248,232,.66);--glass-2:rgba(255,250,238,.55);--glass-bw:1px;--glass-edge:rgba(138,58,14,.28);
+  --edge:rgba(42,27,12,.2);--edge-hi:rgba(255,255,255,.8);
+  --glow-a:rgba(224,163,92,.42);--glow-b:rgba(196,105,46,.18);--shadow:0 12px 30px rgba(110,60,20,.16);
+  --code-bg:rgba(255,250,238,.6);--mark-bg:#f0bf86;--mark-fg:#2a1b0c;
+  --ring-a:conic-gradient(from 200deg,#c4692e,#e0a35c,#f6dcb0,#c4692e);--ring-b:linear-gradient(135deg,#e0a35c,#8a3a0e);
+  --focus:#8a3a0e;--dot-edge:rgba(42,27,12,.5);
+  --stage:#1d1208;--stage-rgb:29,18,8;
+  color-scheme:light
+}
+/* ---- 12) ember ("جمر"): the bold one, charcoal + molten orange ---- */
+:root[data-theme="ember"]{
+  --bg:#120707;--bg-img:radial-gradient(110% 70% at 50% 110%,#3a0d06 0%,#120707 60%);--fg:#fff1ea;--mute:#c3a196;
+  --gold:#ff5a2c;--gold-2:#ffb03a;--gold-ink:#1a0603;--gold-text:#ff8a5c;--gold-glow:rgba(255,90,44,.38);
+  --glass:rgba(34,14,12,.7);--glass-2:rgba(255,90,44,.08);--glass-bw:1px;--glass-edge:rgba(255,120,70,.32);
+  --edge:rgba(255,120,70,.2);--edge-hi:rgba(255,200,170,.1);
+  --glow-a:rgba(255,90,44,.26);--glow-b:rgba(255,176,58,.16);--shadow:0 14px 40px rgba(0,0,0,.6),0 0 30px rgba(255,90,44,.08);
+  --code-bg:rgba(0,0,0,.4);--mark-bg:transparent;--mark-fg:#ffb03a;
+  --ring-a:conic-gradient(from 200deg,#ff5a2c,#ffb03a,#7a1a0a,#ff5a2c);--ring-b:linear-gradient(135deg,#ffb03a,#ff3a1c);
+  --focus:#ffb03a;--dot-edge:rgba(255,255,255,.4);
+  --stage:#0c0403;--stage-rgb:12,4,3;
+  color-scheme:dark
+}
 /* aliases used by older pages (skills/README.html) */
 :root{--line:var(--edge);--card:var(--code-bg)}
 
@@ -89,10 +181,10 @@ body::before{content:"";position:fixed;inset:-20vmax;z-index:-1;pointer-events:n
 ::selection{background:var(--gold);color:var(--gold-ink)}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.wrap{max-width:720px;margin:0 auto;padding:18px 16px 70px}
+.wrap{max-width:720px;margin:0 auto;padding:18px 16px 70px;zoom:var(--fs,1)}
 
 /* glass surface */
-.glass{background:var(--glass);border:var(--glass-bw) solid var(--glass-edge);border-radius:20px;box-shadow:var(--shadow),inset 0 1px 0 var(--edge-hi);
+.glass{background:var(--glass);border:var(--glass-bw) solid var(--glass-edge);border-radius:calc(20px*var(--rad,1));box-shadow:var(--shadow),inset 0 1px 0 var(--edge-hi);
   -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
 
 /* top bar */
@@ -104,17 +196,60 @@ a{color:inherit}
   color:var(--fg);text-decoration:none;font:600 14px inherit;font-family:inherit;cursor:pointer;white-space:nowrap}
 .pill:hover{border-color:var(--gold-text)}
 
-/* theme picker: five colour dots in a pill (built by theme.js into <div class="tp" data-tp>) */
-.tp{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:0;height:38px;min-width:148px;padding:0 5px;border-radius:999px;
-  border:1px solid var(--edge);background:var(--glass-2)}
-.tp .dot{position:relative;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.tp .dot::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--sw);border:1.5px solid var(--dot-edge);transition:transform .15s,box-shadow .15s}
-.tp .dot:hover::before,.tp .dot:focus-visible::before{transform:scale(1.14)}
-.tp .dot[aria-checked="true"]::before{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--fg)}
-.tp .dot:focus-visible{outline:3px solid var(--focus);outline-offset:0}
-.tp-tip{position:absolute;top:calc(100% + 8px);left:0;z-index:30;padding:5px 11px;border-radius:999px;background:var(--fg);color:var(--bg);font:600 13px/1.4 inherit;font-family:inherit;
-  white-space:nowrap;pointer-events:none;opacity:0;transform:translateY(-3px);transition:opacity .15s,transform .15s}
-.tp-tip.on{opacity:1;transform:none}
+/* theme menu: dropdown built by theme.js into <div class="tp" data-tp> (+ «خصّص» customiser panel .tc) */
+.tm{position:relative;display:inline-flex}
+.tm-btn{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 10px 0 12px;border-radius:999px;border:1px solid var(--edge);background:var(--glass-2);
+  color:var(--fg);font:600 14px/1 "IBM Plex Sans Arabic",system-ui,sans-serif;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.tm-btn:hover,.tm.open .tm-btn{border-color:var(--gold-text)}
+.tm-sw{flex:0 0 auto;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--dot-edge);box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
+.tm-chev{width:8px;height:8px;border-right:1.8px solid currentColor;border-bottom:1.8px solid currentColor;transform:translateY(-2px) rotate(45deg);opacity:.7;transition:transform .2s}
+.tm.open .tm-chev{transform:translateY(2px) rotate(-135deg)}
+.tm-menu{position:absolute;top:calc(100% + 8px);inset-inline-end:0;z-index:40;width:228px;padding:6px;border-radius:calc(16px*var(--rad,1));
+  background:var(--bg);background-image:linear-gradient(var(--glass),var(--glass));border:1px solid var(--edge);box-shadow:0 18px 44px rgba(0,0,0,.28);
+  transform-origin:top left;animation:tm-in .16s ease-out}
+.tm-menu[hidden]{display:none}
+@keyframes tm-in{from{opacity:0;transform:translateY(-4px) scale(.98)}}
+.tm-list{list-style:none;margin:0;padding:0;max-height:min(372px,58vh);overflow-y:auto;outline:none;overscroll-behavior:contain}
+.tm-opt{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:10px;cursor:pointer;color:var(--fg);font-size:14.5px}
+.tm-opt .tm-sw{width:22px;height:22px}
+.tm-on{flex:1}
+.tm-opt.act{background:var(--glass-2);box-shadow:inset 0 0 0 1px var(--edge)}
+.tm-list:focus-visible .tm-opt.act{box-shadow:inset 0 0 0 2px var(--focus)}
+.tm-ck{width:6px;height:11px;border-right:2px solid var(--gold-text);border-bottom:2px solid var(--gold-text);transform:translateY(-2px) rotate(45deg);opacity:0}
+.tm-opt[aria-selected="true"]{font-weight:600}
+.tm-opt[aria-selected="true"] .tm-ck{opacity:1}
+.tm-cz{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:42px;margin-top:6px;border:0;border-top:1px solid var(--edge);border-radius:0 0 10px 10px;
+  background:transparent;color:var(--gold-text);font:600 14.5px "IBM Plex Sans Arabic",system-ui,sans-serif;cursor:pointer}
+.tm-cz:hover{background:var(--glass-2)}
+.tm-cz svg,.tc-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.tc{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:16px;background:rgba(0,0,0,.35);animation:tm-fade .18s ease-out}
+.tc[hidden]{display:none}
+@keyframes tm-fade{from{opacity:0}}
+.tc-card{width:min(420px,100%);max-height:calc(100vh - 32px);overflow-y:auto;padding:18px 18px 14px;background:var(--bg);background-image:linear-gradient(var(--glass),var(--glass));
+  font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;color:var(--fg);animation:tm-in .2s ease-out}
+.tc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.tc-head h2{margin:0;font:800 19px Alexandria,sans-serif}
+.tc-x{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--edge);background:var(--glass-2);color:var(--fg);cursor:pointer}
+.tc-pv{display:grid;gap:4px;padding:12px 14px;margin-bottom:6px;border-radius:calc(14px*var(--rad,1));border:1px solid var(--edge);background:var(--glass-2)}
+.tc-pv b{font:800 15px Alexandria,sans-serif}.tc-pv span{color:var(--mute);font-size:13.5px}
+.tc-pv-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}
+.tc-pv i{font-style:normal;color:var(--gold-text);font-weight:600;font-size:14px}
+.tc-pv em{font-style:normal;padding:4px 14px;border-radius:calc(10px*var(--rad,1));background:var(--gold);color:var(--gold-ink);font-weight:600;font-size:13.5px}
+.tc-row{padding:10px 0;border-bottom:1px solid var(--edge)}
+.tc-lab{font-size:13px;font-weight:600;color:var(--mute);margin-bottom:8px}
+.tc-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.tc-t{min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--edge);background:transparent;color:var(--fg);font:600 14px "IBM Plex Sans Arabic",system-ui,sans-serif;cursor:pointer}
+.tc-t[aria-checked="true"]{background:var(--gold);color:var(--gold-ink);border-color:transparent}
+.tc-c{width:32px;height:32px;padding:0;border-radius:50%;border:1.5px solid var(--dot-edge);cursor:pointer}
+.tc-c[aria-checked="true"]{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--fg)}
+.tc-pick{width:36px;height:36px;padding:0;border:1.5px dashed var(--dot-edge);border-radius:50%;background:transparent;cursor:pointer;overflow:hidden}
+.tc-pick::-webkit-color-swatch-wrapper{padding:3px}.tc-pick::-webkit-color-swatch{border:0;border-radius:50%}.tc-pick::-moz-color-swatch{border:0;border-radius:50%}
+.tc-acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.tc-acts .btn{min-height:42px;font-size:14.5px}
+.tc-acts .btn:first-child{grid-column:1/-1}
+.tc-code{width:100%;margin-top:10px;padding:8px 10px;border-radius:10px;border:1px solid var(--edge);background:var(--code-bg);color:var(--fg);font:12px/1.5 ui-monospace,Consolas,monospace;resize:none}
+.tc-msg{min-height:1.4em;margin:6px 0 0;font-size:13px;color:var(--gold-text);text-align:center}
+body.tc-open{overflow:hidden}
 
 /* hero */
 .kicker{font-family:ui-monospace,Consolas,monospace;font-size:12.5px;color:var(--mute);direction:ltr;text-align:right;letter-spacing:.3px}
@@ -129,7 +264,7 @@ h1 span{color:var(--mark-fg);background:linear-gradient(transparent var(--mark-a
 .ico img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:14px;border:1px solid transparent;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 18px;border-radius:calc(14px*var(--rad,1));border:1px solid transparent;
   background:var(--gold);color:var(--gold-ink);font:600 15px inherit;font-family:inherit;text-decoration:none;cursor:pointer}
 .btn.ghost{background:transparent;color:var(--gold-text);border-color:var(--gold-text)}
 .foot{margin-top:40px;padding:18px;color:var(--mute);font-size:14px;line-height:1.9;text-align:center}
@@ -138,7 +273,7 @@ h1 span{color:var(--mark-fg);background:linear-gradient(transparent var(--mark-a
   .bar{gap:6px;padding:8px 10px}
   .brand{font-size:15px;gap:6px}
   .bar .pill{padding:0 11px}
-  .tp{min-width:140px}.tp .dot{width:26px;height:26px}.tp .dot::before{inset:4px}
+  .tm-btn{padding:0 8px 0 10px;gap:6px}
 }
-@media (max-width:380px){.brand{font-size:0;gap:0}}
-@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:380px){.brand{font-size:0;gap:0}.tm-nm{display:none}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}.tm-menu,.tc,.tc-card{animation:none}}
