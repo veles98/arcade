@@ -103,10 +103,27 @@
       box.classList.add('open');
       var c = cur(), ci = 0;
       opts.forEach(function (o, k) { if (o.dataset.t === c) ci = k; });
+      place();
       focusOpt(ci);
       list.focus({ preventScroll: true });
       more();
+      window.addEventListener('resize', place);
       d.addEventListener('pointerdown', outside, true);
+    }
+    // keep the open menu inside the viewport: 8px from each side edge, and short enough (list scrolls) that the
+    // whole menu, «خصّص» footer included, ends 8px above the bottom. Rects are visual px; styles are in the
+    // zoomed (--fs) local px, hence the divisions by the measured scale.
+    function place() {
+      if (menu.hidden) return;
+      var vw = d.documentElement.clientWidth, vh = window.innerHeight;
+      menu.style.left = menu.style.right = list.style.maxHeight = '';
+      var r = menu.getBoundingClientRect(), z = r.width / (menu.offsetWidth || 1) || 1;
+      var want = Math.max(8, Math.min(r.left, vw - 8 - r.width));
+      if (Math.abs(want - r.left) > 0.5) { menu.style.right = 'auto'; menu.style.left = '0px'; var r0 = menu.getBoundingClientRect().left; menu.style.left = ((want - r0) / z) + 'px'; }
+      r = menu.getBoundingClientRect();
+      var lr = list.getBoundingClientRect(), rest = r.height - lr.height;
+      var room = vh - 8 - r.top - rest;
+      if (lr.height > room) list.style.maxHeight = Math.max(60, room) / z + 'px';
     }
     // fade the list's top/bottom edge only while there is more to scroll that way
     function more() {
@@ -120,6 +137,7 @@
       btn.setAttribute('aria-expanded', 'false');
       box.classList.remove('open');
       d.removeEventListener('pointerdown', outside, true);
+      window.removeEventListener('resize', place);
       if (refocus) btn.focus({ preventScroll: true });
     }
     function outside(e) { if (!box.contains(e.target)) close(false); }
@@ -231,7 +249,7 @@
     rows.tone = chipRow('درجة الخلفية', 'tone', true);
     rows.fs = chipRow('حجم الخط', 'fs'); rows.fs._fill(FS);
     rows.rad = chipRow('استدارة الزوايا', 'rad'); rows.rad._fill(RAD);
-    var acts = el('div', 'tc-acts'), sv = el('button', 'btn', 'احفظ'), rs = el('button', 'btn ghost', 'إعادة ضبط'), cp = el('button', 'btn ghost', 'انسخ كود الثيم');
+    var acts = el('div', 'tc-acts'), sv = el('button', 'btn', 'احفظ'), rs = el('button', 'btn ghost', 'إعادة ضبط'), cp = el('button', 'btn ghost tc-cp', 'انسخ كود الثيم');
     [sv, rs, cp].forEach(function (b) { b.type = 'button'; });
     sv.addEventListener('click', function () {
       var ok = saveC(draft);
@@ -252,7 +270,7 @@
       function fallback() { codeBox.focus(); codeBox.select(); try { if (d.execCommand('copy')) done(); else throw 0; } catch (e) { msg.textContent = 'انسخ الكود من المربع'; } }
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, fallback); else fallback();
     });
-    acts.append(sv, rs, cp);
+    acts.append(sv, rs);
     codeBox = el('textarea', 'tc-code');
     codeBox.rows = 2;
     codeBox.dir = 'ltr';
@@ -263,7 +281,8 @@
     });
     msg = el('p', 'tc-msg');
     msg.setAttribute('role', 'status');
-    card.append(head, pv, rows.base, rows.accent, rows.tone, rows.fs, rows.rad, acts, codeBox, msg);
+    // احفظ / إعادة ضبط live in a sticky footer so they stay on screen at every font size
+    card.append(head, pv, rows.base, rows.accent, rows.tone, rows.fs, rows.rad, cp, codeBox, msg, acts);
     panel.appendChild(card);
     panel.addEventListener('click', function (e) { if (e.target === panel) closePanel(false); });
     panel.addEventListener('keydown', function (e) {
@@ -286,6 +305,17 @@
   }
 
   Array.prototype.forEach.call(d.querySelectorAll('[data-tp]'), mount);
+  // the header never wraps (CSS); if its one row still overflows, go compact (.tight) instead of spilling
+  function fitBars() {
+    Array.prototype.forEach.call(d.querySelectorAll('.bar'), function (b) {
+      b.classList.remove('tight');
+      if (b.scrollWidth > b.clientWidth + 1) b.classList.add('tight');
+    });
+  }
+  fitBars();
+  window.addEventListener('resize', fitBars);
+  d.addEventListener('anas:theme', function () { requestAnimationFrame(fitBars); });
+  if (d.fonts && d.fonts.ready) d.fonts.ready.then(fitBars);
   // another tab changed the theme
   window.addEventListener('storage', function (e) {
     if (e.key === 'anas_theme' || e.key === 'anas_theme_custom') { applyT(savedId()); syncAll(); fire(cur()); }
