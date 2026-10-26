@@ -173,7 +173,7 @@
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:84px}
 body{margin:0;min-height:100vh;background-color:var(--bg);background-image:var(--bg-img);background-attachment:fixed;color:var(--fg);
-  font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;transition:background-color .3s,color .3s}
+  font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;transition:background-color .3s,color .3s;overflow-x:clip}
 body::before{content:"";position:fixed;inset:-20vmax;z-index:-1;pointer-events:none;
   background:radial-gradient(40vmax 30vmax at 80% 0%,var(--glow-a),transparent 70%),
              radial-gradient(36vmax 30vmax at 0% 45%,var(--glow-b),transparent 70%),
@@ -188,7 +188,8 @@ a{color:inherit}
   -webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%)}
 
 /* top bar */
-.bar{position:sticky;top:10px;z-index:20;display:flex;align-items:center;gap:10px;padding:10px 12px;margin-bottom:26px}
+.bar{position:sticky;top:10px;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 12px;margin-bottom:26px;min-width:0}
+.bar>*{min-width:0}
 .brand{font-family:Alexandria,sans-serif;font-weight:800;font-size:16px;text-decoration:none;color:var(--fg);display:flex;align-items:center;gap:8px}
 .brand .logo{width:30px;height:30px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 1.5px var(--gold)}
 .bar .sp{flex:1}
@@ -209,7 +210,10 @@ a{color:inherit}
   transform-origin:top left;animation:tm-in .16s ease-out}
 .tm-menu[hidden]{display:none}
 @keyframes tm-in{from{opacity:0;transform:translateY(-4px) scale(.98)}}
-.tm-list{list-style:none;margin:0;padding:0;max-height:min(372px,58vh);overflow-y:auto;outline:none;overscroll-behavior:contain}
+.tm-list{list-style:none;margin:0;padding:0;max-height:max(200px,min(520px,calc((100vh - 140px)/var(--fs,1))));overflow-y:auto;outline:none;overscroll-behavior:contain}
+.tm-list.more-dn{-webkit-mask-image:linear-gradient(#000 calc(100% - 44px),transparent);mask-image:linear-gradient(#000 calc(100% - 44px),transparent)}
+.tm-list.more-up{-webkit-mask-image:linear-gradient(transparent,#000 32px);mask-image:linear-gradient(transparent,#000 32px)}
+.tm-list.more-up.more-dn{-webkit-mask-image:linear-gradient(transparent,#000 32px,#000 calc(100% - 44px),transparent);mask-image:linear-gradient(transparent,#000 32px,#000 calc(100% - 44px),transparent)}
 .tm-opt{display:flex;align-items:center;gap:10px;min-height:40px;padding:0 10px;border-radius:10px;cursor:pointer;color:var(--fg);font-size:14.5px}
 .tm-opt .tm-sw{width:22px;height:22px}
 .tm-on{flex:1}
@@ -230,7 +234,7 @@ a{color:inherit}
 .tc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .tc-head h2{margin:0;font:800 19px Alexandria,sans-serif}
 .tc-x{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--edge);background:var(--glass-2);color:var(--fg);cursor:pointer}
-.tc-pv{display:grid;gap:4px;padding:12px 14px;margin-bottom:6px;border-radius:calc(14px*var(--rad,1));border:1px solid var(--edge);background:var(--glass-2)}
+.tc-pv{zoom:var(--fs,1);display:grid;gap:4px;padding:12px 14px;margin-bottom:6px;border-radius:calc(14px*var(--rad,1));border:1px solid var(--edge);background:var(--glass-2)}
 .tc-pv b{font:800 15px Alexandria,sans-serif}.tc-pv span{color:var(--mute);font-size:13.5px}
 .tc-pv-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px}
 .tc-pv i{font-style:normal;color:var(--gold-text);font-weight:600;font-size:14px}
@@ -276,4 +280,6 @@ h1 span{color:var(--mark-fg);background:linear-gradient(transparent var(--mark-a
   .tm-btn{padding:0 8px 0 10px;gap:6px}
 }
 @media (max-width:380px){.brand{font-size:0;gap:0}.tm-nm{display:none}}
+/* zoom (--fs) never trips width media queries: compact the header and stats when the font is enlarged on a phone */
+@media (max-width:480px){html[data-fsb] .brand{font-size:0;gap:0}html[data-fsb] .tm-nm{display:none}html[data-fsb] .bar .pill{padding:0 10px}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}.tm-menu,.tc,.tc-card{animation:none}}

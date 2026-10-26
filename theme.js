@@ -105,8 +105,15 @@
       opts.forEach(function (o, k) { if (o.dataset.t === c) ci = k; });
       focusOpt(ci);
       list.focus({ preventScroll: true });
+      more();
       d.addEventListener('pointerdown', outside, true);
     }
+    // fade the list's top/bottom edge only while there is more to scroll that way
+    function more() {
+      list.classList.toggle('more-dn', list.scrollTop + list.clientHeight < list.scrollHeight - 2);
+      list.classList.toggle('more-up', list.scrollTop > 2);
+    }
+    list.addEventListener('scroll', more, { passive: true });
     function close(refocus) {
       if (menu.hidden) return;
       menu.hidden = true;
