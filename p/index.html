@@ -36,7 +36,7 @@ body.locked{overflow:hidden}
 <div class="kicker">anas.ai.ar / prompts</div>
 <h1>برومبتات <span>أنس</span></h1><p class="lead">كل البرومبتات والأكواد اللي في ريلاتي، جاهزة للنسخ. اضغط «نسخ» والصقها في Claude.</p>
 <a class="followcta glass" href="https://www.instagram.com/anas.ai.ar/"><img src="../img/avatar.jpg" alt="" width="44" height="44"><span><b>كل أسبوع برومبت جديد</b><small>تابع ‎@anas.ai.ar عشان يوصلك أول واحد</small></span><em>تابع</em></a>
-<nav class="chips"><a class="pill" href="#hooks">٣٠ هوك</a><a class="pill" href="#game">برومبت اللعبة</a><a class="pill" href="#char">الشخصية المتحركة</a><a class="pill" href="#city">المدينة بالحروف</a><a class="pill" href="#site">موقع لحسابك</a><a class="pill" href="#themes">ثيمات الموقع</a><a class="pill" href="#fx">تأثيرات الفيديو</a><a class="pill" href="#hitstop">كود Hit-stop</a><a class="pill" href="#vision">العدو يشوفك</a><a class="pill" href="#skills">السكيلز</a><a class="pill" href="#tools">الأدوات</a></nav>
+<nav class="chips"><a class="pill" href="#ask">اسألني قبل</a><a class="pill" href="#project">تعليمات المشروع</a><a class="pill" href="#tool">أداة تشتغل</a><a class="pill" href="#hooks">٣٠ هوك</a><a class="pill" href="#game">برومبت اللعبة</a><a class="pill" href="#char">الشخصية المتحركة</a><a class="pill" href="#city">المدينة بالحروف</a><a class="pill" href="#site">موقع لحسابك</a><a class="pill" href="#themes">ثيمات الموقع</a><a class="pill" href="#fx">تأثيرات الفيديو</a><a class="pill" href="#hitstop">كود Hit-stop</a><a class="pill" href="#vision">العدو يشوفك</a><a class="pill" href="#skills">السكيلز</a><a class="pill" href="#tools">الأدوات</a></nav>
 <div class="label">برومبتات</div>
 <section id="game" class="card glass"><h2>برومبت واحد = لعبة جوال كاملة</h2><p class="s">غيّر [فكرة اللعبة] بس، واحفظ الناتج باسم game.html وافتحه من جوالك.</p>
 <div class="box"><div class="tools"><button class="cp" data-t="game">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-game" >أنت مطوّر ألعاب جوال محترف. سوّ لي لعبة جوال كاملة وجاهزة في ملف HTML واحد.
@@ -193,6 +193,31 @@ demo.reel.js (20 ث): هوك بعنوان ذهبي + أيقونة prompt ← 3 �
 
 ابدأ بكتابة الملفات كلها، ثم شغّل stills وراجع الـ sheet وصلّح، ثم شغّل all. لو ناقصك أداة (Python, ffmpeg, Chrome) قول لي أمر التثبيت قبل ما تكمل. في الأخير اعطني سطرين: كيف أعدل demo.reel.js لريل جديد، وأمر الرندر.</pre></div></section>
 <div class="label">أكواد Unreal Engine</div>
+<section id="ask" class="card glass"><h2>جملة «اسألني قبل ما تبدأ»</h2><p class="s">حطها في آخر أي طلب: خطة، إيميل، فكرة مشروع.</p>
+<div class="box"><div class="tools"><button class="cp" data-t="ask">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-ask" >[اكتب طلبك هنا]
+
+قبل ما تبدأ، اسألني ٥ أسئلة عن وضعي وهدفي واللي أبيه بالضبط.
+اسألها كلها مرة وحدة، وانتظر جوابي.
+بعد ما أجاوب، اكتب الجواب على مقاسي أنا، مو جواب عام.
+وفي الآخر قل لي وش الشي اللي لو عرفته عني كان الجواب صار أحسن.</pre></div></section>
+<section id="project" class="card glass"><h2>تعليمات المشروع (Projects)</h2><p class="s">في Claude: سوّ Project جديد، والصق هذا في التعليمات، وارفع ملفاتك. وكل محادثة داخله تعرف شغلك.</p>
+<div class="box"><div class="tools"><button class="cp" data-t="project">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-project" >أنا [اسمك]، وأشتغل في [مجالك].
+جمهوري: [مين يشوف شغلي، أعمارهم، ووش يهمهم].
+أسلوبي: [مثلاً: لهجة سعودية بسيطة، جمل قصيرة، بدون مبالغة].
+أهدافي هالشهر: [هدف ١] و[هدف ٢].
+
+قواعد:
+- قبل أي جواب طويل، اسألني إذا ناقصك شي.
+- استخدم الملفات المرفوعة في المشروع، وقل لي من أي ملف أخذت المعلومة.
+- إذا ما تعرف، قل ما أعرف. لا تخمّن.
+- خل كل جواب ينتهي بخطوة وحدة أسويها الحين.</pre></div></section>
+<section id="tool" class="card glass"><h2>أداة تشتغل داخل المحادثة</h2><p class="s">الصقه في Claude، وتطلع لك حاسبة تشتغل جنب المحادثة. غيّر اللي بين القوسين لأي أداة تبيها.</p>
+<div class="box"><div class="tools"><button class="cp" data-t="tool">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-tool" >سوّ لي [حاسبة ميزانية للشهر] كصفحة تفاعلية تشتغل داخل المحادثة.
+- خانات أكتب فيها: [الراتب، الإيجار، الأكل، البنزين، أخرى].
+- تحسب لي اللي يبقى، وتلوّن الرقم أحمر لو بالسالب.
+- بالعربي ومن اليمين لليسار، وخط واضح على الجوال.
+- زر يرجّع كل الخانات للصفر.
+بعدها اسألني وش أبي أعدّل.</pre></div></section>
 <section id="hooks" class="card glass"><h2>٣٠ هوك بالعربي يخلّي الناس تكمل ريلك</h2><p class="s">كل هوك معه فكرته ومثال جاهز. اختر واحد، وغيّر المثال على موضوعك.</p>
 <div class="box"><div class="tools"><button class="cp" data-t="hooks">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-hooks" >1) ابدأ بالنتيجة: ورّ النتيجة في أول ثانية، والقصة بعدين.
 مثال: «هذا الموقع… سويته في ٣٠ دقيقة بدون كود.» والموقع شغّال على الشاشة.
