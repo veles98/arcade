@@ -1,4 +1,4 @@
-// Home page: hero stats + featured projects from featured.json, reels/tools/games from posts.json (newest first).
+// Home page: «رحلة التعلّم» from learn.json, hero stats + featured projects from featured.json, reels/tools/games from posts.json (newest first).
 // Add a reel or game with tools/add_post.py; edit featured.json by hand for the hero stats and the project cards.
 (function () {
   var NS = 'http://www.w3.org/2000/svg';
@@ -107,8 +107,31 @@
     } catch (e) { return iso; }
   }
 
+  // «رحلة التعلّم»: one card per episode from learn.json; the next episode is a greyed «soon» card
+  function lesson(l) {
+    var a = el(l.link ? 'a' : 'div', 'lesson glass' + (l.soon ? ' soon' : '')), lc = el('div', 'lc'), lb = el('div', 'lb');
+    if (l.link) link(a, l);
+    if (l.cover) {
+      var img = new Image();
+      img.src = l.cover; img.alt = l.title; img.width = 600; img.height = 800; img.decoding = 'async';
+      lc.appendChild(img);
+    } else {
+      lc.appendChild(el('span', 'lnum', String(l.n).replace(/\d/g, function (c) { return '٠١٢٣٤٥٦٧٨٩'[c]; })));
+    }
+    lb.appendChild(el('div', 'ln', 'الحلقة ' + String(l.n).replace(/\d/g, function (c) { return '٠١٢٣٤٥٦٧٨٩'[c]; })));
+    if (l.kicker) lb.appendChild(el('div', 'fk', l.kicker));
+    lb.appendChild(el('h3', null, l.title));
+    if (l.desc) lb.appendChild(el('p', null, l.desc));
+    if (l.cta) lb.appendChild(el('span', 'fgo', l.cta + ' ←'));
+    a.appendChild(lc); a.appendChild(lb);
+    return a;
+  }
+
+  function renderLearn(data) { fill('lessons', data.lessons || [], lesson); }
+
   function render(data) {
-    var posts = newestFirst(data.posts || []);
+    // hidden = archived on Instagram: kept in posts.json for history, never shown
+    var posts = newestFirst((data.posts || []).filter(function (p) { return !p.hidden; }));
     function of(type) { return posts.filter(function (p) { return p.type === type; }); }
     var reels = of('reel');
     // full rows only: the newest multiple of the column count (at most REEL_LIMIT), so the grid never ends with a lonely tile
@@ -131,6 +154,11 @@
   fetch('featured.json' + (V ? '?v=' + encodeURIComponent(V) : ''), { cache: 'no-cache' })
     .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(renderHub)
+    .catch(function () {});
+
+  fetch('learn.json' + (V ? '?v=' + encodeURIComponent(V) : ''), { cache: 'no-cache' })
+    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(renderLearn)
     .catch(function () {});
 
   // cache: 'no-cache' = always revalidate, so a new post shows up even when this page itself is still cached

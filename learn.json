@@ -1,0 +1,23 @@
+{
+ "_doc": "«رحلة التعلّم» on the home page: one card per episode, in order. Each published episode has a lesson page (learn/day-N/). soon = greyed card without a link (the next episode). Fields: n, kicker, title, desc, cover (3:4 image), link, cta, soon.",
+ "lessons": [
+  {
+   "n": 1,
+   "kicker": "بدون كود · يوم ١",
+   "title": "موقع كامل… من غير ولا سطر كود",
+   "desc": "كلّمت الذكاء الاصطناعي بكلامي العادي وطلع موقع بثيمات يختارها الزائر. والغلطة اللي ظهرت على الجوال، وكيف انحلت.",
+   "cover": "img/lesson_day1.webp",
+   "link": "learn/day-1/",
+   "cta": "افتح الدرس"
+  },
+  {
+   "n": 2,
+   "kicker": "بدون كود · يوم ٢",
+   "title": "الحلقة الجاية… قريبًا",
+   "desc": "تابعني على إنستغرام عشان توصلك أول ما تنزل.",
+   "cover": null,
+   "link": null,
+   "soon": true
+  }
+ ]
+}

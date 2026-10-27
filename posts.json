@@ -1,6 +1,70 @@
 {
- "_doc": "Home page content. Newest first (date, then n, then list order). Add entries with tools/add_post.py. Fields: type=reel|game|tool, title, desc, cover (image path or null), link, date (YYYY-MM-DD), n (الشحنة number or null), optional icon (SVG inner markup, used when there is no cover), badge, best (localStorage key of the best score).",
+ "_doc": "Home page content. Newest first (date, then n, then list order). Add entries with tools/add_post.py. Fields: type=reel|game|tool, title, desc, cover (image path or null), link, date (YYYY-MM-DD), n (الشحنة number or null), optional icon (SVG inner markup, used when there is no cover), badge, best (localStorage key of the best score). hidden: true = archived on Instagram, kept for history but not shown.",
  "posts": [
+  {
+   "type": "reel",
+   "title": "تفتكر إن الموقع ده عمله مصمم محترف؟",
+   "cover": "img/r_DfAOUV7A28A.webp",
+   "link": "https://www.instagram.com/reel/DfAOUV7A28A/",
+   "date": "2026-10-27",
+   "n": 1
+  },
+  {
+   "type": "reel",
+   "title": "وعدتكم… وهذي اللعبة",
+   "cover": "img/r_De9gw80gpB-.webp",
+   "link": "https://www.instagram.com/reel/De9gw80gpB-/",
+   "date": "2026-10-26",
+   "n": 2
+  },
+  {
+   "type": "reel",
+   "title": "ما فتحت ولا برنامج مونتاج",
+   "cover": "img/r_De8Lk5yKkFc.webp",
+   "link": "https://www.instagram.com/reel/De8Lk5yKkFc/",
+   "date": "2026-10-26",
+   "n": 1
+  },
+  {
+   "type": "reel",
+   "title": "زعيم الأتون في ١٠ ثواني",
+   "cover": "img/r_De5ASiggXgO.webp",
+   "link": "https://www.instagram.com/reel/De5ASiggXgO/",
+   "date": "2026-10-24",
+   "n": 3
+  },
+  {
+   "type": "reel",
+   "title": "هذا مو أنا",
+   "cover": "img/r_De2VhFwAtlu.webp",
+   "link": "https://www.instagram.com/reel/De2VhFwAtlu/",
+   "date": "2026-10-23",
+   "n": 3
+  },
+  {
+   "type": "reel",
+   "title": "ChatGPT ما يقرأ كلامك",
+   "cover": "img/r_De1D_6AgVGD.webp",
+   "link": "https://www.instagram.com/reel/De1D_6AgVGD/",
+   "date": "2026-10-23",
+   "n": 2
+  },
+  {
+   "type": "reel",
+   "title": "الأرض بالحروف",
+   "cover": "img/r_DezoptZqoAy.webp",
+   "link": "https://www.instagram.com/reel/DezoptZqoAy/",
+   "date": "2026-10-22",
+   "n": 2
+  },
+  {
+   "type": "reel",
+   "title": "سويت لعبة كاملة",
+   "cover": "img/r_Dexb_0vzOnz.webp",
+   "link": "https://www.instagram.com/reel/Dexb_0vzOnz/",
+   "date": "2026-10-22",
+   "n": 1
+  },
   {
    "type": "game",
    "title": "بحيرة الضفادع: ضفدع واحد يخرب الأغنية",
@@ -17,7 +81,8 @@
    "cover": "img/De4oc-5gNSx.jpg",
    "link": "https://www.instagram.com/reel/De4oc-5gNSx/",
    "date": "2026-10-24",
-   "n": null
+   "n": null,
+   "hidden": true
   },
   {
    "type": "reel",
@@ -25,7 +90,8 @@
    "cover": "img/De4OgRjAWiC.jpg",
    "link": "https://www.instagram.com/reel/De4OgRjAWiC/",
    "date": "2026-10-24",
-   "n": null
+   "n": null,
+   "hidden": true
   },
   {
    "type": "reel",
@@ -33,15 +99,8 @@
    "cover": "img/De2fsjOgxoZ.jpg",
    "link": "https://www.instagram.com/reel/De2fsjOgxoZ/",
    "date": "2026-10-24",
-   "n": null
-  },
-  {
-   "type": "reel",
-   "title": "الشخصية اللي تتكلم بصوتي",
-   "cover": "img/De2VhFwAtlu.jpg",
-   "link": "https://www.instagram.com/reel/De2VhFwAtlu/",
-   "date": "2026-10-23",
-   "n": null
+   "n": null,
+   "hidden": true
   },
   {
    "type": "reel",
@@ -49,7 +108,8 @@
    "cover": "img/De2NXexzGPO.jpg",
    "link": "https://www.instagram.com/reel/De2NXexzGPO/",
    "date": "2026-10-23",
-   "n": null
+   "n": null,
+   "hidden": true
   },
   {
    "type": "reel",
@@ -57,7 +117,8 @@
    "cover": "img/De2BKgqzw9f.jpg",
    "link": "https://www.instagram.com/reel/De2BKgqzw9f/",
    "date": "2026-10-23",
-   "n": null
+   "n": null,
+   "hidden": true
   },
   {
    "type": "reel",
@@ -65,7 +126,8 @@
    "cover": "img/De19w6pzUqn.jpg",
    "link": "https://www.instagram.com/reel/De19w6pzUqn/",
    "date": "2026-10-23",
-   "n": null
+   "n": null,
+   "hidden": true
   },
   {
    "type": "reel",
@@ -73,7 +135,8 @@
    "cover": "img/De18GBAT5b1.jpg",
    "link": "https://www.instagram.com/reel/De18GBAT5b1/",
    "date": "2026-10-23",
-   "n": null
+   "n": null,
+   "hidden": true
   },
   {
    "type": "reel",
@@ -81,7 +144,8 @@
    "cover": "img/De1pdgxTM5D.jpg",
    "link": "https://www.instagram.com/reel/De1pdgxTM5D/",
    "date": "2026-10-23",
-   "n": null
+   "n": null,
+   "hidden": true
   },
   {
    "type": "tool",
