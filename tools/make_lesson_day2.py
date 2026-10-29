@@ -3,7 +3,7 @@ Re-run after editing the texts below, then python tools/bump_version.py."""
 import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REEL = "https://www.instagram.com/reel/DfEjiAxkdTc/"
+REEL = "https://www.instagram.com/anas.ai.ar/"  # N1 reel removed by the owner (10-29)
 PROMPT = "اشرحها لشخص مبتدئ ما يعرف الموضوع، بأمثلة من الحياة اليومية، وركّز على (أهم ٣ أفكار)."
 
 
@@ -57,7 +57,7 @@ BODY = f"""<header class="bar glass"><a class="brand" href="../../"><img class="
 <span class="ep">الحلقة ٢ · بدون كود</span>
 <h1>أي ملف… <span>يصير بودكاست</span></h1>
 <p class="lead">ترفع ملف أو رابط، وبعد دقايق يطلع لك اثنين يشرحون الموضوع بالعربي كأنهم جالسين معك. مجاني، ومن Google.</p>
-<a class="go" href="{REEL}" target="_blank" rel="noopener">شوف الحلقة على إنستغرام</a>
+<a class="go" href="{REEL}" target="_blank" rel="noopener">شوف حسابي على إنستغرام</a>
 </div>
 <video class="vid" src="media/preview.mp4" poster="media/poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
 </div>
