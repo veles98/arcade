@@ -3,10 +3,26 @@
  "posts": [
   {
    "type": "reel",
-   "title": "تفتكر إن الموقع ده عمله مصمم محترف؟",
-   "cover": "img/r_DfAll7rAVDl.webp",
-   "link": "https://www.instagram.com/reel/DfAll7rAVDl/",
-   "date": "2026-10-27",
+   "title": "أي ملف يصير بودكاست",
+   "cover": "img/DfEjiAxkdTc.jpg",
+   "link": "https://www.instagram.com/reel/DfEjiAxkdTc/",
+   "date": "2026-10-29",
+   "n": 1
+  },
+  {
+   "type": "reel",
+   "title": "كمّل الجملة… مثل ChatGPT",
+   "cover": "img/DfDDpO3gvgS.jpg",
+   "link": "https://www.instagram.com/reel/DfDDpO3gvgS/",
+   "date": "2026-10-28",
+   "n": 2
+  },
+  {
+   "type": "reel",
+   "title": "الصوت اللي سمعته… ذكاء اصطناعي",
+   "cover": "img/DfBBAs_GlBl.jpg",
+   "link": "https://www.instagram.com/reel/DfBBAs_GlBl/",
+   "date": "2026-10-28",
    "n": 1
   },
   {

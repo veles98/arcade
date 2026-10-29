@@ -4,7 +4,7 @@ import os
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CAPTION = r"C:/Users/anasg/CreatorStudio/reels/EP01_redo/caption.txt"
-REEL = "https://www.instagram.com/reel/DfAOUV7A28A/"
+REEL = "https://www.instagram.com/anas.ai.ar/"  # Day 1 reel removed from Instagram (10-29)
 FIX = ("لما أفتح الموقع من الجوال وأكبّر الخط لأكبر حجم، أجزاء من الصفحة تطلع برا الشاشة، ولوحة «خصّص» ما تتبع حجم الخط. "
        "صلّحه، وجرّبه على مقاس جوال بخط كبير قبل ما ترسله لي.")
 
@@ -60,7 +60,7 @@ BODY = f"""<header class="bar glass"><a class="brand" href="../../"><img class="
 <span class="ep">الحلقة ١ · بدون كود</span>
 <h1>موقع كامل… <span>من غير ولا سطر كود</span></h1>
 <p class="lead">كلّمت الذكاء الاصطناعي بكلامي العادي، وطلع لي موقع شخصي يختار فيه الزائر الشكل اللي يعجبه. هنا الطريقة كاملة، والبرومبت جاهز تنسخه.</p>
-<a class="go" href="{REEL}" target="_blank" rel="noopener">شوف الحلقة على إنستغرام</a>
+<a class="go" href="{REEL}" target="_blank" rel="noopener">شوف حسابي على إنستغرام</a>
 </div>
 <video class="vid" src="media/preview.mp4" poster="media/poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
 </div>
