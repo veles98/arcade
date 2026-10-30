@@ -36,7 +36,7 @@ body.locked{overflow:hidden}
 <div class="kicker">anas.ai.ar / prompts</div>
 <h1>برومبتات <span>أنس</span></h1><p class="lead">كل البرومبتات والأكواد اللي في ريلاتي، جاهزة للنسخ. اضغط «نسخ» والصقها في Claude.</p>
 <a class="followcta glass" href="https://www.instagram.com/anas.ai.ar/"><img src="../img/avatar.jpg" alt="" width="44" height="44"><span><b>كل أسبوع برومبت جديد</b><small>تابع ‎@anas.ai.ar عشان يوصلك أول واحد</small></span><em>تابع</em></a>
-<nav class="chips"><a class="pill" href="#pixel">مونتاج البكسل</a><a class="pill" href="#ask">اسألني قبل</a><a class="pill" href="#project">تعليمات المشروع</a><a class="pill" href="#tool">أداة تشتغل</a><a class="pill" href="#hooks">٣٠ هوك</a><a class="pill" href="#game">برومبت اللعبة</a><a class="pill" href="#char">الشخصية المتحركة</a><a class="pill" href="#city">المدينة بالحروف</a><a class="pill" href="#site">موقع لحسابك</a><a class="pill" href="#themes">ثيمات الموقع</a><a class="pill" href="#fx">تأثيرات الفيديو</a><a class="pill" href="#hitstop">كود Hit-stop</a><a class="pill" href="#vision">العدو يشوفك</a><a class="pill" href="#skills">السكيلز</a><a class="pill" href="#tools">الأدوات</a></nav>
+<nav class="chips"><a class="pill" href="#sky">سما نوفمبر</a><a class="pill" href="#reels">ريلز بصوتك</a><a class="pill" href="#pixel">مونتاج البكسل</a><a class="pill" href="#ask">اسألني قبل</a><a class="pill" href="#project">تعليمات المشروع</a><a class="pill" href="#tool">أداة تشتغل</a><a class="pill" href="#hooks">٣٠ هوك</a><a class="pill" href="#game">برومبت اللعبة</a><a class="pill" href="#char">الشخصية المتحركة</a><a class="pill" href="#city">المدينة بالحروف</a><a class="pill" href="#site">موقع لحسابك</a><a class="pill" href="#themes">ثيمات الموقع</a><a class="pill" href="#fx">تأثيرات الفيديو</a><a class="pill" href="#hitstop">كود Hit-stop</a><a class="pill" href="#vision">العدو يشوفك</a><a class="pill" href="#skills">السكيلز</a><a class="pill" href="#tools">الأدوات</a></nav>
 <div class="label">برومبتات</div>
 <section id="pixel" class="card glass"><h2>برومبت مونتاج البكسل</h2><p class="s">الصقه في Gemini، وغيّر المشهد بين القوسين كل مرة. نفس الستايل والألوان يطلع في كل صورة. حط لكل جملة في كلامك صورة، ورتّبها في CapCut.</p>
 <div class="box"><div class="tools"><button class="cp" data-t="pixel">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-pixel" >Create an image: vertical 9:16 retro pixel-art collage illustration, dark olive green background with soft spotlight vignette and film grain, [وصف المشهد بالإنجليزي، مثال: a beige 1990s computer monitor showing three red error windows], chunky pixel-art style, limited palette olive green, red, cream, black, no text.
@@ -92,6 +92,18 @@ isolated on a flat pure green #00FF00 background, no shadow, no vignette, no gra
 خلّونا نتفق على كلمة سر للعيلة، نقولها بيننا بس وما ننشرها في أي مكان.
 أي مكالمة طارئة فيها استعجال، أو طلب سرّية، أو تحويل فلوس: اسألوا عن كلمة السر قبل أي شي.
 وإذا شكّيتوا، سكّروا واتصلوا بنفسكم على رقمه المعروف عندكم.</pre></div></section>
+<section id="sky" class="card glass"><h2>فيديو سما نوفمبر المرسوم بالكود</h2><p class="s">الفيديو كله مرسوم بالكود، بدون أي صورة أو مقطع جاهز. الخطوات:</p>
+<ol class="s"><li>نزّل Claude Code وافتحه داخل مجلد فاضي.</li><li>الصق البرومبت اللي تحت، وخلّه يثبّت Python و FFmpeg لو ناقصين.</li><li>بيطلّع لك ٦ صور تجربة أول. عدّل عليها بكلامك (مثلا: القمر أكبر، الشهب أسرع، لون أدفى).</li><li>لما تعجبك الصور، قل له: «طلّع الفيديو النهائي»، ويعطيك final.mp4 جاهز للنشر.</li></ol>
+<div class="box"><div class="tools"><button class="cp" data-t="sky">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-sky" dir="ltr" style="text-align:left">Write one Python script sky.py (numpy, OpenCV, Pillow, then FFmpeg) that renders a 24-second vertical video, 1080x1920 at 30fps, drawn entirely by code, with no images or footage.
+- A dark terminal window frame, with the command line at the top.
+- Scene 1 (0-8s): Mars and Jupiter moving close over a desert horizon, about 1 degree apart, with simple planet textures.
+- Scene 2 (8-15s): Leonid meteors streaking out of the radiant in the Leo constellation, as a time-lapse with glowing trails.
+- Scene 3 (15-24s): a giant full moon rising behind a black city skyline, with light through clouds.
+- A twinkling starfield, soft bloom glow, and smooth zoom-through transitions between scenes.
+- An Arabic title for each scene in a gold pill, connected and right-to-left.
+- Soft ambient music, with a light whoosh on each transition.
+Install anything missing and tell me each command before running it.
+Render 6 test frames first, show them to me, fix the issues, then export final.mp4.</pre></div></section>
 <section id="reels" class="card glass"><h2>ريلز بالذكاء بالأربع أدوات (ملف الشرح)</h2><p class="s">تحتاج Claude Code بس، والباقي يثبّته بنفسه مجانًا. افتحه في مجلد فاضي، وحط فيه تسجيل صوتك voice.m4a، والصق الأمر هذا وغيّر اللي بين القوسين.</p>
 <div class="box"><div class="tools"><button class="cp" data-t="reels">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-reels" >أبي ريل طولي 1080×1920 بـ30 إطار من تسجيل صوتي voice.m4a، بدون أي برنامج مونتاج.
 ١) ثبّت اللي ناقص: FFmpeg و Whisper (faster-whisper) و HyperFrames (npx hyperframes). قل لي كل أمر قبل ما تشغله.
