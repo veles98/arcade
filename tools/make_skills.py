@@ -86,6 +86,18 @@ FIXED = [
       prompt="أنت كاتب هوكات للريلز. لما أعطيك فكرة فيديو، اكتب 10 هوكات من 3 إلى 8 كلمات، فيها رقم أو صراع أو مفاجأة، تلمّح للنتيجة بدون ما تكشفها، ومفهومة بدون صوت. بعدها اختار أقوى 3 وقل ليش، واقترح للأقوى وش يطلع على الشاشة في أول ثانية."),
 ]
 
+# Hand-written skills kept as folders in skills_src/<slug>/ (SKILL.md plus any scripts). Zipped as they are.
+SRC = {
+ "edit-studio": dict(cat="content", env="code", word=None, title="استوديو المونتاج",
+   what="يعطي Claude Code عيون وأذون ويدين: يقص الوقفات، ويضبط الصوت، ويحط ترجمة كلمة كلمة وكلمات مضيئة."),
+ "pdf-saver": dict(cat="daily", env="claude", word=None, title="PDF بدون ما تخلص رسائلك",
+   what="يقرا ملف PDF بالكود ويجاوبك من الصفحات المهمة بس، بدل ما يقرا الملف كله."),
+ "caption-writer": dict(cat="content", env="claude", word=None, title="الكابشن بلهجتك",
+   what="تعطيه فكرة الريل، ويطلع لك كابشن بلهجتك وسؤال وهاشتاقات."),
+ "customer-reply": dict(cat="daily", env="claude", word=None, title="رد على العميل",
+   what="تلصق رسالة عميل، ويطلع لك رد محترم بلهجته، جاهز ترسله."),
+}
+
 TITLE_FIX = {  # cleaner card titles than the prompt-page headings
  "pixelanim": "فيديو حيوانات البكسل", "hooks": "30 هوك بالعربي", "reels": "صوتك يصير ريل",
  "montage": "كلمات على الإيقاع", "fx": "كِت موشن جرافيكس", "sky": "فيديو مرسوم بالكود",
@@ -131,6 +143,16 @@ def skill_md(m, title, lead, full):
 
 def main():
     entries = list(FIXED)
+    for slug, m in SRC.items():
+        folder = ROOT / "skills_src" / slug
+        buf = io.BytesIO()
+        with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+            for f in sorted(folder.rglob("*")):
+                if f.is_file() and "__pycache__" not in f.parts:
+                    z.writestr(f"{slug}/{f.relative_to(folder).as_posix()}", f.read_bytes())
+        (ROOT / "dl" / f"{slug}.zip").write_bytes(buf.getvalue())
+        entries.append(dict(id=slug, slug=slug, file=f"../dl/{slug}.zip", prompt="" if m["env"] == "code" else
+                            re.sub(r"^---.*?---\s*", "", (folder / "SKILL.md").read_text(encoding="utf-8"), flags=re.S), **m))
     for sid, title, lead, blocks, full in sections():
         m = META.get(sid)
         if not m:
