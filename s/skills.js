@@ -15,7 +15,7 @@ var SKILLS=[
  {
   "id": "pixel-animals",
   "slug": "pixel-animals",
-  "word": "ناني",
+  "word": null,
   "cat": "content",
   "env": "claude",
   "title": "فيديو حيوانات البكسل",

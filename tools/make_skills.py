@@ -19,7 +19,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # id in p/index.html -> skill metadata.
 # cat: content | build | daily | gamedev.  env: "claude" (claude.ai is enough) or "code" (needs Claude Code).
 META = {
- "pixelanim": dict(slug="pixel-animals", word="ناني", cat="content", env="claude",
+ "pixelanim": dict(slug="pixel-animals", word=None, cat="content", env="claude",
    what="يكتب لك برومبتات حيوانات بكسل بنفس الستايل، وخطوات تحريكها في CapCut.",
    desc="Writes matching pixel-art sprite prompts for a list of animals (or any characters), a 9:16 pixel background prompt, and CapCut steps to animate them into a short video. Use when the user wants a pixel-art animals or characters video."),
  "pixel": dict(slug="pixel-montage", word="بكسل", cat="content", env="claude",
