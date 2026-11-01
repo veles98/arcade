@@ -90,8 +90,6 @@ FIXED = [
 SRC = {
  "edit-studio": dict(cat="content", env="code", word=None, title="استوديو المونتاج",
    what="يعطي Claude Code عيون وأذون ويدين: يقص الوقفات، ويضبط الصوت، ويحط ترجمة كلمة كلمة وكلمات مضيئة."),
- "pdf-saver": dict(cat="daily", env="claude", word=None, title="PDF بدون ما تخلص رسائلك",
-   what="يقرا ملف PDF بالكود ويجاوبك من الصفحات المهمة بس، بدل ما يقرا الملف كله."),
  "caption-writer": dict(cat="content", env="claude", word=None, title="الكابشن بلهجتك",
    what="تعطيه فكرة الريل، ويطلع لك كابشن بلهجتك وسؤال وهاشتاقات."),
  "customer-reply": dict(cat="daily", env="claude", word=None, title="رد على العميل",

@@ -54,7 +54,7 @@ ol li a{color:var(--gold-text);font-weight:600}
 <ol>
 <li><span>حمّل ملف السكيل (zip) من زر «حمّل السكيل».</span></li>
 <li><span>في Claude: Settings ← Capabilities، وشغّل <b>Code execution and file creation</b>.</span></li>
-<li><span>افتح <a href="https://claude.ai/customize/skills">claude.ai/customize/skills</a>، اضغط <b>+</b> ثم <b>Upload a skill</b>، وارفع الملف. خلاص.</span></li>
+<li><span>افتح <a href="https://claude.ai/customize/skills">claude.ai/customize/skills</a>، اضغط <b>Add</b> ثم <b>Upload skill</b>، وارفع الملف. خلاص، يشتغل لحاله لما تطلب شي يناسبه.</span></li>
 </ol>
 <p class="note">يشتغل حتى بالحساب المجاني. السكيلات اللي عليها «Claude Code»: فك الضغط داخل <code>~/.claude/skills/</code>. تستخدم ChatGPT أو Gemini؟ اضغط «نسخ لـ ChatGPT» والصقه في أول المحادثة.</p>
 </details>
@@ -72,7 +72,7 @@ ol li a{color:var(--gold-text);font-weight:600}
 <script src="/arcade/s/skills.js"></script>
 <script>
 var CAT={all:'الكل',content:'محتوى وفيديو',build:'مواقع وأدوات',daily:'شغلك اليومي',gamedev:'برمجة ألعاب'};
-var NEW=['edit-studio','pdf-saver','caption-writer','customer-reply'];
+var NEW=['edit-studio','caption-writer','customer-reply'];
 var cur='all',G=document.getElementById('grid'),Q=document.getElementById('q'),TB=document.getElementById('tabs');
 var hash=decodeURIComponent(location.hash.slice(1));
 Object.keys(CAT).forEach(function(k){var n=k=='all'?SKILLS.length:SKILLS.filter(function(s){return s.cat==k}).length;if(!n)return;var b=document.createElement('button');b.innerHTML=CAT[k]+'<b>'+n+'</b>';b.setAttribute('aria-pressed',k==cur);b.onclick=function(){cur=k;[].forEach.call(TB.children,function(x){x.setAttribute('aria-pressed',x==b)});draw()};TB.appendChild(b)});
