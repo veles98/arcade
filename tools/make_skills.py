@@ -92,6 +92,8 @@ SRC = {
    what="يعطي Claude Code عيون وأذون ويدين: يقص الوقفات، ويضبط الصوت، ويحط ترجمة كلمة كلمة وكلمات مضيئة."),
  "caption-writer": dict(cat="content", env="claude", word=None, title="الكابشن بلهجتك",
    what="تعطيه فكرة الريل، ويطلع لك كابشن بلهجتك وسؤال وهاشتاقات."),
+ "frontend-design": dict(cat="build", env="claude", word="تصميم", title="تصميم مو شكله ذكاء اصطناعي",
+   what="سكيل Anthropic الرسمي: يخلي المواقع اللي يسويها الذكاء الاصطناعي لها شخصية، بدل الخلفية الكريمي والكلمة الملونة اللي في كل موقع."),
  "customer-reply": dict(cat="daily", env="claude", word=None, title="رد على العميل",
    what="تلصق رسالة عميل، ويطلع لك رد محترم بلهجته، جاهز ترسله."),
 }

@@ -1,0 +1,4 @@
+This skill is Anthropic's frontend-design skill, unchanged.
+Source: https://github.com/anthropics/skills/tree/main/skills/frontend-design
+License: Apache License 2.0 (LICENSE.txt in this folder).
+Shared by @anas.ai.ar at veles98.github.io/arcade
