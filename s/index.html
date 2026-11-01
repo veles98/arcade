@@ -72,7 +72,7 @@ ol li a{color:var(--gold-text);font-weight:600}
 <script src="/arcade/s/skills.js"></script>
 <script>
 var CAT={all:'الكل',content:'محتوى وفيديو',build:'مواقع وأدوات',daily:'شغلك اليومي',gamedev:'برمجة ألعاب'};
-var NEW=['frontend-design','edit-studio','caption-writer'];
+var NEW=['map-route','exploded-view','follower-graph','chat-story','minimal-story'];
 var cur='all',G=document.getElementById('grid'),Q=document.getElementById('q'),TB=document.getElementById('tabs');
 var hash=decodeURIComponent(location.hash.slice(1));
 Object.keys(CAT).forEach(function(k){var n=k=='all'?SKILLS.length:SKILLS.filter(function(s){return s.cat==k}).length;if(!n)return;var b=document.createElement('button');b.innerHTML=CAT[k]+'<b>'+n+'</b>';b.setAttribute('aria-pressed',k==cur);b.onclick=function(){cur=k;[].forEach.call(TB.children,function(x){x.setAttribute('aria-pressed',x==b)});draw()};TB.appendChild(b)});
