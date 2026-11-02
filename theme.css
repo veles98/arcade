@@ -292,3 +292,33 @@ h1 span{color:var(--mark-fg);background:linear-gradient(transparent var(--mark-a
 @view-transition{navigation:auto}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
 @media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}
+
+/* ===== Shared site identity (2026-11-03): night = the library's dark + lime look on every page ===== */
+:root[data-theme="night"]:not([data-custom]){
+  --bg:#0b0e0c;--bg-img:none;--fg:#edf1e9;--mute:#adb5a8;
+  --gold:#d5ff63;--gold-2:#adc94d;--gold-ink:#17200d;--gold-text:#d5ff63;--gold-glow:rgba(213,255,99,.2);
+  --glass:rgba(22,28,22,.86);--glass-2:rgba(213,255,99,.045);--glass-edge:rgba(218,237,205,.14);
+  --edge:rgba(218,237,205,.16);--edge-hi:rgba(218,237,205,.1);--code-bg:rgba(255,255,255,.035);
+  --glow-a:rgba(213,255,99,.12);--glow-b:rgba(173,201,77,.08);--mark-fg:#d5ff63;--focus:#d5ff63;
+  --ring-a:conic-gradient(from 200deg,#d5ff63,#6f8a2a,#efffc4,#d5ff63);--ring-b:linear-gradient(135deg,#d5ff63,#5d7420);
+  --stage:#070908;--stage-rgb:7,9,8
+}
+.site-bar{flex-wrap:wrap;row-gap:8px}
+.site-bar .brand svg{width:30px;height:30px;color:var(--gold-text);flex:0 0 auto}
+.site-nav{display:flex;gap:4px;order:5;flex:1 1 100%!important;justify-content:space-between;border-top:1px solid var(--edge);padding-top:8px}
+.site-nav a{flex:1;text-align:center;padding:8px 6px;border-radius:calc(10px*var(--rad,1));color:var(--mute);text-decoration:none;font-weight:600;font-size:14px;transition:color .2s,background-color .2s}
+.site-nav a:hover{color:var(--fg);background:var(--glass-2)}
+.site-nav a[aria-current]{color:var(--gold-text);background:var(--glass-2)}
+.pill.follow{background:var(--gold);color:var(--gold-ink);border-color:transparent}
+@media(min-width:760px){.site-bar{flex-wrap:nowrap}.site-nav{order:0;flex:0 1 auto!important;border:0;padding:0}}
+.site-foot{margin:56px 0 0;padding:28px 4px calc(18px + env(safe-area-inset-bottom));border-top:1px solid var(--edge);color:var(--mute);font-size:14px}
+.site-foot .fi{margin:0 0 18px;color:var(--fg);font-family:Alexandria,sans-serif;font-weight:800;font-size:22px;line-height:1.5}
+.site-foot .fi a{color:var(--gold-text)}
+.site-foot nav{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}
+.site-foot nav a{display:flex;justify-content:space-between;min-height:48px;align-items:center;border-bottom:1px solid var(--edge);color:var(--fg);text-decoration:none}
+.site-foot nav a::after{content:"\2196";color:var(--gold-text)}
+.site-foot .fb{display:flex;justify-content:space-between;gap:12px;padding-top:16px;font-size:12px}
+/* cards: one calm hover feel everywhere */
+.card,.tile,.post,.feat{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+@media(hover:hover){a.card:hover,a.tile:hover,a.post:hover,a.feat:hover,section.card:hover{border-color:var(--gold-text)}a.card:hover,a.tile:hover,a.feat:hover{transform:translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){.card,.tile,.post,.feat,.site-nav a{transition:none}a.card:hover,a.tile:hover,a.feat:hover{transform:none}}
