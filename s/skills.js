@@ -313,41 +313,5 @@ var SKILLS=[
   "file": "../dl/chat-tool.zip",
   "prompt": "سوّ لي [حاسبة ميزانية للشهر] كصفحة تفاعلية تشتغل داخل المحادثة.\n- خانات أكتب فيها: [الراتب، الإيجار، الأكل، البنزين، أخرى].\n- تحسب لي اللي يبقى، وتلوّن الرقم أحمر لو بالسالب.\n- بالعربي ومن اليمين لليسار، وخط واضح على الجوال.\n- زر يرجّع كل الخانات للصفر.\nبعدها اسألني وش أبي أعدّل.",
   "src": "tool"
- },
- {
-  "id": "hooks-bank",
-  "slug": "hooks-bank",
-  "word": null,
-  "cat": "content",
-  "env": "claude",
-  "title": "30 هوك بالعربي",
-  "what": "30 قالب هوك بالعربي، يختار لك الأنسب لموضوعك.",
-  "file": "../dl/hooks-bank.zip",
-  "prompt": "1) ابدأ بالنتيجة: ورّ النتيجة في أول ثانية، والقصة بعدين.\nمثال: «هذا الموقع… سويته في ٣٠ دقيقة بدون كود.» والموقع شغّال على الشاشة.\n\n2) كلّم المشاهد عن نفسه: الجملة الأولى فيها «أنت»، مو «أنا».\nمثال: «تبي موقع زي هذا لحسابك؟»\n\n3) اقطع قبل اللحظة: ابدأ قبل الحدث بثانية، وخلّه ينتظر وش بيصير.\nمثال: تبدأ والكوب على حافة الطاولة… وتقطع.\n\n4) الغلط اللي يسويه الكل: سمّ غلطة شائعة، والمشاهد يشيّك هل هو يسويها.\nمثال: «أغلب الناس يكتبون البرومبت كذا… وهذا ليش يطلع لهم كلام عام.»\n\n5) لا تسوي كذا: نهي مباشر يوقف التمرير.\nمثال: «لا تنشر ريلك قبل ما تشوف هالثلاث أشياء.»\n\n6) الرقم الغريب: رقم دقيق يبان حقيقي، مو مدوّر.\nمثال: «ريل واحد جاب ٤٤٥٦ مشاهدة… والثاني ٨٢. الفرق جملة وحدة.»\n\n7) قبل وبعد: الفرق قدامه بدون شرح.\nمثال: الشاشة نصين: النسخة الأولى والنسخة بعد التعديل.\n\n8) السؤال اللي يحرّك الفضول: سؤال يخلّيه يفكر بجوابه قبل ما يمشي.\nمثال: «تعرف ليش ريلك يوقف عند ٢٠٠ مشاهدة؟»\n\n9) الوعد المحدد: وعد بنتيجة ووقت.\nمثال: «في ٢٠ ثانية تعرف تسوي غلاف يخلّي الناس تضغط.»\n\n10) السر اللي محد يقوله: معلومة يحس إنها مخفية.\nمثال: «محد يتكلم عن هالخاصية في Claude… وهي أهم وحدة.»\n\n11) التحدي: تحدّاه يجرب أو يخمّن.\nمثال: «خمّن: هذا الصوت حقيقي ولا ذكاء اصطناعي؟»\n\n12) أنت بالضبط: سمّ شخص محدد يشوف نفسه فيه.\nمثال: «إذا أنت فريلانسر وعميلك يقول: أبي تطبيق زي طلبات… شوف هذا.»\n\n13) الخبر الطازج: شي صار اليوم أو هالأسبوع.\nمثال: «نزلت أداة تسوي لك مؤثرات صوت من الفيديو نفسه.»\n\n14) الاعتراف: غلطة سويتها أنت وتعلمت منها.\nمثال: «نزلت ريل… وتخطّاه ٦٨٪ من الناس. هذا اللي غلطت فيه.»\n\n15) المجاني بدل الغالي: بديل مجاني لشي يدفعون عليه.\nمثال: «بدال ما تدفع على أفتر إفكتس… هذا يسويها مجانًا.»\n\n16) المقارنة: شي ضد شي، والنتيجة آخر الريل.\nمثال: «نفس البرومبت في ChatGPT وClaude… وهذا الفرق.»\n\n17) الوقت المحروق: كم وقت يضيع بدون هالطريقة.\nمثال: «كنت أضيع ساعتين على كل ريل… الحين ١٠ دقايق.»\n\n18) القائمة القصيرة: رقم صغير وواضح.\nمثال: «٣ أوامر في Claude تغنيك عن برنامج مونتاج.»\n\n19) الصدمة البصرية: لقطة غريبة أول ثانية بدون كلام.\nمثال: مدينة كاملة تطلع حرف حرف على الشاشة.\n\n20) كمّل للآخر: وعد بشي في النهاية.\nمثال: «آخر خطوة هي اللي تفرق… لا تطلع قبلها.»\n\n21) المشكلة اليومية: موقف يعرفه الكل.\nمثال: «الجوال يقول التخزين ممتلئ وما تدري وش اللي ماليه؟»\n\n22) الخرافة: معلومة الناس مصدقتها وهي غلط.\nمثال: «تحسب إن عدد متابعينك هو اللي يحدد وصولك؟ لا.»\n\n23) خلّني أوريك: ابدأ الشغل فورًا بدون مقدمة.\nمثال: «خلّني أوريك كيف تسوي هذا في دقيقة.»\n\n24) لو قلت لك: افتراض صعب بنتيجة حقيقية.\nمثال: «لو قلت لك تقدر تسوي موشن جرافيك بدون أفتر إفكتس؟»\n\n25) الشخص الثاني: وش صار لما جرّبها أحد ثاني.\nمثال: «أرسلت هذا البرومبت لأخوي… وشوف وش سوى.»\n\n26) التحذير: شي ممكن يضره لو ما عرفه.\nمثال: «لا ترفع ملفاتك على هالمواقع قبل ما تعرف هذا.»\n\n27) النتيجة اللي ما تتوقعها: طلب عادي ونتيجة غريبة.\nمثال: «طلبت من الذكاء الاصطناعي يرسم الرياض… فرسمها بالحروف.»\n\n28) جاوبني بالتعليقات: خلّه يجاوب من أول ثانية.\nمثال: «وش مدينتك؟ اكتبها وأسويها لك بالحروف.»\n\n29) الكلمة الوحدة: شي واحد بس يغيّر النتيجة.\nمثال: «غيّر كلمة وحدة في البرومبت… وشوف الفرق.»\n\n30) النهاية اللي ترجع للبداية: آخر جملة توصل بأول جملة، فالريل يعيد نفسه.\nمثال: تختم بنفس الجملة اللي بديت فيها.",
-  "src": "hooks"
- },
- {
-  "id": "unreal-hitstop",
-  "slug": "unreal-hitstop",
-  "word": null,
-  "cat": "gamedev",
-  "env": "code",
-  "title": "Hit-stop في Unreal",
-  "what": "يضيف Hit-stop للضربات في Unreal عشان تحسها.",
-  "file": "../dl/unreal-hitstop.zip",
-  "prompt": "هلا! هذا كود الـ Hit-stop كامل (Unreal Engine 5 - C++) 👇\n\n// ===== Hero.h (داخل class AHero) =====\nUPROPERTY() TObjectPtr<AActor> HitVictim;\nFTimerHandle H;\nvoid StartHitStop(AActor* Victim, float Seconds = 0.08f);\nvoid EndHitStop();\n\n// ===== Hero.cpp =====\nvoid AHero::StartHitStop(AActor* Victim, float Seconds)\n{\n    HitVictim = Victim;\n    CustomTimeDilation = 0.05f;                              // المهاجم (this) شبه واقف\n    if (HitVictim) HitVictim->CustomTimeDilation = 0.05f;    // والعدو بعد\n    // تايمر العالم ما يتأثر بـ CustomTimeDilation حق الأكتر، فـ 0.08 = 80ms فعلية\n    GetWorldTimerManager().SetTimer(H, this, &AHero::EndHitStop, Seconds, false);\n}\n\nvoid AHero::EndHitStop()\n{\n    CustomTimeDilation = 1.f;\n    if (HitVictim) HitVictim->CustomTimeDilation = 1.f;\n    HitVictim = nullptr;\n}\n\nطريقة الاستخدام:\n1) نادِ StartHitStop(TheEnemy) لحظة ما الضربة تصيب (من AnimNotify أو بعد ما تطبّق الضرر).\n2) الضربة الخفيفة 0.05–0.08، الثقيلة 0.12–0.15. لو تبي تجمّد العالم كله استخدم UGameplayStatics::SetGlobalTimeDilation، بس انتبه إن التايمر بعدها يمشي بالوقت المبطّأ.",
-  "src": "hitstop"
- },
- {
-  "id": "unreal-enemy-vision",
-  "slug": "unreal-enemy-vision",
-  "word": null,
-  "cat": "gamedev",
-  "env": "code",
-  "title": "العدو شافك؟ في Unreal",
-  "what": "يخلي العدو يشوفك بمخروط نظر وشعاع، في Unreal.",
-  "file": "../dl/unreal-enemy-vision.zip",
-  "prompt": "هلا! هذا كود \"العدو يشوفك؟\" كامل (Unreal Engine 5 - C++) 👇\n\n// ===== EnemyCharacter.h (داخل class AEnemyCharacter) =====\nUPROPERTY(EditAnywhere) float SightRange = 1500.f;     // أبعد مسافة يشوف لها (سم)\nUPROPERTY(EditAnywhere) float HalfAngleDeg = 35.f;     // نص زاوية المخروط\nbool CanSee(const AActor* Player) const;\n\n// ===== EnemyCharacter.cpp =====\nbool AEnemyCharacter::CanSee(const AActor* Player) const\n{\n    if (!Player) return false;\n\n    FVector Eye; FRotator EyeRot;\n    GetActorEyesViewPoint(Eye, EyeRot);                 // مكان العين واتجاهها\n    const FVector Forward   = EyeRot.Vector();\n    const FVector PlayerLoc = Player->GetActorLocation();\n    const FVector ToPlayer  = PlayerLoc - Eye;\n\n    // 0) بعيد؟\n    if (ToPlayer.SizeSquared() > FMath::Square(SightRange)) return false;\n\n    // 1) داخل المخروط؟\n    const float CosHalfAngle = FMath::Cos(FMath::DegreesToRadians(HalfAngleDeg));\n    const float Dot = FVector::DotProduct(Forward, ToPlayer.GetSafeNormal());\n    if (Dot < CosHalfAngle) return false;\n\n    // 2) فيه جدار بالنص؟\n    FCollisionQueryParams Params(SCENE_QUERY_STAT(EnemySight), false, this); // تجاهل العدو نفسه\n    FHitResult Hit;\n    GetWorld()->LineTraceSingleByChannel(Hit, Eye, PlayerLoc, ECC_Visibility, Params);\n    return !Hit.bBlockingHit || Hit.GetActor() == Player;\n}\n\nطريقة الاستخدام:\n1) نادِ CanSee(Player) كل 0.1–0.2 ثانية بتايمر (مو كل فريم) عشان الأداء.\n2) لو رجعت true: العدو ينتبه (علامة \"!\") ويبدأ يلاحق.\n3) حيلة: سوّ الـ Trace لراس اللاعب ولوسطه، لو واحد منهم واضح = شافه (ما يختفي اللاعب لو بس رجوله ورا صندوق).\n4) لو تبي الجاهز: UAIPerceptionComponent + UAISenseConfig_Sight يسوي نفس الشي داخليًا.",
-  "src": "vision"
  }
 ];

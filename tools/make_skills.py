@@ -110,6 +110,10 @@ SRC = {
    what="تلصق رسالة عميل، ويطلع لك رد محترم بلهجته، جاهز ترسله."),
 }
 
+# Prompt sections left out of the library (2026-11-03 review): hooks duplicates the hook-writer skill,
+# the two Unreal ones are game-dev niche for an audience that arrives from reels on phones.
+DROPPED = {"hooks", "hitstop", "vision"}
+
 TITLE_FIX = {  # cleaner card titles than the prompt-page headings
  "pixelanim": "فيديو حيوانات البكسل", "hooks": "30 هوك بالعربي", "reels": "صوتك يصير ريل",
  "montage": "كلمات على الإيقاع", "fx": "كِت موشن جرافيكس", "sky": "فيديو مرسوم بالكود",
@@ -167,7 +171,7 @@ def main():
                             re.sub(r"^---.*?---\s*", "", (folder / "SKILL.md").read_text(encoding="utf-8"), flags=re.S), **m))
     for sid, title, lead, blocks, full in sections():
         m = META.get(sid)
-        if not m:
+        if not m or sid in DROPPED:
             continue
         md = skill_md(m, TITLE_FIX.get(sid, title), lead, full)
         buf = io.BytesIO()
