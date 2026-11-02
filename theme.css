@@ -287,3 +287,8 @@ h1 span{color:var(--mark-fg);background:linear-gradient(transparent var(--mark-a
 /* zoom (--fs) never trips width media queries: compact the header and stats when the font is enlarged on a phone */
 @media (max-width:480px){html[data-fsb] .brand{font-size:0;gap:0}html[data-fsb] .tm-nm{display:none}html[data-fsb] .bar .pill{padding:0 10px}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}.tm-menu,.tc,.tc-card{animation:none}}
+
+/* Smooth cross-page fade between site pages (Chrome/Safari 18+; others just navigate). */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
+@media(prefers-reduced-motion:reduce){@view-transition{navigation:none}}
