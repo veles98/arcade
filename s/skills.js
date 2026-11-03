@@ -112,6 +112,17 @@ var SKILLS=[
   "what": "سكيل Anthropic الرسمي: مواقع لها شخصية بدل الشكل المكرر."
  },
  {
+  "id": "faceless-host",
+  "slug": "faceless-host",
+  "file": "../dl/faceless-host.zip",
+  "prompt": "# Faceless Host\n\nThe user makes content but does not want to show their face. Give them ONE presenter that looks like the same real person in every image, so followers recognise them like a real host.\n\n## Step 1: ask 4 short questions (all in one message, in the user's language)\n1. What is your content about, and who watches it?\n2. Look: age range, gender, style (realistic photo, 3D, or anime).\n3. Clothes: one outfit that becomes the signature (simple, one strong colour).\n4. Place: where does the host sit or stand (desk, studio, car, kitchen)?\nIf the user says \"you choose\", choose for them and say why in one line.\n\n## Step 2: the character card (save it, reuse it every time)\nWrite a short card the user keeps:\n- **Name** and one-line personality.\n- **Face**: face shape, eyes, eyebrows, hair (cut and colour), beard or none, skin tone, one distinctive detail (mole, glasses, eyebrow shape). Specific words, never \"handsome\" or \"normal\".\n- **Signature outfit**: exact garment and colour.\n- **Set**: the same room, light colour and 3 objects that appear in every image.\n- **Style line**: one sentence fixed for every prompt (e.g. \"photorealistic, 50mm lens, soft window light, shallow depth of field, vertical 9:16\").\n\n## Step 3: the master image prompt\nOne long English prompt that builds the first image from the card: the face first, then outfit, then set, then the style line. Front facing, chest-up, neutral friendly expression, plain background behind the head so the face is clear. Tell the user: generate it in ChatGPT (images) or Gemini, pick the best result, and SAVE it. That picture is the reference from now on.\n\n## Step 4: every new scene\nWhen the user asks for a scene (\"thinking at the laptop\", \"holding the phone\", \"shocked\"):\n- Write one prompt that starts with: \"Use the attached reference image. Keep exactly the same person: same face, same hair, same beard, same outfit. Do not change identity.\"\n- Then only what changes: pose, hands, expression, camera framing (wide, medium, close-up).\n- Repeat the set and the style line word for word.\n- Remind the user to attach the reference image with the prompt.\n- Give 3 scene ideas that fit their content, each with its prompt.\n\n## Rules\n- Never copy a real person, celebrity or a known character. The host is invented.\n- Same outfit, same room, same light in every prompt unless the user asks to change.\n- If a result drifts (different face), tell the user to regenerate with the reference attached again, and add the face line from the card.\n- Remind the user to label posts as AI generated where the platform asks for it.\n- Keep answers short; the user wants prompts they can copy.\n",
+  "cat": "content",
+  "env": "claude",
+  "word": "شخصية",
+  "title": "مقدّم بدون ما تطلع وجهك",
+  "what": "شخصية ثابتة تقدم محتواك بدالك، نفس الوجه في كل صورة."
+ },
+ {
   "id": "customer-reply",
   "slug": "customer-reply",
   "file": "../dl/customer-reply.zip",
