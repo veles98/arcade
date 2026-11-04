@@ -123,6 +123,17 @@ var SKILLS=[
   "what": "لعبة جوال كاملة: تفادى الشباشب، مراحل وكومبو ورقم قياسي."
  },
  {
+  "id": "akhiran-5-browser-task",
+  "slug": "akhiran-5-browser-task",
+  "file": "../dl/akhiran-5-browser-task.zip",
+  "prompt": "# Let the AI do the browser task\n\nThe user describes the task in a sentence. You write ONE short Python Playwright script that does it, records a video, and prints a log of every step. The user runs one command.\n\n## Step 1: ask once (only what is missing)\n1. The site address and the exact steps a person would do (open, search for what, click what).\n2. What counts as done: a downloaded file, a screenshot, copied text?\n3. Does it need a login? If yes: stop. Tell the user this skill only does public pages without passwords; they sign in themselves.\n\n## Step 2: setup (one time)\n```\npip install playwright\npython -m playwright install chromium\n```\nIf Google Chrome is already installed you can skip the browser download and launch it with `p.chromium.launch(channel=\"chrome\")`.\n\n## Step 3: write the script (rules)\n- Python, sync API, one file `task.py`, under 60 lines.\n- `browser.new_context(viewport={\"width\": 540, \"height\": 1170}, record_video_dir=\"video\", record_video_size={\"width\": 540, \"height\": 1170}, accept_downloads=True)`; the video is saved when the context closes.\n- Many sites have the same box twice (a normal one and a hidden \"sticky\" or mobile one). Always add `.first` to a locator you click or type into, and prefer the placeholder text the user sees: `page.get_by_placeholder(\"...\").first`.\n- Find elements by what a person sees: `get_by_placeholder`, `get_by_role(\"button\", name=...)`, `get_by_text`, or a clear CSS id. Never guess long CSS paths.\n- Type like a person: `page.keyboard.type(text, delay=120)`, and `page.wait_for_timeout(600)` between steps so the video is easy to follow.\n- Downloads: `with page.expect_download() as d: link.click()` then `d.value.save_as(\"downloads/\" + d.value.suggested_filename)`.\n- Screenshots: `page.screenshot(path=\"shots/step1.png\")`.\n- Print one log line per step with the time, for example `print(f\"{time:.1f}s clicked search\")`. Wrap the run in try/finally so the browser always closes.\n- End with what was produced (file name and size, or screenshot path).\n\n## Step 4: run and check\n`python task.py`, then open the newest file in `video/` and check every step happened. If a step failed, change only that step and run again. Ask the user what they see on the page at that moment (the placeholder or button text); that is usually the fix. Two or three rounds is normal for a new site.\n\n## Rules (always)\n- Public pages only. No passwords, no payment, no posting or sending messages, no account changes.\n- Respect the site: a few page loads, no loops that hammer it, no scraping behind logins, and follow the site's terms.\n- Never solve CAPTCHAs or bypass bot checks; if one appears, stop and tell the user.\n- Show the user the script before they run it, in one code block.\n",
+  "cat": "build",
+  "env": "claude",
+  "word": "متصفح",
+  "title": "الذكاء يسويها بالمتصفح",
+  "what": "تقول له المهمة، ويفتح الموقع ويضغط ويحمّل بنفسه."
+ },
+ {
   "id": "faceless-host",
   "slug": "faceless-host",
   "file": "../dl/faceless-host.zip",
