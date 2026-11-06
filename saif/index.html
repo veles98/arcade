@@ -339,6 +339,6 @@ window.__state = () => ({ state, score, lives, timeLeft, combo: maxCombo, cut, o
 if (CAP) window.__step = dt => { step(dt); draw(); return window.__state(); };
 else { let last = performance.now(); const loop = now => { step((now - last) / 1000); last = now; draw(); requestAnimationFrame(loop); }; requestAnimationFrame(loop); }
 </script>
-<div data-site="game"></div><script src="/arcade/nav.js?v=202611061419"></script>
+<div data-site="game"></div><script src="/arcade/nav.js?v=202611061448"></script>
 </body>
 </html>
