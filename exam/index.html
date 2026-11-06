@@ -9,7 +9,7 @@
 <meta property="og:description" content="ارفع المنهج، اختار الدروس، وخد امتحان أو ملخص أو ورقة طباعة بالإجابات.">
 <meta property="og:image" content="https://veles98.github.io/arcade/img/og_site.jpg">
 <!--theme-init--><script>/*theme-init*/(function(){var d=document,r=d.documentElement,K='anas_theme',KC='anas_theme_custom',L=[['night','ليل','#0b0e0c','#070908','7,9,8','linear-gradient(135deg,#0b0e0c 50%,#d5ff63 50%)'],['paper','ورق','#f3efe6','#0b0b0d','11,11,13','linear-gradient(135deg,#f3efe6 50%,#d9b766 50%)'],['inkgold','حبر وذهب','#0e0d0b','#0b0a08','11,10,8','linear-gradient(135deg,#1a1712 55%,#d9b766 55%)']],VK=['--bg','--bg-img','--fg','--mute','--gold','--gold-2','--gold-ink','--gold-text','--gold-glow','--glass','--glass-2','--glass-edge','--edge','--glow-a','--glow-b','--mark-bg','--mark-fg','--ring-a','--ring-b','--focus','--sheen'];function rgb(h){h=h.replace('#','');if(h.length==3)h=h.replace(/./g,'$&$&');return[0,2,4].map(function(i){return parseInt(h.substr(i,2),16)})}function hex(c){return'#'+c.map(function(v){v=Math.max(0,Math.min(255,Math.round(v)));return(v<16?'0':'')+v.toString(16)}).join('')}function lum(c){c=c.map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}function cr(a,b){var x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)}function mix(a,b,t){return a.map(function(v,i){return v+(b[i]-v)*t})}function rgba(c,a){return'rgba('+c.map(Math.round).join(',')+','+a+')'}function vars(C){var dk=C.base=='dark',bg=rgb(C.tone||(dk?'#0e0d0b':'#f3efe6')),ac=rgb(C.accent||'#d9b766'),fg=rgb(dk?'#f3efe6':'#141416'),t=0,tx=ac;while(cr(tx,bg)<4.6&&t<1){t+=.05;tx=mix(ac,fg,t)}var mu=mix(fg,bg,dk?.36:.4);t=.4;while(cr(mu,bg)<4.6&&t>0){t-=.04;mu=mix(fg,bg,t)}var ink=cr([17,17,17],ac)>=cr([255,255,255],ac)?'#111111':'#ffffff';return{'--bg':hex(bg),'--bg-img':'none','--fg':hex(fg),'--mute':hex(mu),'--gold':hex(ac),'--gold-2':hex(mix(ac,bg,.35)),'--gold-ink':ink,'--gold-text':hex(tx),'--gold-glow':rgba(ac,.32),'--glass':dk?'rgba(255,255,255,.05)':'rgba(255,255,255,.6)','--glass-2':rgba(ac,.07),'--glass-edge':dk?rgba(ac,.28):'rgba(0,0,0,.14)','--edge':dk?rgba(ac,.2):'rgba(0,0,0,.18)','--glow-a':rgba(ac,.22),'--glow-b':rgba(mix(ac,bg,.5),.18),'--mark-bg':'transparent','--mark-fg':hex(tx),'--ring-a':'conic-gradient(from 200deg,'+hex(ac)+','+hex(mix(ac,[0,0,0],.45))+','+hex(mix(ac,[255,255,255],.55))+','+hex(ac)+')','--ring-b':'linear-gradient(135deg,'+hex(ac)+','+hex(mix(ac,[0,0,0],.45))+')','--focus':hex(tx),'--sheen':rgba(ac,.1)}}function getC(){try{var c=JSON.parse(localStorage.getItem(KC)||'null');if(c&&typeof c=='object')return c}catch(e){}return null}function sz(C){var f=C&&+C.fs?+C.fs:1;r.style.setProperty('--fs',f);if(f>1)r.dataset.fsb='1';else delete r.dataset.fsb;r.style.setProperty('--rad',C&&C.rad!=null&&isFinite(+C.rad)?C.rad:1)}function find(i){for(var k=0;k<L.length;k++)if(L[k][0]===i)return L[k]}function apply(i,save,C){var t,m,v,k,cu=i==='custom';C=C||getC();if(cu&&!C)cu=false,i='paper';VK.forEach(function(k){r.style.removeProperty(k)});if(cu){t=find(C.base=='dark'?'inkgold':'paper');v=vars(C);for(k in v)r.style.setProperty(k,v[k]);r.dataset.custom='1'}else{t=find(i)||L[0];delete r.dataset.custom}r.dataset.theme=t[0];sz(C);r.style.setProperty('--stage',t[3]);r.style.setProperty('--stage-rgb',t[4]);m=d.querySelector('meta[name=theme-color]');if(!m){m=d.createElement('meta');m.name='theme-color';d.head.appendChild(m)}m.content=cu?v['--bg']:t[2];if(save){try{localStorage.setItem(K,cu?'custom':t[0])}catch(e){}}return cu?'custom':t[0]}var s;try{s=new URLSearchParams(location.search).get('theme')||localStorage.getItem(K)}catch(e){}s={dark:'night',light:'paper',hybrid:'paper',gallery:'paper',desert:'paper',lake:'paper',ink:'paper',emerald:'inkgold',ember:'inkgold',midnight:'night',neon:'night'}[s]||s;window.ANAS_THEMES=L;window.ANAS_THEME_VARS=vars;window.ANAS_GET_CUSTOM=getC;window.ANAS_CURRENT=function(){return r.dataset.custom?'custom':r.dataset.theme};window.ANAS_APPLY_THEME=function(i,C){return apply(i,false,C)};window.ANAS_SET_THEME=function(i){return apply(i,true)};apply(s||'night')})();</script><!--/theme-init-->
-<link rel="preload" href="/arcade/fonts/plex-400-ar.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/arcade/fonts/lalezar-ar.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/arcade/tokens.css?v=202611061449"><link rel="stylesheet" href="../theme.css?v=202611061449"><script src="../theme.js?v=202611061449" defer></script>
+<link rel="preload" href="/arcade/fonts/plex-400-ar.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/arcade/fonts/lalezar-ar.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/arcade/tokens.css?v=202611061459"><link rel="stylesheet" href="../theme.css?v=202611061459"><script src="../theme.js?v=202611061459" defer></script>
 <style>
 .ex-hero{text-align:center;padding:var(--s-6) 0 var(--s-4)}
 .ex-hero h1{font-family:var(--font-display);font-weight:400;font-size:var(--t-3xl);line-height:var(--lh-display);margin:var(--s-2) 0}
@@ -78,30 +78,32 @@ input.in{min-height:var(--h-control);padding:0 var(--s-3)}
 .alt ol{padding-inline-start:var(--s-5);line-height:var(--lh-body);font-size:var(--t-sm)}
 #printArea{display:none}
 [hidden]{display:none!important}
+/* the printable documents (exam paper, answer key, summary): used for window.print and for the downloaded PDF */
+.doc{font-family:var(--font-text);color:#111;background:#fff;font-size:12.5pt;line-height:1.75;direction:rtl;text-align:right}
+.doc .ph{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:8pt;border-bottom:1.5pt solid #111;padding-bottom:8pt;margin-bottom:10pt}
+.doc .ph .c{text-align:center}.doc .ph .c b{display:block;font-size:16pt}
+.doc .ph .l{text-align:left}
+.doc .who{display:flex;gap:18pt;margin:0 0 12pt;font-size:11.5pt}
+.doc .who span{flex:1;border-bottom:1pt dotted #555;padding-bottom:2pt}
+.doc .pq{break-inside:avoid;page-break-inside:avoid;margin:0 0 10pt}
+.doc .pq p{margin:0 0 4pt;font-weight:600}
+.doc .po{display:grid;grid-template-columns:1fr 1fr;gap:2pt 14pt;padding-inline-start:16pt}
+.doc .lines{margin-inline-start:16pt}.doc .lines i{display:block;height:22pt;border-bottom:1pt dotted #777}
+.doc .key{width:100%;border-collapse:collapse;font-size:11pt}
+.doc .key td,.doc .key th{border:1pt solid #444;padding:4pt 6pt;text-align:start;vertical-align:top}
+.doc .key tr{break-inside:avoid;page-break-inside:avoid}
+.doc h2{font-size:15pt;margin:0 0 6pt}.doc h3{font-size:13pt;margin:12pt 0 4pt;break-after:avoid;page-break-after:avoid}
+.doc ul{margin:0;padding-inline-start:16pt}.doc li{break-inside:avoid;page-break-inside:avoid}
 @media print{
   @page{size:A4;margin:16mm 14mm}
   body>*:not(#printArea){display:none!important}
-  html,body{background:#fff!important;color:#111!important}
-  #printArea{display:block!important;font-family:var(--font-text);color:#111;font-size:12.5pt;line-height:1.75;zoom:1}
-  #printArea .ph{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:8pt;border-bottom:1.5pt solid #111;padding-bottom:8pt;margin-bottom:10pt}
-  #printArea .ph .c{text-align:center}#printArea .ph .c b{display:block;font-size:16pt}
-  #printArea .ph .l{text-align:left}
-  #printArea .who{display:flex;gap:18pt;margin:0 0 12pt;font-size:11.5pt}
-  #printArea .who span{flex:1;border-bottom:1pt dotted #555;padding-bottom:2pt}
-  #printArea .pq{break-inside:avoid;margin:0 0 10pt}
-  #printArea .pq p{margin:0 0 4pt;font-weight:600}
-  #printArea .po{display:grid;grid-template-columns:1fr 1fr;gap:2pt 14pt;padding-inline-start:16pt}
-  #printArea .lines{margin-inline-start:16pt}#printArea .lines i{display:block;height:22pt;border-bottom:1pt dotted #777}
-  #printArea .key{width:100%;border-collapse:collapse;font-size:11pt}
-  #printArea .key td,#printArea .key th{border:1pt solid #444;padding:4pt 6pt;text-align:start;vertical-align:top}
-  #printArea h2{font-size:15pt;margin:12pt 0 6pt}#printArea h3{font-size:13pt;margin:10pt 0 4pt}
-  #printArea ul{margin:0;padding-inline-start:16pt}
-  #printArea .foot{margin-top:14pt;font-size:9pt;color:#666;text-align:center}
+  html,body{background:#fff!important}
+  #printArea{display:block!important;zoom:1}
 }
 </style>
 </head>
 <body><a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
-<div data-site="header"></div><script src="/arcade/nav.js?v=202611061449"></script>
+<div data-site="header"></div><script src="/arcade/nav.js?v=202611061459"></script>
 <main id="main"><div class="wrap">
 
 <header class="ex-hero">
@@ -241,21 +243,26 @@ input.in{min-height:var(--h-control);padding:0 var(--s-3)}
   <h2 class="sec-h">ورقة الامتحان جاهزة</h2>
   <p class="lead" id="paperInfo"></p>
   <div class="row" style="margin-bottom:var(--s-3)">
-    <button id="printQ" class="btn" type="button"><svg class="i" aria-hidden="true"><use href="#i-file"/></svg>اطبع ورقة الأسئلة</button>
-    <button id="printK" class="btn" type="button"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>اطبع ورقة الإجابات</button>
+    <button id="dlQ" class="btn" type="button"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span>حمّل ورقة الأسئلة (Word)</span></button>
+    <button id="dlK" class="btn" type="button"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span>حمّل ورقة الإجابات (Word)</span></button>
+  </div>
+  <div class="row" style="margin-bottom:var(--s-3)">
+    <button id="printQ" class="btn quiet" type="button">اطبع الأسئلة أو احفظها PDF</button>
+    <button id="printK" class="btn quiet" type="button">اطبع الإجابات أو احفظها PDF</button>
   </div>
   <div class="row">
     <button id="paperNew" class="btn ghost" type="button">نسخة تانية بأسئلة مختلفة</button>
     <button class="btn ghost back" type="button">ارجع للمنهج</button>
   </div>
-  <p class="hint" style="margin-top:var(--s-3)">من الجوال: اضغط «اطبع» وبعدها اختار «حفظ PDF» عشان تحمّلها ملف.</p>
+  <p class="hint" style="margin-top:var(--s-3)">ملف Word يفتح في Word أو Google Docs أو Pages، وتقدر تعدّل الأسئلة قبل الطباعة. لو فاتح من إنستقرام والتحميل ما اشتغل: اضغط ⋯ فوق واختار «افتح في المتصفح».</p>
   <div id="paperPreview" style="margin-top:var(--s-5)"></div>
 </section>
 
 <!-- summary -->
 <section id="sSum" class="card glass" hidden>
   <div class="row" style="margin-bottom:var(--s-4)">
-    <button id="printS" class="btn" type="button"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg>حمّل PDF أو اطبع</button>
+    <button id="dlS" class="btn" type="button"><svg class="i" aria-hidden="true"><use href="#i-download"/></svg><span>حمّل الملخص (Word)</span></button>
+    <button id="printS" class="btn ghost" type="button">اطبع أو احفظ PDF</button>
     <button id="copyS" class="btn ghost" type="button"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg><span>انسخ الملخص</span></button>
   </div>
   <article class="sum" id="sumBody"></article>
@@ -266,7 +273,7 @@ input.in{min-height:var(--h-control);padding:0 var(--s-3)}
 </section>
 
 </div></main>
-<div id="printArea" aria-hidden="true"></div>
+<div id="printArea" class="doc" aria-hidden="true"></div>
 <div data-site="footer"></div>
 <script>
 (function(){
@@ -284,6 +291,41 @@ function view(id){VIEWS.forEach(function(v){$(v).hidden=v!==id});var home=!id;$(
 document.querySelectorAll('.back').forEach(function(b){b.addEventListener('click',function(){view(null)})});
 
 // ---------- 1. reading the material into pages ----------
+// Arabic PDFs often store text as single glyphs in visual (right-to-left) order and as presentation forms (ﻮ ﻨ ﻟ ا).
+// Rebuild each line from the glyph positions: group by baseline, order right-to-left for Arabic lines, put spaces only
+// where there is a real gap, turn digit/Latin runs back the right way round, and NFKC-normalise the letter forms.
+var RTL_CH=/[֐-ࣿיִ-﷿ﹰ-﻿]/, LTR_CH=/[0-9A-Za-z٠-٩۰-۹.,%\/:\-]/;
+function pageText(items){
+  var lines=[];
+  items.forEach(function(it){
+    if(!it.str)return;var t=it.transform,fs=Math.hypot(t[2],t[3])||Math.abs(t[3])||10,y=t[5];
+    var L=null;for(var k=0;k<lines.length;k++)if(Math.abs(lines[k].y-y)<fs*.45){L=lines[k];break}
+    if(!L){L={y:y,items:[]};lines.push(L)}
+    // (ligature glyphs keep the letter order the PDF gives; the AI reads a swapped pair fine, and guessing broke more words than it fixed)
+    L.items.push({s:it.str,x:t[4],w:it.width||0,fs:fs});
+  });
+  lines.sort(function(a,b){return b.y-a.y});
+  return lines.map(function(L){
+    var txt=L.items.map(function(i){return i.s}).join(''),rtl=(txt.match(new RegExp(RTL_CH.source,'g'))||[]).length>=(txt.match(/[A-Za-z]/g)||[]).length;
+    var it=L.items.slice().sort(function(a,b){return rtl?(b.x+b.w)-(a.x+a.w):a.x-b.x});
+    var parts=[];
+    it.forEach(function(i,k){
+      if(k){var p=it[k-1],gap=rtl?p.x-(i.x+i.w):i.x-(p.x+p.w);if(gap>i.fs*.18)parts.push(' ')}
+      if(rtl&&i.s.length===1&&(i.s==='('||i.s===')'))i={s:i.s==='('?')':'(',x:i.x,w:i.w,fs:i.fs}; // mirrored brackets
+      parts.push(i.s.length>1&&rtl&&!RTL_CH.test(i.s)?'⁦'+i.s+'⁩':i.s);
+    });
+    if(rtl){ // single-glyph digit/Latin runs came out mirrored: flip each run back
+      var outp=[],run=[];
+      parts.forEach(function(c){if(c.length===1&&LTR_CH.test(c)){run.push(c)}else if(c===' '&&run.length){run.push(c)}else{if(run.length){var tail=[];while(run.length&&run[run.length-1]===' ')tail.push(run.pop());outp.push(run.reverse().join(''));outp=outp.concat(tail);run=[]}outp.push(c)}});
+      if(run.length)outp.push(run.reverse().join(''));parts=outp;
+    }else{ // Arabic words inside a Latin line: flip single-glyph Arabic runs
+      var o2=[],r2=[];
+      parts.forEach(function(c){if(c.length<=3&&RTL_CH.test(c)){r2.push(c)}else{if(r2.length){o2.push(r2.reverse().join(''));r2=[]}o2.push(c)}});
+      if(r2.length)o2.push(r2.reverse().join(''));parts=o2;
+    }
+    return parts.join('').replace(/[⁦⁩]/g,'').normalize('NFKC').replace(/ {2,}/g,' ').trim();
+  }).filter(Boolean).join('\n');
+}
 function loadScript(src){return new Promise(function(ok,no){var s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=no;document.head.appendChild(s)})}
 function chunkText(t){var out=[],i=0;t=t.replace(/\r/g,'');while(i<t.length){var j=Math.min(t.length,i+CHUNK);if(j<t.length){var k=t.lastIndexOf('\n',j);if(k>i+CHUNK*.5)j=k}out.push(t.slice(i,j));i=j}return out}
 function setPages(p,pdf){
@@ -306,7 +348,7 @@ $('file').addEventListener('change',function(){
       pdfjsLib.GlobalWorkerOptions.workerSrc=base+'pdf.worker.min.js';return f.arrayBuffer();
     }).then(function(buf){return pdfjsLib.getDocument({data:buf}).promise}).then(function(pdf){
       var out=[],p=Promise.resolve();
-      for(var i=1;i<=pdf.numPages;i++)(function(i){p=p.then(function(){return pdf.getPage(i).then(function(pg){return pg.getTextContent()}).then(function(tc){out[i-1]=tc.items.map(function(it){return it.str}).join(' ').replace(/\s+/g,' ').trim()})})})(i);
+      for(var i=1;i<=pdf.numPages;i++)(function(i){p=p.then(function(){return pdf.getPage(i).then(function(pg){return pg.getTextContent()}).then(function(tc){out[i-1]=pageText(tc.items)})})})(i);
       return p.then(function(){return out});
     }).then(function(out){
       $('fileLab').textContent=f.name;
@@ -343,7 +385,7 @@ $('findLessons').addEventListener('click',function(){
   var per=Math.max(80,Math.min(400,Math.floor(50000/pages.length)));
   var outline=pages.map(function(p,i){return '['+(i+1)+'] '+p.slice(0,per)}).join('\n');
   var prompt='Below is the start of every '+(isPdf?'page':'part')+' of a study book, numbered in brackets. Split it into its lessons/chapters/units in order.\n'+
-    'Use the real lesson titles from the text (same language as the text). Every '+(isPdf?'page':'part')+' from 1 to '+pages.length+' belongs to exactly one lesson; skip nothing; the first lesson starts at 1 and the last ends at '+pages.length+'.\n'+
+    'Use the real lesson titles from the text (same language as the text; it may come from a PDF with swapped or split Arabic letters, so write the titles in correct Arabic). Every '+(isPdf?'page':'part')+' from 1 to '+pages.length+' belongs to exactly one lesson; skip nothing; the first lesson starts at 1 and the last ends at '+pages.length+'.\n'+
     'If there are no clear lessons, split it into sensible topics. At most 40 lessons.\n'+
     'Reply with ONLY JSON: {"lessons":[{"title":"...","from":1,"to":3}]}\n\n'+outline;
   $('findLessons').disabled=true;$('st0').hidden=false;
@@ -370,7 +412,7 @@ function examPrompt(material,only){
   return 'You are a strict, fair teacher writing an exam from the study material below.\n'+
   'Write exactly '+n+' questions, '+typeTxt+', difficulty: '+diffTxt+'.\n'+scopeLine()+
   (only?'Focus ONLY on these weak topics: '+only+'.\n':'')+
-  'Rules:\n- Every question must be answerable from the material only; never invent facts.\n'+
+  'Note: the material may be extracted from a PDF, so some Arabic letters can be swapped or split; read it as the intended text and always write correct, clean Arabic.\n'+'Rules:\n- Every question must be answerable from the material only; never invent facts.\n'+
   '- Write the questions, options and explanations in the SAME language as the material.\n'+
   '- Multiple-choice: exactly 4 options, one correct, plausible distractors, vary the correct position.\n'+
   '- Each question gets a short "topic" (2-4 words) naming the lesson part it tests, and a one-sentence "explain".\n'+
@@ -382,7 +424,7 @@ function examPrompt(material,only){
 function summaryPrompt(material){
   var full=val('s')!=='short';
   return 'You are an excellent teacher. Write a '+(full?'detailed study summary that a student can revise from instead of the book':'one-page short summary of the key ideas')+' of the study material below.\n'+scopeLine()+
-  'Rules: same language as the material; only facts from the material; clear headings per lesson/topic; short bullet points; keep definitions, rules, formulas, dates and numbers exact; '+(full?'8-40 sections as needed':'at most 6 sections, 3-5 points each')+'.\n'+
+  'Note: the material may be extracted from a PDF, so some Arabic letters can be swapped or split; read it as the intended text and always write correct, clean Arabic.\n'+'Rules: same language as the material; only facts from the material; clear headings per lesson/topic; short bullet points; keep definitions, rules, formulas, dates and numbers exact; '+(full?'8-40 sections as needed':'at most 6 sections, 3-5 points each')+'.\n'+
   'Also list the key terms with a one-line meaning, and 5 likely exam questions (questions only).\n'+
   'Reply with ONLY JSON: {"title":"...","sections":[{"heading":"...","points":["..."]}],"terms":[{"term":"...","meaning":"..."}],"likely":["..."]}\n\n'+
   'STUDY MATERIAL:\n"""\n'+material+'\n"""';
@@ -507,15 +549,48 @@ function paperKey(){
     var a=q.type==='mcq'?'('+AR[q.answer]+') '+esc(q.options[q.answer]):esc(rightText(q));
     return '<tr><td>'+num(i+1)+'</td><td>'+a+(q.explain?'<br><small>'+esc(q.explain)+'</small>':'')+'</td><td>'+esc(q.topic||'')+'</td></tr>'}).join('')+'</tbody></table>';
 }
-var FOOT='';
 function showPaper(o){
   exam=o;view('sPaper');
   $('paperInfo').textContent=num(o.questions.length)+' سؤال'+(chosenTitles().length&&chosenTitles().length<lessons.length?' من: '+chosenTitles().join('، '):'')+'.';
   $('paperPreview').innerHTML=o.questions.map(function(q,i){return '<article class="rv"><h3>'+num(i+1)+'. '+esc(q.q)+'</h3>'+(q.type==='mcq'?'<p class="k">'+q.options.map(function(x,k){return '('+AR[k]+') '+esc(x)}).join(' &nbsp; ')+'</p>':'')+'<p><span class="k">الإجابة: </span>'+esc(rightText(q))+'</p></article>'}).join('');
 }
 function printHTML(html){$('printArea').innerHTML=html;setTimeout(function(){window.print()},50)}
-$('printQ').addEventListener('click',function(){printHTML(paperHead('ورقة الأسئلة','<div class="who"><span>الاسم:</span><span>الفصل:</span><span>التاريخ:</span></div>')+paperQuestions()+FOOT)});
-$('printK').addEventListener('click',function(){printHTML(paperHead('ورقة الإجابات (للمعلم)')+paperKey()+FOOT)});
+// Word file (.doc = HTML that Word, Google Docs and Pages open). The browser draws nothing here, so the Arabic stays exactly as typed:
+// html2canvas-made PDFs glued Arabic words together, so we do not make PDFs in the page (the print dialog's «حفظ PDF» does that).
+var DOC_CSS='@page WordSection1{size:21cm 29.7cm;margin:1.6cm 1.4cm}div.WordSection1{page:WordSection1}'+
+  'body{font-family:"Arial","Tahoma",sans-serif;font-size:13pt;line-height:1.6;direction:rtl;text-align:right}'+
+  'h2{font-size:16pt;margin:0 0 6pt}h3{font-size:14pt;margin:12pt 0 4pt}p{margin:0 0 4pt}'+
+  'table{border-collapse:collapse;width:100%}td,th{vertical-align:top;text-align:right;padding:3pt 6pt}'+
+  '.key td,.key th{border:1pt solid #444}.hd td{border-bottom:1.5pt solid #111;padding-bottom:6pt}.c{text-align:center}'+
+  '.q{font-weight:bold;margin-top:10pt}.ln{border-bottom:1pt dotted #777;height:20pt}small{color:#555;font-size:10.5pt}';
+function wordHead(title){
+  var sc=$('pmSchool').value.trim(),su=$('pmSubject').value.trim(),g=$('pmGrade').value.trim(),tm=$('pmTime').value.trim();
+  return '<table class="hd"><tr><td width="33%">'+esc(sc)+(g?'<br>الصف: '+esc(g):'')+'</td><td width="34%" class="c"><b style="font-size:16pt">'+esc(title)+'</b><br>'+esc(su||exam.title||'')+'</td><td width="33%" style="text-align:left">'+(tm?'الزمن: '+esc(tm)+'<br>':'')+'الدرجة: ____ / '+num(exam.questions.length)+'</td></tr></table>';
+}
+function wordQuestions(){
+  var h=wordHead('ورقة الأسئلة')+'<p style="margin:10pt 0">الاسم: ................................ &nbsp; الفصل: .............. &nbsp; التاريخ: ..............</p>';
+  exam.questions.forEach(function(q,i){
+    h+='<p class="q">'+num(i+1)+'. '+esc(q.q)+'</p>';
+    if(q.type==='mcq')h+='<table><tr><td width="50%">('+AR[0]+') '+esc(q.options[0])+'</td><td>('+AR[1]+') '+esc(q.options[1]||'')+'</td></tr>'+(q.options.length>2?'<tr><td>('+AR[2]+') '+esc(q.options[2])+'</td><td>'+(q.options[3]?'('+AR[3]+') '+esc(q.options[3]):'')+'</td></tr>':'')+'</table>';
+    else if(q.type==='tf')h+='<p>( &nbsp;&nbsp; ) صح &nbsp;&nbsp;&nbsp;&nbsp; ( &nbsp;&nbsp; ) غلط</p>';
+    else h+='<p class="ln">&nbsp;</p><p class="ln">&nbsp;</p>';
+  });
+  return h;
+}
+function wordKey(){return wordHead('ورقة الإجابات (للمعلم)')+'<br>'+paperKey()}
+function downloadDoc(body,name,btn){
+  var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40" lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+esc(name)+'</title><style>'+DOC_CSS+'</style></head><body dir="rtl"><div class="WordSection1">'+body+'</div></body></html>';
+  var blob=new Blob(['﻿',html],{type:'application/msword'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=name+'.doc';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},4000);
+  var lab=btn.querySelector('span'),old=lab.textContent;lab.textContent='اتحمّل';setTimeout(function(){lab.textContent=old},2200);
+}
+function fileName(kind){var t=(exam&&exam.title)||(summary&&summary.title)||'';return (kind+(t?' - '+t:'')).replace(/[\/:*?"<>|]/g,'').slice(0,80)}
+function qHTML(){return paperHead('ورقة الأسئلة','<div class="who"><span>الاسم:</span><span>الفصل:</span><span>التاريخ:</span></div>')+paperQuestions()}
+function kHTML(){return paperHead('ورقة الإجابات (للمعلم)')+paperKey()}
+$('printQ').addEventListener('click',function(){printHTML(qHTML())});
+$('printK').addEventListener('click',function(){printHTML(kHTML())});
+$('dlQ').addEventListener('click',function(){downloadDoc(wordQuestions(),fileName('ورقة الأسئلة'),this)});
+$('dlK').addEventListener('click',function(){downloadDoc(wordKey(),fileName('ورقة الإجابات'),this)});
 $('paperNew').addEventListener('click',function(){mode='paper';run()});
 
 // ---------- summary ----------
@@ -534,7 +609,8 @@ function summaryText(o){
   return t;
 }
 function showSummary(o){summary=o;$('sumBody').innerHTML=summaryHTML(o,false);view('sSum')}
-$('printS').addEventListener('click',function(){printHTML(summaryHTML(summary,true)+FOOT)});
+$('printS').addEventListener('click',function(){printHTML(summaryHTML(summary,true))});
+$('dlS').addEventListener('click',function(){downloadDoc(summaryHTML(summary,true),fileName('ملخص'),this)});
 $('copyS').addEventListener('click',function(){navigator.clipboard.writeText(summaryText(summary)).then(function(){var s=$('copyS').querySelector('span');s.textContent='اتنسخ';setTimeout(function(){s.textContent='انسخ الملخص'},1800)})});
 $('sumToQuiz').addEventListener('click',function(){
   var t=summaryText(summary);mode='quiz';
