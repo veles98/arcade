@@ -66,7 +66,7 @@
   // header links (the brand itself is the way home = the skills library)
   var NAV = [['games.html', 'الألعاب'], ['p/', 'البرومبتات']];
   // footer: every section of the site
-  var ALL = [['', 'مكتبة السكيلات'], ['p/', 'البرومبتات'], ['games.html', 'الألعاب'], ['learn/day-1/', 'رحلة التعلّم']];
+  var ALL = [['', 'مكتبة السكيلات'], ['p/', 'البرومبتات'], ['exam/', 'اختبرني'], ['games.html', 'الألعاب'], ['learn/day-1/', 'رحلة التعلّم']];
 
   var CSS = [
     /* header: sticky, compact once scrolled. Reads tokens.css (fallbacks for pages without it) */
