@@ -18,22 +18,22 @@ assert "../../theme.css" in head3 and "../../theme.js" in head3
 CSS = """
 .hero{display:grid;gap:18px;align-items:center;margin:0 0 18px}
 @media(min-width:760px){.hero{grid-template-columns:1fr 280px}}
-.vid{width:100%;max-width:280px;aspect-ratio:9/16;border-radius:18px;display:block;margin:0 auto;background:#000;border:1px solid var(--edge);object-fit:cover}
+.vid{width:100%;max-width:280px;aspect-ratio:9/16;border-radius:var(--r-md);display:block;margin:0 auto;background:#000;border:1px solid var(--edge);object-fit:cover}
 .ep{display:inline-block;font-family:var(--font-text);font-weight:600;font-size:13px;color:var(--gold-ink);background:var(--gold);padding:3px 12px;border-radius:999px}
-.go{display:flex;align-items:center;justify-content:center;min-height:56px;padding:12px 18px;border-radius:14px;background:var(--gold);color:var(--gold-ink);text-decoration:none;font-family:var(--font-text);font-weight:600;font-size:17px;margin-top:14px}
+.go{display:flex;align-items:center;justify-content:center;min-height:56px;padding:12px 18px;border-radius:var(--r-sm);background:var(--gold);color:var(--gold-ink);text-decoration:none;font-family:var(--font-text);font-weight:600;font-size:var(--t-lg);margin-top:14px}
 section.card h2{margin:0 0 var(--s-3)}
 section.card p,section.card li{color:var(--mute);line-height:1.85;font-size:15px}
 section.card ol,section.card ul{margin:0;padding-inline-start:20px}
 section.card li+li{margin-top:6px}
 section.card b{color:var(--fg)}
 .code{position:relative;margin:10px 0 0}
-.code pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:"IBM Plex Sans Arabic",sans-serif;font-size:14.5px;line-height:1.85;padding:16px 16px 60px;border-radius:14px;border:1px solid var(--edge);background:var(--glass-2);color:var(--fg)}
-.copy{position:absolute;inset-inline-start:12px;bottom:12px;min-height:var(--h-tap);padding:0 16px;border-radius:999px;border:0;background:var(--gold);color:var(--gold-ink);font-family:var(--font-text);font-weight:600;font-size:14px;cursor:pointer}
+.code pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:"IBM Plex Sans Arabic",sans-serif;font-size:14.5px;line-height:1.85;padding:16px 16px 60px;border-radius:var(--r-sm);border:1px solid var(--edge);background:var(--glass-2);color:var(--fg)}
+.copy{position:absolute;inset-inline-start:12px;bottom:12px;min-height:var(--h-tap);padding:0 16px;border-radius:var(--r-sm);border:0;background:var(--gold);color:var(--gold-ink);font-family:var(--font-text);font-weight:600;font-size:14px;cursor:pointer}
 .quote{font-family:var(--font-display);font-weight:400;font-size:clamp(20px,5.4vw,26px);line-height:1.6;color:var(--fg);margin:4px 0 0}
 .quote span{color:var(--mark-fg);background:linear-gradient(transparent 42%,var(--mark-bg) 42%,var(--mark-bg) 94%,transparent 94%)}
 .next{display:grid;gap:10px}
 @media(min-width:760px){.next{grid-template-columns:1fr 1fr}}
-.ghostbtn{display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:14px;border:1px solid var(--edge);background:var(--glass-2);color:var(--fg);text-decoration:none;font-weight:600}
+.ghostbtn{display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:var(--r-sm);border:1px solid var(--edge);background:var(--glass-2);color:var(--fg);text-decoration:none;font-weight:600}
 """
 
 JS = """
