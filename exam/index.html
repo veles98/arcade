@@ -218,13 +218,20 @@ function parseJSON(t){
 function textOf(r){if(typeof r==='string')return r;if(r&&r.message){var c=r.message.content;if(typeof c==='string')return c;if(Array.isArray(c))return c.map(function(x){return x.text||''}).join('')}if(r&&r.text)return r.text;return String(r)}
 // Gemini API, free tier. The key is restricted in Google Cloud to the veles98.github.io referrer and the Gemini API only.
 // Empty key = no built-in AI: the copy-the-prompt flow below is the main path.
-var GEMINI_KEY='', GEMINI_MODEL='gemini-flash-latest';
-function ai(prompt){
+var GEMINI_KEY='';
+// tried in order; a busy (429/503) or missing (404) model falls through to the next one
+var GEMINI_MODELS=['gemini-3-flash-preview','gemini-3.1-flash-lite','gemini-flash-latest','gemini-flash-lite-latest'];
+function ai(prompt,k){
+  k=k||0;
   if(!GEMINI_KEY)return Promise.reject(new Error('no key'));
-  return fetch('https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent?key='+GEMINI_KEY,{method:'POST',headers:{'Content-Type':'application/json'},
+  if(k>=GEMINI_MODELS.length)return Promise.reject(new Error('all models busy'));
+  return fetch('https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODELS[k]+':generateContent?key='+GEMINI_KEY,{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',temperature:.4}})})
-  .then(function(r){if(!r.ok)throw new Error('http '+r.status);return r.json()})
-  .then(function(j){return j.candidates[0].content.parts.map(function(p){return p.text||''}).join('')});
+  .then(function(r){
+    if(r.status===429||r.status===503||r.status===404||r.status>=500)return ai(prompt,k+1);
+    if(!r.ok)throw new Error('http '+r.status);
+    return r.json().then(function(j){return j.candidates[0].content.parts.map(function(p){return p.text||''}).join('')});
+  });
 }
 
 function currentPrompt(only){
