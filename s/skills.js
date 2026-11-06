@@ -228,6 +228,30 @@ var SKILLS=[
   "src": "voice"
  },
  {
+  "id": "prompt-context",
+  "slug": "prompt-context",
+  "word": "برومبت",
+  "cat": "daily",
+  "env": "claude",
+  "title": "قالب البرومبت (السياق)",
+  "what": "قالب تملاه وتبعته، والذكاء يفهم طلبك من أول مرة.",
+  "file": "../dl/prompt-context.zip",
+  "prompt": "ROLE: Act as [the expert you need, e.g. \"a senior marketing copywriter\"].\nCONTEXT: I am [who you are]. This is for [project / business / situation]. The audience is [who will read or use it].\nGOAL: I need [the exact result], so that [why it matters / what happens next].\nINPUT: Here is what I have: [paste notes, data, links, examples].\nCONSTRAINTS: [length, tone, language/dialect, format, what to avoid, deadline].\nEXAMPLE OF GOOD: [paste one example you like, or describe it].\nOUTPUT FORMAT: [bullet list / table / email / code / 3 options to choose from].\nBefore you answer: ask me up to 3 questions if anything important is missing. Then give the answer, and finish with one line on what I should check before using it.",
+  "src": "ctx"
+ },
+ {
+  "id": "phone-ui-montage",
+  "slug": "phone-ui-montage",
+  "word": "مونتاج",
+  "cat": "content",
+  "env": "code",
+  "title": "مونتاج بشاشات الموبايل من غير برنامج",
+  "what": "كل جملة من كلامك تطلع من شاشة موبايل، بدون برنامج مونتاج.",
+  "file": "../dl/phone-ui-montage.zip",
+  "prompt": "Make a vertical reel (1080x1920, 30fps) from my voice recording voice.m4a in this folder, with no editing apps.\n1) Install anything missing (FFmpeg, faster-whisper, HyperFrames via npx hyperframes). Tell me each command before running it.\n2) Transcribe the voice with word timestamps (my language: [Arabic / English]) into words.json.\n3) Tell every sentence with a different phone-UI screen, full screen: a search bar typing the words, a home screen whose app icons fly away, a chat bubble being sent, a copy/paste menu over scrolling code, a \"Find My\" style radar that counts down to \"here\". Use generic icons, no real brand logos.\n4) Each word appears exactly when I say it; the key word is highlighted.\n5) Join the screens with match cuts (a circle becomes the next circle, a bubble becomes the next element), smooth and eased, never random wipes.\n6) Add UI sound effects on every action (typing, send, delete, ping) and a soft royalty-free music bed ducked under my voice.\n7) End with a card: [your call to action].\n8) Before the final render, export 8 frames, review them like an art director (broken text, text off screen, empty frames) and fix them. Then render final.mp4.",
+  "src": "montage2"
+ },
+ {
   "id": "code-drawn-video",
   "slug": "code-drawn-video",
   "word": null,
