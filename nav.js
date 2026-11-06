@@ -49,7 +49,8 @@
     external: '<path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>'
   };
   function icon(name, cls) {
-    return '<svg class="i' + (cls ? ' ' + cls : '') + '" aria-hidden="true" focusable="false"><use href="#i-' + name + '"/></svg>';
+    // presentation attributes = a sane default where theme.css is not loaded (the games); .i in theme.css overrides them
+    return '<svg class="i' + (cls ? ' ' + cls : '') + '" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#i-' + name + '"/></svg>';
   }
   window.ANAS_ICON = icon;
   function sprite() {
@@ -105,7 +106,7 @@
     '.site-footer{max-width:1240px;margin:0 auto;padding:var(--s-12,48px) var(--gutter,16px) calc(var(--s-6,24px) + env(safe-area-inset-bottom));color:var(--fg);',
     'font-family:var(--font-text,"IBM Plex Sans Arabic",sans-serif);line-height:1.6;zoom:var(--fs,1)}',
     '.site-invite{margin:0 0 var(--s-6,24px);font:400 var(--t-2xl,2rem)/var(--lh-display,1.25) var(--font-display,Lalezar,sans-serif);text-wrap:balance}',
-    '.site-footer .site-invite a{display:inline-flex;align-items:center;gap:var(--s-2,8px);color:var(--gold-text);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.3em}',
+    '.site-footer .site-invite a{display:inline-flex;align-items:center;gap:var(--s-2,8px);min-height:44px;color:var(--gold-text);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.3em}',
     '.site-footer .site-invite .i{width:.8em;height:.8em;stroke-width:2.25}',
     '.site-footer .site-links{display:grid;grid-template-columns:1fr 1fr;gap:0 var(--s-6,24px);padding-bottom:var(--s-6,24px)}',
     '.site-footer .site-links a{display:flex;align-items:center;justify-content:space-between;min-height:52px;border-bottom:1px solid var(--edge);font-size:var(--t-sm,.875rem)}',

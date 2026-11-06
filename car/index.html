@@ -38,7 +38,7 @@
   button.main:disabled { opacity: .4; }
   #mute {
     position: fixed; top: 14px; left: 14px; width: 48px; height: 48px; border-radius: 50%; z-index: 5;
-    border: 1.5px solid rgba(243,199,102,.6); background: rgba(var(--stage-rgb,5,5,7),.6); color: #f3c766; font-size: 20px; font-family: inherit; cursor: pointer;
+    border: 1.5px solid rgba(243,199,102,.6); background: rgba(var(--stage-rgb,5,5,7),.6); color: #f3c766; font-size: 20px; font-family: inherit; cursor: pointer; display: grid; place-items: center; padding: 0;
   }
 </style>
 </head>
@@ -46,7 +46,7 @@
 <canvas id="c"></canvas>
 <div id="score">0</div>
 <div id="bestTop"></div>
-<button id="mute" aria-label="كتم الصوت">♪</button>
+<button id="mute" aria-label="كتم الصوت" aria-pressed="false"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5z"/><path class="on" d="M16 9a5 5 0 0 1 0 6M19.4 18.4a9 9 0 0 0 0-12.8"/><path class="off" d="m22 9-6 6M16 9l6 6" style="display:none"/></svg></button>
 
 <div id="startScreen" class="screen">
   <h1>زحمة طريق الملك فهد</h1>
@@ -231,7 +231,7 @@
   });
   document.getElementById('startBtn').addEventListener('pointerdown', (e) => { e.preventDefault(); press(W); });
   againBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); if (!againBtn.disabled) { initAudio(); startGame(); } });
-  muteBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); muted = !muted; muteBtn.textContent = muted ? '×' : '♪'; });
+  muteBtn.addEventListener('pointerdown', (e) => { e.preventDefault(); e.stopPropagation(); muted = !muted; muteBtn.setAttribute('aria-pressed', String(muted)); muteBtn.querySelector('.on').style.display = muted ? 'none' : ''; muteBtn.querySelector('.off').style.display = muted ? '' : 'none'; });
   document.addEventListener('contextmenu', (e) => e.preventDefault());
   let paused = false;
   document.addEventListener('visibilitychange', () => { paused = document.hidden; last = performance.now(); });
@@ -378,7 +378,7 @@
   requestAnimationFrame(loop);
 })();
 </script>
-<script src="../counter.js?v=202611060754" defer></script>
-<div data-site="game"></div><script src="/arcade/nav.js?v=202611060754"></script>
+<script src="../counter.js?v=202611060759" defer></script>
+<div data-site="game"></div><script src="/arcade/nav.js?v=202611060759"></script>
 </body>
 </html>

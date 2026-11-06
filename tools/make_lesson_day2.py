@@ -87,9 +87,10 @@ BODY = f"""<div class="hero"><div>
 html = f"""<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>الدرس ٢: أي ملف يصير بودكاست</title><meta name="description" content="بدون كود · يوم ٢: حوّل أي ملف أو رابط لبودكاست عربي بصوتين، مجانًا من Google (Gemini Notebook). الخطوات، وجملة التخصيص جاهزة للنسخ."><meta property="og:title" content="بدون كود · يوم ٢: أي ملف يصير بودكاست"><meta property="og:image" content="https://veles98.github.io/arcade/img/og_pixel.jpg">
 {head3}
-<style>{CSS}</style></head><body><div data-site="header"></div><script src="/arcade/nav.js"></script><div class="wrap">
+<style>{CSS}</style></head><body><a class="skip-link" href="#main">تخطَّ إلى المحتوى</a><div data-site="header"></div><script src="/arcade/nav.js"></script><main id="main"><div class="wrap">
 {BODY}
 </div>
+</main>
 <div data-site="footer"></div>
 <script>{JS}</script>
 <script src="../../counter.js?v=202610270955" defer></script>
