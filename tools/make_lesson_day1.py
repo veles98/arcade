@@ -20,6 +20,7 @@ prompt = open(CAPTION, encoding="utf-8").read().split("ChatGPT:\n", 1)[1].split(
 
 CSS = """
 .hero{display:grid;gap:18px;align-items:center;margin:0 0 18px}
+.hero h1 span{display:block;width:fit-content}
 @media(min-width:760px){.hero{grid-template-columns:1fr 280px}}
 .vid{width:100%;max-width:280px;aspect-ratio:9/16;border-radius:var(--r-md);display:block;margin:0 auto;background:#000;border:1px solid var(--edge);object-fit:cover}
 .ep{display:inline-block;font-family:var(--font-text);font-weight:600;font-size:13px;color:var(--gold-ink);background:var(--gold);padding:3px 12px;border-radius:999px}
