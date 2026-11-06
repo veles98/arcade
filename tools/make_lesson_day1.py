@@ -22,18 +22,18 @@ CSS = """
 .hero{display:grid;gap:18px;align-items:center;margin:0 0 18px}
 @media(min-width:760px){.hero{grid-template-columns:1fr 280px}}
 .vid{width:100%;max-width:280px;aspect-ratio:9/16;border-radius:18px;display:block;margin:0 auto;background:#000;border:1px solid var(--edge);object-fit:cover}
-.ep{display:inline-block;font-family:Alexandria,sans-serif;font-weight:800;font-size:13px;color:var(--gold-ink);background:var(--gold);padding:3px 12px;border-radius:999px}
-.go{display:flex;align-items:center;justify-content:center;min-height:56px;padding:12px 18px;border-radius:14px;background:var(--gold);color:var(--gold-ink);text-decoration:none;font-family:Alexandria,sans-serif;font-weight:800;font-size:17px;margin-top:14px}
+.ep{display:inline-block;font-family:var(--font-text);font-weight:600;font-size:13px;color:var(--gold-ink);background:var(--gold);padding:3px 12px;border-radius:999px}
+.go{display:flex;align-items:center;justify-content:center;min-height:56px;padding:12px 18px;border-radius:14px;background:var(--gold);color:var(--gold-ink);text-decoration:none;font-family:var(--font-text);font-weight:600;font-size:17px;margin-top:14px}
 section.card{padding:20px 18px 18px;margin:0 0 16px}
-section.card h2{font-family:Alexandria,sans-serif;font-weight:600;font-size:20px;margin:0 0 10px}
+section.card h2{font-family:var(--font-text);font-weight:600;font-size:20px;margin:0 0 10px}
 section.card p,section.card li{color:var(--mute);line-height:1.85;font-size:15px}
 section.card ol,section.card ul{margin:0;padding-inline-start:20px}
 section.card li+li{margin-top:6px}
 section.card b{color:var(--fg)}
 .code{position:relative;margin:10px 0 0}
 .code pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:"IBM Plex Sans Arabic",sans-serif;font-size:14.5px;line-height:1.85;padding:16px 16px 60px;border-radius:14px;border:1px solid var(--edge);background:var(--glass-2);color:var(--fg)}
-.copy{position:absolute;inset-inline-start:12px;bottom:12px;min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--gold);color:var(--gold-ink);font-family:Alexandria,sans-serif;font-weight:800;font-size:14px;cursor:pointer}
-.quote{font-family:Alexandria,sans-serif;font-weight:800;font-size:clamp(20px,5.4vw,26px);line-height:1.6;color:var(--fg);margin:4px 0 0}
+.copy{position:absolute;inset-inline-start:12px;bottom:12px;min-height:40px;padding:0 16px;border-radius:999px;border:0;background:var(--gold);color:var(--gold-ink);font-family:var(--font-text);font-weight:600;font-size:14px;cursor:pointer}
+.quote{font-family:var(--font-display);font-weight:400;font-size:clamp(20px,5.4vw,26px);line-height:1.6;color:var(--fg);margin:4px 0 0}
 .quote span{color:var(--mark-fg);background:linear-gradient(transparent 42%,var(--mark-bg) 42%,var(--mark-bg) 94%,transparent 94%)}
 .next{display:grid;gap:10px}
 @media(min-width:760px){.next{grid-template-columns:1fr 1fr}}
@@ -86,11 +86,11 @@ BODY = f"""<div class="hero"><div>
 <p class="quote">السر مش إنك تبني وخلاص… <span>السر إنك تجرّب وتصلّح.</span></p></section>
 <div class="next">
 <a class="go" href="https://www.instagram.com/anas.ai.ar/" target="_blank" rel="noopener">تابعني للحلقة الجاية</a>
-<a class="ghostbtn" href="../../#learn">ارجع لرحلة التعلّم</a>
+<a class="ghostbtn" href="../../games.html#learn">ارجع لرحلة التعلّم</a>
 </div>"""
 
 html = f"""<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>الدرس ١: موقع كامل من غير ولا سطر كود</title><meta name="description" content="بدون كود · يوم ١: كلّمت الذكاء الاصطناعي بكلامي العادي وطلع موقع شخصي بثيمات. الخطوات، والبرومبت جاهز للنسخ، والغلطة وكيف انحلت."><meta property="og:title" content="بدون كود · يوم ١: موقع كامل من غير ولا سطر كود"><meta property="og:image" content="https://veles98.github.io/arcade/img/og_pixel.jpg"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
+<title>الدرس ١: موقع كامل من غير ولا سطر كود</title><meta name="description" content="بدون كود · يوم ١: كلّمت الذكاء الاصطناعي بكلامي العادي وطلع موقع شخصي بثيمات. الخطوات، والبرومبت جاهز للنسخ، والغلطة وكيف انحلت."><meta property="og:title" content="بدون كود · يوم ١: موقع كامل من غير ولا سطر كود"><meta property="og:image" content="https://veles98.github.io/arcade/img/og_pixel.jpg">
 {head3}
 <style>{CSS}</style></head><body><div data-site="header"></div><script src="/arcade/nav.js"></script><div class="wrap">
 {BODY}

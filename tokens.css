@@ -1,0 +1,241 @@
+/* tokens.css: the ONE design-token file of anas.ai.ar (veles98.github.io/arcade).
+   Loaded before theme.css on every themed page; nav.js reads the same variables (with fallbacks for the full-screen games,
+   which load neither file). Change a value here, then run python tools/bump_version.py.
+
+   1) fonts      self-hosted woff2 (SIL OFL 1.1, licences in fonts/). Text: IBM Plex Sans Arabic 400/600 (Google's files, unmodified).
+                 Display: Lalezar 400 (subset to Arabic + Latin). Only these weights exist: never ask for 700/800 (no faux bold).
+   2) scales     spacing (4/8 grid), radii, type, line-heights, control sizes, motion, z-index
+   3) themes     colours per theme on <html data-theme="...">. Live in the picker: night (default, lime), paper, inkgold (+ «مخصّص»).
+                 The other blocks are legacy themes kept for old links; the theme init maps their ids to the live three.
+
+   Colour roles (old names kept, every page uses them):
+     --bg page · --fg text · --mute secondary text · --gold accent FILL · --gold-text accent TEXT (AA on bg) · --gold-ink text ON accent
+     --glass card surface · --glass-2 raised/hover tint · --edge hairline · --focus focus ring
+   Semantic aliases for new code: --surface-0/1/2, --border, --border-strong, --accent, --accent-text, --on-accent, --shadow-1/2/3 */
+
+/* ---------- 1) fonts ---------- */
+@font-face{font-family:"IBM Plex Sans Arabic";font-style:normal;font-weight:400;font-display:swap;src:url(/arcade/fonts/plex-400-ar.woff2) format("woff2");
+  unicode-range:U+0600-06FF,U+0750-077F,U+0870-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:"IBM Plex Sans Arabic";font-style:normal;font-weight:400;font-display:swap;src:url(/arcade/fonts/plex-400-la.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Sans Arabic";font-style:normal;font-weight:600;font-display:swap;src:url(/arcade/fonts/plex-600-ar.woff2) format("woff2");
+  unicode-range:U+0600-06FF,U+0750-077F,U+0870-0891,U+0897-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
+@font-face{font-family:"IBM Plex Sans Arabic";font-style:normal;font-weight:600;font-display:swap;src:url(/arcade/fonts/plex-600-la.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Lalezar;font-style:normal;font-weight:400;font-display:swap;src:url(/arcade/fonts/lalezar-ar.woff2) format("woff2");
+  unicode-range:U+0600-06FF,U+200C-200F,U+2010-2011,U+204F,U+FD3E-FD3F}
+@font-face{font-family:Lalezar;font-style:normal;font-weight:400;font-display:swap;src:url(/arcade/fonts/lalezar-la.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2212,U+FEFF,U+FFFD}
+
+/* ---------- 2) scales (theme independent) ---------- */
+:root{
+  --font-text:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --font-display:Lalezar,"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --fw-regular:400;--fw-strong:600;
+
+  /* spacing: 4/8 grid */
+  --s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:20px;--s-6:24px;--s-8:32px;--s-10:40px;--s-12:48px;--s-16:64px;--s-20:80px;
+  --gutter:16px;--page-max:1240px;--read-max:720px;
+
+  /* type scale (rem, follows the visitor's «حجم الخط» via html font-size). Arabic never below 13px for meta, 16px for reading */
+  --t-xs:.8125rem;--t-sm:.875rem;--t-md:1rem;--t-lg:1.125rem;--t-xl:1.375rem;
+  --t-2xl:clamp(1.75rem,1.25rem + 2.4vw,2.5rem);
+  --t-3xl:clamp(2.25rem,1.4rem + 4.4vw,4rem);
+  --t-hero:clamp(3rem,1.6rem + 7.6vw,7rem);
+  /* Arabic needs taller lines than Latin: body 1.8, UI 1.5, headings 1.45, Lalezar display 1.25 (tall ascenders and dots) */
+  --lh-body:1.8;--lh-ui:1.5;--lh-head:1.45;--lh-display:1.25;
+
+  /* radii (× the customiser's «الحواف» factor) */
+  --r-xs:calc(4px*var(--rad,1));--r-sm:calc(8px*var(--rad,1));--r-md:calc(12px*var(--rad,1));--r-lg:calc(18px*var(--rad,1));--r-pill:999px;
+
+  /* controls: every tappable thing is at least 44px */
+  --h-tap:44px;--h-control:48px;--h-control-lg:56px;
+  --icon-sm:16px;--icon:20px;--icon-lg:24px;--icon-stroke:1.75;
+
+  /* motion: short, calm, interruptible. Exit faster than enter */
+  --dur-1:120ms;--dur-2:180ms;--dur-3:240ms;
+  --ease-out:cubic-bezier(.22,1,.36,1);--ease-std:cubic-bezier(.4,0,.2,1);
+
+  --z-header:45;--z-dock:30;--z-menu:60;--z-toast:100;
+}
+@media (prefers-reduced-motion:reduce){:root{--dur-1:0ms;--dur-2:0ms;--dur-3:0ms}}
+
+/* ---------- 3) themes ---------- */
+:root:root{
+  /* semantic aliases (:root:root so the paper block's bare :root cannot leak its values into other themes): derived from the per-theme roles so «مخصّص» (inline vars from the theme init) changes them too */
+  --surface-0:var(--bg);--surface-1:var(--glass);--surface-2:var(--glass-2);--border:var(--edge);--border-strong:var(--gold-text);
+  --accent:var(--gold);--accent-text:var(--gold-text);--on-accent:var(--gold-ink);
+  --shadow-1:0 1px 2px rgba(0,0,0,.12);--shadow-2:var(--shadow);--shadow-3:0 18px 44px rgba(0,0,0,.28);--glow:0 0 0 1px var(--gold-text);
+  --line:var(--edge);--card:var(--code-bg)
+}
+/* ---- night ("ليل"), the DEFAULT: the library's dark + lime look on every page ---- */
+:root[data-theme="night"]{
+  --bg:#0b0e0c;--bg-img:none;--fg:#edf1e9;--mute:#adb5a8;
+  --gold:#d5ff63;--gold-2:#adc94d;--gold-ink:#17200d;--gold-text:#d5ff63;--gold-glow:rgba(213,255,99,.2);
+  --glass:#121713;--glass-2:rgba(213,255,99,.05);--glass-bw:1px;--glass-edge:rgba(218,237,205,.13);
+  --edge:rgba(218,237,205,.14);--edge-hi:rgba(218,237,205,.07);
+  --glow-a:rgba(213,255,99,.09);--glow-b:rgba(173,201,77,.05);--shadow:0 12px 32px rgba(0,0,0,.42);
+  --code-bg:rgba(255,255,255,.035);--mark-bg:transparent;--mark-fg:#d5ff63;
+  --ring-a:conic-gradient(from 200deg,#d5ff63,#6f8a2a,#efffc4,#d5ff63);--ring-b:linear-gradient(135deg,#d5ff63,#5d7420);
+  --focus:#d5ff63;--dot-edge:rgba(255,255,255,.35);
+  --stage:#070908;--stage-rgb:7,9,8;
+  --surface-2:#1a211b;--border-strong:rgba(218,237,205,.26);
+  --shadow-1:0 1px 2px rgba(0,0,0,.5);--shadow-2:0 12px 32px rgba(0,0,0,.42);--shadow-3:0 20px 50px rgba(0,0,0,.6);
+  --glow:0 0 0 1px rgba(213,255,99,.28),0 10px 30px rgba(213,255,99,.10);
+  color-scheme:dark
+}
+/* ---- paper ("ورق"): brand paper #f3efe6, ink #121214, gold ---- */
+:root,:root[data-theme="paper"]{
+  --bg:#f3efe6;
+  --bg-img:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35  0 0 0 0 .27  0 0 0 0 .12  0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --fg:#121214;--mute:#5a564c;
+  --gold:#d9b766;--gold-2:#e6c46e;--gold-ink:#121214;--gold-text:#7a5a12;--gold-glow:rgba(217,183,102,.45);
+  --glass:rgba(255,253,247,.72);--glass-2:rgba(255,255,255,.6);--glass-bw:1.5px;--glass-edge:#121214;
+  --edge:rgba(18,18,20,.22);--edge-hi:rgba(255,255,255,.9);
+  --glow-a:rgba(230,196,110,.34);--glow-b:rgba(217,183,102,.18);--shadow:0 10px 26px rgba(88,64,12,.14);
+  --code-bg:rgba(255,255,255,.62);--mark-bg:#e6c46e;--mark-fg:#121214;--mark-a:40%;--mark-b:94%;
+  --ring-a:conic-gradient(from 200deg,#d9b766,#a8822f,#f2dd9c,#d9b766);--ring-b:linear-gradient(135deg,#e6c46e,#a8822f);
+  --focus:#121214;--dot-edge:rgba(18,18,20,.55);
+  --stage:#0b0b0d;--stage-rgb:11,11,13;
+  --surface-2:#fbf8f1;--border-strong:rgba(18,18,20,.45);
+  --shadow-1:0 1px 2px rgba(88,64,12,.10);--shadow-2:0 10px 26px rgba(88,64,12,.14);--shadow-3:0 20px 48px rgba(88,64,12,.22);
+  --glow:0 0 0 1px rgba(122,90,18,.35),0 10px 26px rgba(217,183,102,.30);
+  color-scheme:light
+}
+/* ---- inkgold ("حبر وذهب"): warm ink black, brushed gold ---- */
+:root[data-theme="inkgold"]{
+  --bg:#0e0d0b;--bg-img:radial-gradient(120% 80% at 50% 0%,#1a1712 0%,#0e0d0b 60%);--fg:#f3ece0;--mute:#a59d8d;
+  --gold:#d9b766;--gold-2:#9c7a34;--gold-ink:#141210;--gold-text:#e6c87e;--gold-glow:rgba(217,183,102,.26);
+  --glass:rgba(28,25,20,.72);--glass-2:rgba(217,183,102,.06);--glass-bw:1px;--glass-edge:rgba(217,183,102,.30);
+  --edge:rgba(217,183,102,.18);--edge-hi:rgba(255,236,190,.10);
+  --glow-a:rgba(217,183,102,.20);--glow-b:rgba(120,90,40,.18);--shadow:0 14px 40px rgba(0,0,0,.6);
+  --code-bg:rgba(0,0,0,.4);--mark-bg:transparent;--mark-fg:#e6c87e;
+  --ring-a:conic-gradient(from 200deg,#d9b766,#5e4a1f,#f6e3ae,#d9b766);--ring-b:linear-gradient(135deg,#e6c87e,#6e5520);
+  --focus:#e6c87e;--dot-edge:rgba(255,255,255,.35);
+  --stage:#0b0a08;--stage-rgb:11,10,8;
+  --surface-2:#231f19;--border-strong:rgba(217,183,102,.42);
+  --shadow-1:0 1px 2px rgba(0,0,0,.5);--shadow-2:0 14px 40px rgba(0,0,0,.6);--shadow-3:0 22px 56px rgba(0,0,0,.7);
+  --glow:0 0 0 1px rgba(230,200,126,.32),0 10px 30px rgba(217,183,102,.14);
+  color-scheme:dark
+}
+/* ---- legacy: lake (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="lake"]{
+  --bg:#f7d6dc;
+  --bg-img:linear-gradient(180deg,#ffd9c6 0%,#fbd0df 42%,#ead9fb 100%);
+  --fg:#2f1d47;--mute:#634c7c;
+  --gold:#ff8aa6;--gold-2:#b7a2f0;--gold-ink:#2b1742;--gold-text:#9c1f50;--gold-glow:rgba(255,138,166,.45);
+  --glass:rgba(255,255,255,.55);--glass-2:rgba(255,255,255,.5);--glass-bw:1px;--glass-edge:rgba(255,255,255,.75);
+  --edge:rgba(47,29,71,.16);--edge-hi:rgba(255,255,255,.95);
+  --glow-a:rgba(255,168,128,.55);--glow-b:rgba(176,150,245,.42);--shadow:0 10px 34px rgba(120,60,120,.16);
+  --code-bg:rgba(255,255,255,.58);--mark-bg:#ffb3c6;--mark-fg:#2f1d47;
+  --ring-a:conic-gradient(from 200deg,#ff8aa6,#b7a2f0,#ffc4a8,#ff8aa6);--ring-b:linear-gradient(135deg,#ff9db4,#a995e8);
+  --focus:#9c1f50;--dot-edge:rgba(47,29,71,.45);
+  --stage:#1f1233;--stage-rgb:31,18,51;
+  color-scheme:light
+}
+/* ---- legacy: neon (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="neon"]{
+  --bg:#070a1c;--bg-img:none;--fg:#e9f1ff;--mute:#93a0cc;
+  --gold:#19e1ff;--gold-2:#ff3da8;--gold-ink:#03101a;--gold-text:#3de6ff;--gold-glow:rgba(25,225,255,.35);
+  --glass:rgba(14,20,52,.62);--glass-2:rgba(80,110,255,.08);--glass-bw:1px;--glass-edge:rgba(25,225,255,.28);
+  --edge:rgba(120,150,255,.22);--edge-hi:rgba(25,225,255,.35);
+  --glow-a:rgba(25,225,255,.26);--glow-b:rgba(255,61,168,.22);--shadow:0 10px 40px rgba(0,0,0,.55),0 0 26px rgba(25,225,255,.08);
+  --code-bg:rgba(2,5,22,.6);--mark-bg:transparent;--mark-fg:#3de6ff;
+  --ring-a:conic-gradient(from 200deg,#19e1ff,#ff3da8,#7a5cff,#19e1ff);--ring-b:linear-gradient(135deg,#19e1ff,#ff3da8);
+  --focus:#3de6ff;--dot-edge:rgba(255,255,255,.4);
+  --stage:#050a1f;--stage-rgb:5,10,31;
+  color-scheme:dark
+}
+/* ---- legacy: ink (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="ink"]{
+  --bg:#fff;--bg-img:none;--fg:#000;--mute:#383838;
+  --gold:#000;--gold-2:#555;--gold-ink:#fff;--gold-text:#000;--gold-glow:rgba(0,0,0,.25);
+  --glass:#fff;--glass-2:#fff;--glass-bw:2px;--glass-edge:#000;
+  --edge:#000;--edge-hi:transparent;
+  --glow-a:transparent;--glow-b:transparent;--shadow:4px 4px 0 #000;
+  --code-bg:#f3f3f3;--mark-bg:#000;--mark-fg:#fff;--mark-a:0%;--mark-b:100%;
+  --ring-a:conic-gradient(from 200deg,#000,#666,#000);--ring-b:linear-gradient(135deg,#000,#666);
+  --focus:#000;--dot-edge:#000;
+  --stage:#000;--stage-rgb:0,0,0;
+  color-scheme:light
+}
+/* ---- legacy: hybrid (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="hybrid"]{
+  --bg:#ebe4d4;--bg-img:linear-gradient(180deg,#efe9dc 0%,#e6dcc6 100%);
+  --fg:#141416;--mute:#55503f;
+  --gold:#c9a24e;--gold-2:#e2c27a;--gold-ink:#141416;--gold-text:#6c4d0b;--gold-glow:rgba(201,162,78,.42);
+  --glass:rgba(250,246,236,.8);--glass-2:rgba(20,20,22,.05);--glass-bw:1.5px;--glass-edge:#141416;
+  --edge:rgba(20,20,22,.24);--edge-hi:rgba(255,255,255,.85);
+  --glow-a:rgba(201,162,78,.30);--glow-b:rgba(20,20,22,.08);--shadow:0 12px 28px rgba(20,20,22,.16),0 2px 0 rgba(20,20,22,.9);
+  --code-bg:rgba(255,255,255,.6);--mark-bg:#141416;--mark-fg:#e2c27a;--mark-a:12%;--mark-b:100%;
+  --ring-a:conic-gradient(from 200deg,#141416,#c9a24e,#f2dd9c,#141416);--ring-b:linear-gradient(135deg,#c9a24e,#141416);
+  --focus:#141416;--dot-edge:rgba(20,20,22,.55);
+  --stage:#0b0b0d;--stage-rgb:11,11,13;
+  color-scheme:light
+}
+/* ---- legacy: gallery (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="gallery"]{
+  --bg:#e7dfd0;--bg-img:none;--fg:#111;--mute:#4e4a42;
+  --gold:#111;--gold-2:#8a7550;--gold-ink:#f1ead9;--gold-text:#111;--gold-glow:rgba(17,17,17,.18);
+  --glass:#f4efe4;--glass-2:rgba(17,17,17,.04);--glass-bw:1px;--glass-edge:#111;
+  --edge:rgba(17,17,17,.28);--edge-hi:transparent;
+  --glow-a:transparent;--glow-b:transparent;--shadow:0 1px 0 #111,0 18px 30px -18px rgba(17,17,17,.35);
+  --code-bg:#ece5d6;--mark-bg:#111;--mark-fg:#f1ead9;--mark-a:8%;--mark-b:100%;
+  --ring-a:conic-gradient(from 200deg,#111,#8a7550,#d8c9a6,#111);--ring-b:linear-gradient(135deg,#111,#8a7550);
+  --focus:#111;--dot-edge:#111;
+  --stage:#111;--stage-rgb:17,17,17;
+  color-scheme:light
+}
+/* ---- legacy: emerald (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="emerald"]{
+  --bg:#05241d;--bg-img:radial-gradient(120% 80% at 80% 0%,#0b3a2e 0%,#05241d 55%,#03180f 100%);--fg:#eef4ee;--mute:#9dbcb0;
+  --gold:#e0bd6a;--gold-2:#a8822f;--gold-ink:#06251c;--gold-text:#ecca7c;--gold-glow:rgba(224,189,106,.26);
+  --glass:rgba(8,48,38,.66);--glass-2:rgba(224,189,106,.07);--glass-bw:1px;--glass-edge:rgba(224,189,106,.28);
+  --edge:rgba(224,189,106,.18);--edge-hi:rgba(255,255,255,.08);
+  --glow-a:rgba(224,189,106,.18);--glow-b:rgba(40,160,120,.22);--shadow:0 14px 40px rgba(0,10,6,.55);
+  --code-bg:rgba(0,0,0,.3);--mark-bg:transparent;--mark-fg:#ecca7c;
+  --ring-a:conic-gradient(from 200deg,#e0bd6a,#1d6b52,#f6e3ae,#e0bd6a);--ring-b:linear-gradient(135deg,#ecca7c,#1d6b52);
+  --focus:#ecca7c;--dot-edge:rgba(255,255,255,.35);
+  --stage:#03180f;--stage-rgb:3,24,15;
+  color-scheme:dark
+}
+/* ---- legacy: midnight (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="midnight"]{
+  --bg:#0a1230;--bg-img:radial-gradient(120% 80% at 20% 0%,#16245a 0%,#0a1230 55%,#060b1f 100%);--fg:#eef1fb;--mute:#a1abcf;
+  --gold:#e8c36f;--gold-2:#9a7a35;--gold-ink:#0a1230;--gold-text:#f0cf82;--gold-glow:rgba(232,195,111,.26);
+  --glass:rgba(18,30,74,.62);--glass-2:rgba(232,195,111,.07);--glass-bw:1px;--glass-edge:rgba(232,195,111,.26);
+  --edge:rgba(160,180,255,.18);--edge-hi:rgba(255,255,255,.08);
+  --glow-a:rgba(232,195,111,.18);--glow-b:rgba(70,100,230,.26);--shadow:0 14px 40px rgba(0,3,20,.6);
+  --code-bg:rgba(0,0,0,.3);--mark-bg:transparent;--mark-fg:#f0cf82;
+  --ring-a:conic-gradient(from 200deg,#e8c36f,#2a3f8f,#fbe7b5,#e8c36f);--ring-b:linear-gradient(135deg,#f0cf82,#2a3f8f);
+  --focus:#f0cf82;--dot-edge:rgba(255,255,255,.4);
+  --stage:#060b1f;--stage-rgb:6,11,31;
+  color-scheme:dark
+}
+/* ---- legacy: desert (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="desert"]{
+  --bg:#ecdcbc;--bg-img:linear-gradient(180deg,#f3e6cb 0%,#e8d2a8 100%);--fg:#2a1b0c;--mute:#634b30;
+  --gold:#a54d1b;--gold-2:#e0a35c;--gold-ink:#fff8ec;--gold-text:#8a3a0e;--gold-glow:rgba(196,105,46,.38);
+  --glass:rgba(255,248,232,.66);--glass-2:rgba(255,250,238,.55);--glass-bw:1px;--glass-edge:rgba(138,58,14,.28);
+  --edge:rgba(42,27,12,.2);--edge-hi:rgba(255,255,255,.8);
+  --glow-a:rgba(224,163,92,.42);--glow-b:rgba(196,105,46,.18);--shadow:0 12px 30px rgba(110,60,20,.16);
+  --code-bg:rgba(255,250,238,.6);--mark-bg:#f0bf86;--mark-fg:#2a1b0c;
+  --ring-a:conic-gradient(from 200deg,#c4692e,#e0a35c,#f6dcb0,#c4692e);--ring-b:linear-gradient(135deg,#e0a35c,#8a3a0e);
+  --focus:#8a3a0e;--dot-edge:rgba(42,27,12,.5);
+  --stage:#1d1208;--stage-rgb:29,18,8;
+  color-scheme:light
+}
+/* ---- legacy: ember (not in the picker; old ?theme= links map to a live theme) ---- */
+:root[data-theme="ember"]{
+  --bg:#120707;--bg-img:radial-gradient(110% 70% at 50% 110%,#3a0d06 0%,#120707 60%);--fg:#fff1ea;--mute:#c3a196;
+  --gold:#ff5a2c;--gold-2:#ffb03a;--gold-ink:#1a0603;--gold-text:#ff8a5c;--gold-glow:rgba(255,90,44,.38);
+  --glass:rgba(34,14,12,.7);--glass-2:rgba(255,90,44,.08);--glass-bw:1px;--glass-edge:rgba(255,120,70,.32);
+  --edge:rgba(255,120,70,.2);--edge-hi:rgba(255,200,170,.1);
+  --glow-a:rgba(255,90,44,.26);--glow-b:rgba(255,176,58,.16);--shadow:0 14px 40px rgba(0,0,0,.6),0 0 30px rgba(255,90,44,.08);
+  --code-bg:rgba(0,0,0,.4);--mark-bg:transparent;--mark-fg:#ffb03a;
+  --ring-a:conic-gradient(from 200deg,#ff5a2c,#ffb03a,#7a1a0a,#ff5a2c);--ring-b:linear-gradient(135deg,#ffb03a,#ff3a1c);
+  --focus:#ffb03a;--dot-edge:rgba(255,255,255,.4);
+  --stage:#0c0403;--stage-rgb:12,4,3;
+  color-scheme:dark
+}

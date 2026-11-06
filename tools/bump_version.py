@@ -2,11 +2,13 @@
 """Cache-busting for the arcade site. Run it before every release (add_post.py runs it for you).
 
 What it does, for every .html page in the repo:
-  1. rewrites the version query on the shared assets:  theme.css?v=YYYYMMDDHHMM, theme.js, counter.js, home.js,
+  1. rewrites the version query on the shared assets:  tokens.css, theme.css?v=YYYYMMDDHHMM, theme.js, counter.js, home.js,
      nav.js (the one site header/footer) and s/skills.js; plain, ../ and /arcade/ paths alike
      (GitHub Pages and phones cache these for a long time; a new ?v= makes every browser fetch the new file)
   2. re-syncs the inline "apply the saved theme before first paint" snippet from tools/theme_init.html
      into the <!--theme-init-->...<!--/theme-init--> block of each page
+  3. copies index.html (the skills library) to s/index.html, the old /s/ address that shared links still use
+  4. warns about a themed page that loads theme.css without tokens.css (the design tokens) in front of it
 
 Usage:
   python tools/bump_version.py                  # stamp = now (local time)
@@ -21,10 +23,11 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SNIPPET_FILE = ROOT / "tools" / "theme_init.html"
+NL = chr(10)
 SKIP_DIRS = {".git", "node_modules", "tools"}
 
 ASSET_RE = re.compile(
-    r"""(?P<pre>(?:href|src)=["'](?:/arcade/|(?:\.\./|\./)*)(?:s/)?)(?P<name>theme\.css|theme\.js|counter\.js|home\.js|nav\.js|skills\.js)(?:\?v=\d+)?(?=["'])"""
+    r"""(?P<pre>(?:href|src)=["'](?:/arcade/|(?:\.\./|\./)*)(?:s/)?)(?P<name>tokens\.css|theme\.css|theme\.js|counter\.js|home\.js|nav\.js|skills\.js)(?:\?v=\d+)?(?=["'])"""
 )
 BLOCK_RE = re.compile(r"<!--theme-init-->.*?<!--/theme-init-->", re.S)
 
@@ -45,6 +48,8 @@ def process(path, stamp, snippet):
         new = BLOCK_RE.sub(lambda m: "<!--theme-init-->" + snippet + "<!--/theme-init-->", new)
     elif "theme.css" in new or "canvas" in new:
         problems.append("no <!--theme-init--> block")
+    if "theme.css" in new and "tokens.css" not in new:
+        problems.append("loads theme.css without tokens.css")
     # one site chrome: every real page draws the shared header (or the game chip) from nav.js, never its own copy
     if "http-equiv=\"refresh\"" not in new:
         if "nav.js" not in new:
@@ -68,7 +73,10 @@ def main():
     snippet = SNIPPET_FILE.read_text(encoding="utf-8").strip()
 
     changed, bad = [], []
+    lib, mirror = ROOT / "index.html", ROOT / "s" / "index.html"
     for path in pages():
+        if path == mirror:
+            continue
         old, new, problems = process(path, stamp, snippet)
         rel = path.relative_to(ROOT).as_posix()
         for pr in problems:
@@ -77,6 +85,12 @@ def main():
             changed.append(rel)
             if not args.check:
                 path.write_text(new, encoding="utf-8", newline="\n")
+    # s/index.html = a byte copy of the (freshly stamped) library page
+    want = process(lib, stamp, snippet)[1] if args.check else lib.read_text(encoding="utf-8")
+    if not mirror.exists() or mirror.read_text(encoding="utf-8") != want:
+        changed.append("s/index.html (copy of index.html)")
+        if not args.check:
+            mirror.write_text(want, encoding="utf-8", newline=NL)
     if args.check:
         # in check mode only the snippet / structure matters, not the stamp itself
         print("pages that would change (stamp or snippet): %d" % len(changed))

@@ -49,19 +49,52 @@ python tools/bump_version.py --check  # فحص بدون تغيير
 - `posts.json` يُجلب بـ `cache: no-cache`، فالريل الجديد يظهر حتى لو صفحة HTML نفسها لسه محفوظة (GitHub Pages يحفظ الـ HTML حتى 10 دقائق).
 - نفس السكربت يزامن مقطع «طبّق الثيم قبل أول رسم» داخل كل صفحة من `tools/theme_init.html`. لا تعدّله يدويًا داخل الصفحات.
 
-English: GitHub Pages and browsers cache `theme.css`, `theme.js`, `counter.js` and `home.js` for a long time, so every page loads them with a `?v=YYYYMMDDHHMM` query.
+English: GitHub Pages and browsers cache `tokens.css`, `theme.css`, `theme.js`, `nav.js`, `counter.js` and `home.js` for a long time, so every page loads them with a `?v=YYYYMMDDHHMM` query.
 `tools/bump_version.py` rewrites that stamp on every page (run it before each release; `add_post.py` runs it for you) and keeps the inline
 "apply the saved theme before first paint" snippet in sync from `tools/theme_init.html`. `posts.json` is fetched with `cache: 'no-cache'`,
 so new posts show up even while the HTML page is still cached (Pages serves HTML with up to 10 minutes of cache).
 
-## الثيمات | Themes
+## الثيمات والتصميم | Themes and design system
 
-ورق (الافتراضي) · ليل ذهبي · بحيرة · نيون · حبر. The picker (five dots) is in the top bar; the choice is saved in `localStorage` key `anas_theme`.
-`?theme=paper|night|lake|neon|ink` forces a theme for one visit (used for screenshots). Colours live in `theme.css` as variables;
-`python tools/check_contrast.py` verifies WCAG AA (4.5:1) for body, muted and accent text in every theme. The games keep their night look;
-only the stage colour behind the canvas follows the theme (`--stage`).
+العربي: الثيمات في القائمة: «ليل» (الافتراضي، الأسود والليموني) · ورق · حبر وذهب · «مخصّص» (خصّص). كل الألوان والمسافات والخطوط والحركة في ملف واحد:
+`tokens.css`. المكوّنات (البطاقة، الأزرار، الشرائح، الأيقونات، قائمة الثيم) في `theme.css`. لا تكتب لون أو مقاس بيدك داخل صفحة: استخدم المتغيّرات.
+
+English: one token file, `tokens.css` (loaded before `theme.css` on every themed page; `bump_version.py` warns if a page misses it):
+- colours per theme on `<html data-theme>`: live = `night` (default, lime), `paper`, `inkgold`; the other nine blocks are legacy ids the theme init maps to a live theme.
+  Roles: `--bg --fg --mute --gold (accent fill) --gold-text (accent text) --gold-ink (text on accent) --glass (card) --edge (hairline) --focus`,
+  semantic aliases `--surface-0/1/2 --border --border-strong --accent --accent-text --on-accent --shadow-1/2/3 --glow`.
+- spacing `--s-1..--s-20` (4/8 grid), radii `--r-xs/sm/md/lg/pill` (× the customiser's `--rad`), type `--t-xs (13px) .. --t-hero`,
+  line-heights `--lh-body 1.8 / --lh-ui 1.5 / --lh-head 1.45 / --lh-display 1.25` (Arabic needs taller lines), controls `--h-tap 44px / --h-control 48px`,
+  motion `--dur-1/2/3 = 120/180/240 ms`, `--ease-out`, `--ease-std` (all 0 under prefers-reduced-motion).
+- `?theme=paper|night|inkgold` forces a theme for one visit (screenshots). Saved choice: `localStorage` key `anas_theme`.
+- `python tools/check_contrast.py` checks WCAG AA in every live theme: body, muted and accent text on the page, the card, the raised surface and
+  code boxes (4.5:1), the focus ring (3:1) and the button text. `--all` enforces the legacy themes too. The games keep their own night look;
+  only the stage colour behind the canvas follows the theme (`--stage`).
+
+Components in `theme.css`: `.card` (= `.glass`; anatomy `.card-meta` chips, `.card-title`, `.card-desc`, `.card-actions`), `.btn` primary /
+`.btn.ghost` secondary / `.btn.quiet` text (`.lg`, `.block`), `.chip` tappable pill (old name `.pill`; `aria-pressed`/`aria-current` = selected),
+`.tag` static label (`.tag-accent`, `.tag-key` = the reel keyword), `.i` icon, `.skip-link`, `.toast`, theme menu `.tm-*` and panel `.tc-*`,
+cross-page View Transitions (≤240 ms, off under reduced motion).
+
+## الخطوط | Fonts
+
+Self-hosted in `fonts/` (no Google Fonts request on themed pages), `font-display:swap`, the two Arabic files are preloaded:
+- Text: **IBM Plex Sans Arabic** 400 and 600 (Google Fonts' woff2 files, unmodified, split by `unicode-range` into Arabic and Latin; the font's
+  Latin glyphs are Plex Sans, so English words match). Licence SIL OFL 1.1, `fonts/OFL-IBMPlexSansArabic.txt` (Reserved Font Name "Plex": do not subset or rename these files).
+- Display: **Lalezar** 400, subset to Arabic + Latin with fontTools. SIL OFL 1.1, `fonts/OFL-Lalezar.txt` (no reserved name).
+- Only these weights exist. `font-synthesis:none` is on, so a stray `font-weight:700/800` renders 600 instead of a fake bold.
+  Lalezar is for short display lines only (page titles, section titles, the footer invite); everything else is Plex.
+- Full-screen games keep their own fonts (their canvases are untouched).
+
+## الأيقونات | Icons
+
+One set: **Lucide** paths (ISC licence, https://lucide.dev/license), 24 px grid, stroke `--icon-stroke` (1.75), round caps. `nav.js` injects them once as an
+inline SVG sprite; use `<svg class="i" aria-hidden="true"><use href="#i-download"/></svg>` in HTML or `ANAS_ICON('download','i-sm')` in JS.
+Names: search x download copy check share arrow-left arrow-up-left arrow-down-left chevron-down plus minus instagram youtube gamepad play book
+video code clipboard file sliders volume-on volume-off external. No emoji or text arrows in the UI (emoji inside copyable prompts is content, not UI).
+The «أ» mark and the hero plate are our own drawings.
 
 ## ملفات | Files
 
-`index.html` · `home.js` · `posts.json` · `featured.json` · `theme.css` · `theme.js` · `counter.js` (hits.sh visit counter) · `img/` · `tools/` (`add_post.py`, `bump_version.py`, `check_contrast.py`, `theme_init.html`).
+`index.html` (= `s/index.html`, copied by `bump_version.py`) · `home.js` · `posts.json` · `featured.json` · `tokens.css` · `theme.css` · `theme.js` · `nav.js` · `counter.js` (hits.sh visit counter) · `fonts/` · `img/` · `tools/` (`add_post.py`, `bump_version.py`, `check_contrast.py`, `theme_init.html`).
 Requires Python 3.10+; Pillow is optional (shrinks covers).
