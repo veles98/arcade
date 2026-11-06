@@ -78,7 +78,7 @@
     'border-bottom:1px solid var(--edge);opacity:0;transition:opacity var(--dur-2,180ms) var(--ease-std,ease)}',
     '.site-header.is-stuck{padding-top:calc(var(--s-1,4px) + env(safe-area-inset-top));padding-bottom:var(--s-1,4px)}',
     '.site-header.is-stuck::before{opacity:1}',
-    'body[data-header="static"] .site-header{position:relative}',
+    ':where(body[data-header="static"]) .site-header{position:relative}',
     '.site-header *,.site-footer *{box-sizing:border-box}',
     /* reset whatever generic nav/a/ul rules a page has, so the chrome looks the same on every page */
     '.site-header nav,.site-footer nav{margin:0;padding:0;border:0;background:none;flex-wrap:nowrap}',

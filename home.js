@@ -43,7 +43,7 @@
     var a = link(el('a', 'game glass'), p), ico = el('div', 'ico'), body = el('div'), t = el('div', 't', p.title);
     if (p.cover) {
       var img = new Image();
-      img.src = p.cover; img.alt = ''; img.loading = 'lazy';
+      img.src = p.cover; img.alt = ''; img.loading = 'lazy'; img.width = 52; img.height = 52; img.decoding = 'async';
       ico.appendChild(img);
     } else {
       var svg = document.createElementNS(NS, 'svg');
@@ -51,8 +51,8 @@
       svg.innerHTML = p.icon || '<rect x="6" y="6" width="20" height="20" rx="5"/>';   // our own markup from posts.json
       ico.appendChild(svg);
     }
-    if (p.badge) t.appendChild(el('span', 'badge', p.badge));
-    if (p.n) t.appendChild(el('span', 'chip', 'الشحنة ' + p.n));
+    if (p.badge) t.appendChild(el('span', 'tag tag-key', p.badge));
+    if (p.n) t.appendChild(el('span', 'tag', 'الشحنة ' + p.n));
     body.appendChild(t);
     if (p.desc) body.appendChild(el('div', 'd', p.desc));
     a.appendChild(ico); a.appendChild(body);
@@ -64,23 +64,30 @@
     return a;
   }
 
+  var eagerUsed = false;   // only the very first project image on the page loads eagerly (it is above the fold on desktop)
   function feature(f, i) {
     var a = el(f.link ? 'a' : 'div', 'feat glass' + (f.soon ? ' soon' : '')), fm = el('div', 'fm'), img = new Image(), fb = el('div', 'fb');
     if (f.link) link(a, f);
     img.src = f.image; img.alt = f.title; img.width = 1200; img.height = 750; img.decoding = 'async';
-    if (i > 0) img.loading = 'lazy';
+    if (i > 0 || eagerUsed) img.loading = 'lazy';
+    eagerUsed = true;
     fm.appendChild(img);
     if (f.badge) fm.appendChild(el('span', 'fbadge', f.badge));
     if (f.kicker) fb.appendChild(el('div', 'fk', f.kicker));
     fb.appendChild(el('h3', null, f.title));
     if (f.desc) fb.appendChild(el('p', null, f.desc));
-    if (f.cta) fb.appendChild(el('span', 'fgo', f.cta + ' ←'));
+    if (f.cta) fb.appendChild(go(f.cta));
     a.appendChild(fm); a.appendChild(fb);
     return a;
   }
 
-  var AR = '٠١٢٣٤٥٦٧٨٩';
-  function arNum(n) { return String(n).replace(/\d/g, function (c) { return AR[c]; }); }
+  // one numeral system on the whole site: Latin digits (the library, dates and counts all use them)
+  function arNum(n) { return String(n); }
+  function go(label) {
+    var s = el('span', 'fgo', label);
+    if (window.ANAS_ICON) s.insertAdjacentHTML('beforeend', window.ANAS_ICON('arrow-left', 'i-sm'));
+    return s;
+  }
   function key(href) { try { return new URL(href, location.href).href.replace(/\/(index\.html)?$/, ''); } catch (e) { return href; } }
   function visible(posts) { return newestFirst(((posts && posts.posts) || []).filter(function (p) { return !p.hidden; })); }
   function isGame(f) { return f.kind === 'game'; }                 // shown in the games section
@@ -155,16 +162,16 @@
     if (l.link) link(a, l);
     if (l.cover) {
       var img = new Image();
-      img.src = l.cover; img.alt = l.title; img.width = 600; img.height = 800; img.decoding = 'async';
+      img.src = l.cover; img.alt = l.title; img.width = 600; img.height = 800; img.decoding = 'async'; img.loading = 'lazy';
       lc.appendChild(img);
     } else {
-      lc.appendChild(el('span', 'lnum', String(l.n).replace(/\d/g, function (c) { return '٠١٢٣٤٥٦٧٨٩'[c]; })));
+      lc.appendChild(el('span', 'lnum', arNum(l.n)));
     }
-    lb.appendChild(el('div', 'ln', 'الحلقة ' + String(l.n).replace(/\d/g, function (c) { return '٠١٢٣٤٥٦٧٨٩'[c]; })));
+    lb.appendChild(el('div', 'ln', 'الحلقة ' + arNum(l.n)));
     if (l.kicker) lb.appendChild(el('div', 'fk', l.kicker));
     lb.appendChild(el('h3', null, l.title));
     if (l.desc) lb.appendChild(el('p', null, l.desc));
-    if (l.cta) lb.appendChild(el('span', 'fgo', l.cta + ' ←'));
+    if (l.cta) lb.appendChild(go(l.cta));
     a.appendChild(lc); a.appendChild(lb);
     return a;
   }
