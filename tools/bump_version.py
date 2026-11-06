@@ -2,7 +2,8 @@
 """Cache-busting for the arcade site. Run it before every release (add_post.py runs it for you).
 
 What it does, for every .html page in the repo:
-  1. rewrites the version query on the shared assets:  theme.css?v=YYYYMMDDHHMM, theme.js, counter.js, home.js
+  1. rewrites the version query on the shared assets:  theme.css?v=YYYYMMDDHHMM, theme.js, counter.js, home.js,
+     nav.js (the one site header/footer) and s/skills.js; plain, ../ and /arcade/ paths alike
      (GitHub Pages and phones cache these for a long time; a new ?v= makes every browser fetch the new file)
   2. re-syncs the inline "apply the saved theme before first paint" snippet from tools/theme_init.html
      into the <!--theme-init-->...<!--/theme-init--> block of each page
@@ -23,7 +24,7 @@ SNIPPET_FILE = ROOT / "tools" / "theme_init.html"
 SKIP_DIRS = {".git", "node_modules", "tools"}
 
 ASSET_RE = re.compile(
-    r"""(?P<pre>(?:href|src)=["'](?:\.\./|\./)*)(?P<name>theme\.css|theme\.js|counter\.js|home\.js)(?:\?v=\d+)?(?=["'])"""
+    r"""(?P<pre>(?:href|src)=["'](?:/arcade/|(?:\.\./|\./)*)(?:s/)?)(?P<name>theme\.css|theme\.js|counter\.js|home\.js|nav\.js|skills\.js)(?:\?v=\d+)?(?=["'])"""
 )
 BLOCK_RE = re.compile(r"<!--theme-init-->.*?<!--/theme-init-->", re.S)
 
@@ -44,6 +45,14 @@ def process(path, stamp, snippet):
         new = BLOCK_RE.sub(lambda m: "<!--theme-init-->" + snippet + "<!--/theme-init-->", new)
     elif "theme.css" in new or "canvas" in new:
         problems.append("no <!--theme-init--> block")
+    # one site chrome: every real page draws the shared header (or the game chip) from nav.js, never its own copy
+    if "http-equiv=\"refresh\"" not in new:
+        if "nav.js" not in new:
+            problems.append("does not load nav.js (shared header/footer)")
+        elif "theme.css" in new and 'data-site="header"' not in new:
+            problems.append('no <div data-site="header"> placeholder')
+        elif "theme.css" in new and 'data-site="footer"' not in new:
+            problems.append('no <div data-site="footer"> placeholder')
     return text, new, problems
 
 

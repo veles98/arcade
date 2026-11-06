@@ -16,15 +16,23 @@ python tools/add_post.py "لعبة الضفدع" "C:\path\cover.png" "frog/" --t
 - `--n` رقم «الشحنة». `--date YYYY-MM-DD` إذا الريل مو لليوم. `--replace` يستبدل سطرًا بنفس الرابط.
 - الترتيب: الأحدث أولًا (التاريخ، ثم رقم الشحنة، ثم ترتيب الملف). شبكة الريلات تعرض أحدث مضاعف للـ 3 (حد أقصى 12).
 - سطر «آخر تحديث» يتحسب تلقائيًا من أحدث تاريخ في الملف.
-- ألعاب جديدة: ضع الصفحة في مجلد (مثل `frog/index.html`) وفيه سطر ثيم + `counter.js` (انسخ رأس `hot/index.html`)، ثم أضفها بالسكربت.
+- ألعاب جديدة: ضع الصفحة في مجلد (مثل `frog/index.html`) وفيه سطر ثيم + `counter.js` (انسخ رأس `hot/index.html`) + قبل `</body>`: `<div data-site="game"></div><script src="/arcade/nav.js"></script>`، ثم أضفها بالسكربت.
 
 English: everything on the home page (reels, tools, games) is rendered from `posts.json` by `home.js`; no HTML to edit.
 `tools/add_post.py "<title>" <cover> <link> [--type reel|game|tool] [--n N] [--desc ..] [--badge ..] [--date ..]` copies the cover into `img/`,
 puts the entry on top of `posts.json`, bumps the cache versions and prints the git commands. Newest first = date, then `n` (الشحنة), then list order.
 
+## الرأس والذيل الموحّد | One header and footer
+
+العربي: رأس الموقع (الشعار، الألعاب، البرومبتات، تابعني، الثيم) وذيله موجودين في ملف واحد بس: `nav.js`. أي صفحة جديدة تحط بعد `<body>`:
+`<div data-site="header"></div><script src="/arcade/nav.js"></script>` وفي آخرها `<div data-site="footer"></div>`. ممنوع تنسخ HTML الرأس داخل صفحة.
+الألعاب اللي تملأ الشاشة تحط `<div data-site="game"></div>` بدلها: زر صغير «كل الألعاب» يختفي وقت اللعب. `bump_version.py --check` ينبّه لو صفحة ما تستخدمه.
+
+English: the site header/footer markup and CSS live only in `nav.js` (placeholders `data-site="header|footer|game"`); `bump_version.py` versions it and warns about pages without it.
+
 ## الواجهة والمشاريع | Hero and featured projects
 
-العربي: أرقام الواجهة (المشاهدات، المتابعين، الألعاب) وبطاقات «المشاريع» في الملف `featured.json`. عدّل النص بيده ثم `python tools/bump_version.py` وادفع. أول بطاقة تظهر عريضة على الكمبيوتر. `"soon": true` = بطاقة «قريبًا» بدون رابط. الصور في `img/feat_*.webp` (1200×750، أقل من 100 KB).
+العربي: أرقام صفحة الألعاب تنحسب لحالها (`"stats": [{"auto": "games|lessons|reels|tools", "l": "..."}]` في `featured.json`) وتحتها «آخر تحديث». لا تكتب أرقام متابعين أو مشاهدات بيدك: تصير قديمة. بطاقات «المشاريع» في نفس الملف (`"kind": "game"` = تطلع في قسم الألعاب). عدّل النص بيده ثم `python tools/bump_version.py` وادفع. أول بطاقة تظهر عريضة على الكمبيوتر. `"soon": true` = بطاقة «قريبًا» بدون رابط. الصور في `img/feat_*.webp` (1200×750، أقل من 100 KB).
 
 English: hero stats and the featured project cards live in `featured.json` (`stats: [{v,l}]`, `featured: [{title,kicker,desc,image,link,cta,badge,soon}]`), fetched by `home.js` with `cache: no-cache`. The first card is drawn wide on desktop. The «أ» medallion is `img/hero_medallion.webp` (cropped from brand/assets_pack_v1/04_end_card.png). Reel grid: 3 columns on phones, 6 on desktop, full rows only.
 

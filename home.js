@@ -1,4 +1,5 @@
-// Home page: «رحلة التعلّم» from learn.json, hero stats + featured projects from featured.json, reels/tools/games from posts.json (newest first).
+// Games page (games.html): games + featured projects from featured.json, «رحلة التعلّم» from learn.json, reels/tools/games from posts.json
+// (newest first). The hero numbers are counted from those files, never typed by hand.
 // Add a reel or game with tools/add_post.py; edit featured.json by hand for the hero stats and the project cards.
 (function () {
   var NS = 'http://www.w3.org/2000/svg';
@@ -78,19 +79,60 @@
     return a;
   }
 
-  function renderHub(data) {
+  var AR = '٠١٢٣٤٥٦٧٨٩';
+  function arNum(n) { return String(n).replace(/\d/g, function (c) { return AR[c]; }); }
+  function key(href) { try { return new URL(href, location.href).href.replace(/\/(index\.html)?$/, ''); } catch (e) { return href; } }
+  function visible(posts) { return newestFirst(((posts && posts.posts) || []).filter(function (p) { return !p.hidden; })); }
+  function isGame(f) { return f.kind === 'game'; }                 // shown in the games section
+  function playable(f) { return isGame(f) && !f.soon && f.link; }   // counted as a game
+
+  // every game once: the big featured game cards first, then the small cards from posts.json that are not featured
+  function games(feat, posts) {
+    var big = ((feat && feat.featured) || []).filter(isGame), seen = {};
+    big.forEach(function (f) { if (f.link) seen[key(f.link)] = 1; });
+    var small = visible(posts).filter(function (p) { return p.type === 'game' && !seen[key(p.link)]; });
+    return { big: big, small: small };
+  }
+
+  // hero numbers: only what the site can count by itself (featured.json "stats": [{auto, l}]). Follower or view
+  // counts typed by hand go stale, so they are not supported; the «آخر تحديث» date is the newest content date.
+  function renderStats(feat, posts, learn) {
     var s = document.getElementById('stats');
-    if (s) {
-      s.textContent = '';
-      (data.stats || []).forEach(function (x) {
-        var li = el('li');
-        li.appendChild(el('b', null, x.v));
-        li.appendChild(el('small', null, x.l));
-        s.appendChild(li);
-      });
+    if (!s) return;
+    var g = games(feat, posts), list = visible(posts);
+    var count = {
+      games: g.big.filter(playable).length + g.small.length,
+      lessons: ((learn && learn.lessons) || []).filter(function (l) { return !l.soon; }).length,
+      reels: list.filter(function (p) { return p.type === 'reel'; }).length,
+      tools: list.filter(function (p) { return p.type === 'tool'; }).length
+    };
+    s.textContent = '';
+    ((feat && feat.stats) || []).forEach(function (x) {
+      var v = count[x.auto];
+      if (!v) return;
+      var li = el('li');
+      li.appendChild(el('b', null, arNum(v)));
+      li.appendChild(el('small', null, x.l));
+      s.appendChild(li);
+    });
+    var dates = list.map(function (p) { return p.date; }).concat([feat && feat.updated, learn && learn.updated]).filter(Boolean).sort();
+    var upd = document.getElementById('upd');
+    if (upd && dates.length) {
+      upd.textContent = 'آخر تحديث: ';
+      upd.appendChild(el('b', null, arabicDate(dates[dates.length - 1])));
+      upd.hidden = false;
     }
-    var box = document.getElementById('feats');
-    if (box) { box.textContent = ''; (data.featured || []).forEach(function (f, i) { box.appendChild(feature(f, i)); }); }
+  }
+
+  function renderHub(feat, posts) {
+    var all = (feat && feat.featured) || [], gbox = document.getElementById('gameFeats'), box = document.getElementById('feats');
+    if (gbox) {
+      gbox.textContent = '';
+      all.filter(isGame).forEach(function (f, i) { gbox.appendChild(feature(f, i)); });
+      all = all.filter(function (f) { return !isGame(f); });
+    }
+    if (box) { box.textContent = ''; all.forEach(function (f, i) { box.appendChild(feature(f, i)); }); }
+    fill('gameList', games(feat, posts).small, card);
   }
 
   function fill(id, items, make) {
@@ -131,19 +173,13 @@
 
   function render(data) {
     // hidden = archived on Instagram: kept in posts.json for history, never shown
-    var posts = newestFirst((data.posts || []).filter(function (p) { return !p.hidden; }));
+    var posts = visible(data);
     function of(type) { return posts.filter(function (p) { return p.type === type; }); }
     var reels = of('reel');
     // full rows only: the newest multiple of the column count (at most REEL_LIMIT), so the grid never ends with a lonely tile
     var cols = WIDE.matches ? 6 : 3;
     fill('reels', reels.slice(0, Math.min(REEL_LIMIT, Math.max(cols, reels.length - reels.length % cols))), reel);
     fill('tools', of('tool'), card);
-    fill('gameList', of('game'), card);
-    var upd = document.getElementById('upd');
-    if (upd && posts.length) {
-      upd.textContent = 'آخر تحديث: ';
-      upd.appendChild(el('b', null, arabicDate(posts[0].date)));
-    }
   }
 
   function fail() {
@@ -151,21 +187,19 @@
     if (r) { r.textContent = ''; r.appendChild(el('div', 'empty', 'تعذّر تحميل القائمة، حدّث الصفحة.')); }
   }
 
-  fetch('featured.json' + (V ? '?v=' + encodeURIComponent(V) : ''), { cache: 'no-cache' })
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(renderHub)
-    .catch(function () {});
-
-  fetch('learn.json' + (V ? '?v=' + encodeURIComponent(V) : ''), { cache: 'no-cache' })
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(renderLearn)
-    .catch(function () {});
-
   // cache: 'no-cache' = always revalidate, so a new post shows up even when this page itself is still cached
-  fetch('posts.json' + (V ? '?v=' + encodeURIComponent(V) : ''), { cache: 'no-cache' })
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(render)
-    .catch(fail);
+  function get(name) {
+    return fetch(name + (V ? '?v=' + encodeURIComponent(V) : ''), { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .catch(function () { return null; });
+  }
+  Promise.all([get('featured.json'), get('posts.json'), get('learn.json')]).then(function (r) {
+    var feat = r[0], posts = r[1], learn = r[2];
+    renderHub(feat, posts);
+    if (learn) renderLearn(learn);
+    if (posts) render(posts); else fail();
+    renderStats(feat, posts, learn);
+  });
 })();
 
 // hero medallion: replay the gold redraw / flip / glint each time the theme changes (theme.js fires `anas:theme`)

@@ -50,10 +50,7 @@ document.addEventListener('click', function (e) {
 });
 """
 
-BODY = f"""<header class="bar glass"><a class="brand" href="../../"><img class="logo" src="../../img/hero_pixel_96.webp" alt="" width="30" height="30"><span class="bn">anas.ai.ar</span></a><span class="sp"></span>
-<a class="pill" href="../../#learn">رحلة التعلّم</a>
-<div class="tp" data-tp></div></header>
-<div class="hero"><div>
+BODY = f"""<div class="hero"><div>
 <span class="ep">الحلقة ٢ · بدون كود</span>
 <h1>أي ملف… <span>يصير بودكاست</span></h1>
 <p class="lead">ترفع ملف أو رابط، وبعد دقايق يطلع لك اثنين يشرحون الموضوع بالعربي كأنهم جالسين معك. مجاني، ومن Google.</p>
@@ -91,13 +88,15 @@ BODY = f"""<header class="bar glass"><a class="brand" href="../../"><img class="
 html = f"""<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>الدرس ٢: أي ملف يصير بودكاست</title><meta name="description" content="بدون كود · يوم ٢: حوّل أي ملف أو رابط لبودكاست عربي بصوتين، مجانًا من Google (Gemini Notebook). الخطوات، وجملة التخصيص جاهزة للنسخ."><meta property="og:title" content="بدون كود · يوم ٢: أي ملف يصير بودكاست"><meta property="og:image" content="https://veles98.github.io/arcade/img/og_pixel.jpg"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alexandria:wght@600;800&family=IBM+Plex+Sans+Arabic:wght@400;600&display=swap">
 {head3}
-<style>{CSS}</style></head><body><div class="wrap">
+<style>{CSS}</style></head><body><div data-site="header"></div><script src="/arcade/nav.js"></script><div class="wrap">
 {BODY}
 </div>
+<div data-site="footer"></div>
 <script>{JS}</script>
 <script src="../../counter.js?v=202610270955" defer></script>
 </body></html>
 """
+# header/footer come from /arcade/nav.js (one copy for the whole site); run tools/bump_version.py after this script
 out = os.path.join(ROOT, "learn", "day-2", "index.html")
 open(out, "w", encoding="utf-8").write(html)
 print("lesson page ->", out, len(html))
