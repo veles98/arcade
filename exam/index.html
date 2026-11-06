@@ -9,7 +9,7 @@
 <meta property="og:description" content="ارفع المنهج، اختار الدروس، وخد امتحان أو ملخص أو ورقة طباعة بالإجابات.">
 <meta property="og:image" content="https://veles98.github.io/arcade/img/og_site.jpg">
 <!--theme-init--><script>/*theme-init*/(function(){var d=document,r=d.documentElement,K='anas_theme',KC='anas_theme_custom',L=[['night','ليل','#0b0e0c','#070908','7,9,8','linear-gradient(135deg,#0b0e0c 50%,#d5ff63 50%)'],['paper','ورق','#f3efe6','#0b0b0d','11,11,13','linear-gradient(135deg,#f3efe6 50%,#d9b766 50%)'],['inkgold','حبر وذهب','#0e0d0b','#0b0a08','11,10,8','linear-gradient(135deg,#1a1712 55%,#d9b766 55%)']],VK=['--bg','--bg-img','--fg','--mute','--gold','--gold-2','--gold-ink','--gold-text','--gold-glow','--glass','--glass-2','--glass-edge','--edge','--glow-a','--glow-b','--mark-bg','--mark-fg','--ring-a','--ring-b','--focus','--sheen'];function rgb(h){h=h.replace('#','');if(h.length==3)h=h.replace(/./g,'$&$&');return[0,2,4].map(function(i){return parseInt(h.substr(i,2),16)})}function hex(c){return'#'+c.map(function(v){v=Math.max(0,Math.min(255,Math.round(v)));return(v<16?'0':'')+v.toString(16)}).join('')}function lum(c){c=c.map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*c[0]+.7152*c[1]+.0722*c[2]}function cr(a,b){var x=lum(a),y=lum(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)}function mix(a,b,t){return a.map(function(v,i){return v+(b[i]-v)*t})}function rgba(c,a){return'rgba('+c.map(Math.round).join(',')+','+a+')'}function vars(C){var dk=C.base=='dark',bg=rgb(C.tone||(dk?'#0e0d0b':'#f3efe6')),ac=rgb(C.accent||'#d9b766'),fg=rgb(dk?'#f3efe6':'#141416'),t=0,tx=ac;while(cr(tx,bg)<4.6&&t<1){t+=.05;tx=mix(ac,fg,t)}var mu=mix(fg,bg,dk?.36:.4);t=.4;while(cr(mu,bg)<4.6&&t>0){t-=.04;mu=mix(fg,bg,t)}var ink=cr([17,17,17],ac)>=cr([255,255,255],ac)?'#111111':'#ffffff';return{'--bg':hex(bg),'--bg-img':'none','--fg':hex(fg),'--mute':hex(mu),'--gold':hex(ac),'--gold-2':hex(mix(ac,bg,.35)),'--gold-ink':ink,'--gold-text':hex(tx),'--gold-glow':rgba(ac,.32),'--glass':dk?'rgba(255,255,255,.05)':'rgba(255,255,255,.6)','--glass-2':rgba(ac,.07),'--glass-edge':dk?rgba(ac,.28):'rgba(0,0,0,.14)','--edge':dk?rgba(ac,.2):'rgba(0,0,0,.18)','--glow-a':rgba(ac,.22),'--glow-b':rgba(mix(ac,bg,.5),.18),'--mark-bg':'transparent','--mark-fg':hex(tx),'--ring-a':'conic-gradient(from 200deg,'+hex(ac)+','+hex(mix(ac,[0,0,0],.45))+','+hex(mix(ac,[255,255,255],.55))+','+hex(ac)+')','--ring-b':'linear-gradient(135deg,'+hex(ac)+','+hex(mix(ac,[0,0,0],.45))+')','--focus':hex(tx),'--sheen':rgba(ac,.1)}}function getC(){try{var c=JSON.parse(localStorage.getItem(KC)||'null');if(c&&typeof c=='object')return c}catch(e){}return null}function sz(C){var f=C&&+C.fs?+C.fs:1;r.style.setProperty('--fs',f);if(f>1)r.dataset.fsb='1';else delete r.dataset.fsb;r.style.setProperty('--rad',C&&C.rad!=null&&isFinite(+C.rad)?C.rad:1)}function find(i){for(var k=0;k<L.length;k++)if(L[k][0]===i)return L[k]}function apply(i,save,C){var t,m,v,k,cu=i==='custom';C=C||getC();if(cu&&!C)cu=false,i='paper';VK.forEach(function(k){r.style.removeProperty(k)});if(cu){t=find(C.base=='dark'?'inkgold':'paper');v=vars(C);for(k in v)r.style.setProperty(k,v[k]);r.dataset.custom='1'}else{t=find(i)||L[0];delete r.dataset.custom}r.dataset.theme=t[0];sz(C);r.style.setProperty('--stage',t[3]);r.style.setProperty('--stage-rgb',t[4]);m=d.querySelector('meta[name=theme-color]');if(!m){m=d.createElement('meta');m.name='theme-color';d.head.appendChild(m)}m.content=cu?v['--bg']:t[2];if(save){try{localStorage.setItem(K,cu?'custom':t[0])}catch(e){}}return cu?'custom':t[0]}var s;try{s=new URLSearchParams(location.search).get('theme')||localStorage.getItem(K)}catch(e){}s={dark:'night',light:'paper',hybrid:'paper',gallery:'paper',desert:'paper',lake:'paper',ink:'paper',emerald:'inkgold',ember:'inkgold',midnight:'night',neon:'night'}[s]||s;window.ANAS_THEMES=L;window.ANAS_THEME_VARS=vars;window.ANAS_GET_CUSTOM=getC;window.ANAS_CURRENT=function(){return r.dataset.custom?'custom':r.dataset.theme};window.ANAS_APPLY_THEME=function(i,C){return apply(i,false,C)};window.ANAS_SET_THEME=function(i){return apply(i,true)};apply(s||'night')})();</script><!--/theme-init-->
-<link rel="preload" href="/arcade/fonts/plex-400-ar.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/arcade/fonts/lalezar-ar.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/arcade/tokens.css?v=202611061459"><link rel="stylesheet" href="../theme.css?v=202611061459"><script src="../theme.js?v=202611061459" defer></script>
+<link rel="preload" href="/arcade/fonts/plex-400-ar.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/arcade/fonts/lalezar-ar.woff2" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="/arcade/tokens.css?v=202611061510"><link rel="stylesheet" href="../theme.css?v=202611061510"><script src="../theme.js?v=202611061510" defer></script>
 <style>
 .ex-hero{text-align:center;padding:var(--s-6) 0 var(--s-4)}
 .ex-hero h1{font-family:var(--font-display);font-weight:400;font-size:var(--t-3xl);line-height:var(--lh-display);margin:var(--s-2) 0}
@@ -77,6 +77,8 @@ input.in{min-height:var(--h-control);padding:0 var(--s-3)}
 .alt summary{cursor:pointer;color:var(--gold-text);font-weight:var(--fw-strong);font-size:var(--t-sm);min-height:var(--h-tap);display:flex;align-items:center}
 .alt ol{padding-inline-start:var(--s-5);line-height:var(--lh-body);font-size:var(--t-sm)}
 #printArea{display:none}
+.inapp{display:grid;gap:var(--s-2);padding:var(--s-4);margin:0 0 var(--s-4);border:1px solid var(--gold);border-radius:var(--r-md);background:var(--glass-2);font-size:var(--t-sm);line-height:1.8}
+.inapp b{font-size:var(--t-md)}.inapp ol{margin:0;padding-inline-start:var(--s-5)}
 [hidden]{display:none!important}
 /* the printable documents (exam paper, answer key, summary): used for window.print and for the downloaded PDF */
 .doc{font-family:var(--font-text);color:#111;background:#fff;font-size:12.5pt;line-height:1.75;direction:rtl;text-align:right}
@@ -103,7 +105,7 @@ input.in{min-height:var(--h-control);padding:0 var(--s-3)}
 </style>
 </head>
 <body><a class="skip-link" href="#main">تخطَّ إلى المحتوى</a>
-<div data-site="header"></div><script src="/arcade/nav.js?v=202611061459"></script>
+<div data-site="header"></div><script src="/arcade/nav.js?v=202611061510"></script>
 <main id="main"><div class="wrap">
 
 <header class="ex-hero">
@@ -111,6 +113,13 @@ input.in{min-height:var(--h-control);padding:0 var(--s-3)}
   <h1>اختبرني <span>في منهجي</span></h1>
   <p class="lead">ارفع المنهج واختار الدروس، وخد امتحان يصححلك، أو ملخص تحمّله، أو ورقة امتحان للطباعة بالإجابات. مجانًا وبدون تسجيل.</p>
 </header>
+
+<div class="inapp" id="inapp" hidden role="note">
+  <b>فاتح الصفحة من جوّه <span id="appName">التطبيق</span>؟</b>
+  <span>التحميل والطباعة ما بيشتغلوش هنا. افتح الصفحة في المتصفح الأول:</span>
+  <ol id="inappSteps"></ol>
+  <button id="copyLink" class="btn" type="button"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg><span>أو انسخ الرابط والصقه في المتصفح</span></button>
+</div>
 
 <!-- 1. material -->
 <section id="s1" class="card glass">
@@ -289,6 +298,20 @@ function err(msg){var e=$('e1');e.textContent=msg||'';e.hidden=!msg}
 var VIEWS=['sQuiz','sRes','sPaper','sSum'];
 function view(id){VIEWS.forEach(function(v){$(v).hidden=v!==id});var home=!id;$('s1').hidden=!home;$('sMake').hidden=!home||!pages.length;window.scrollTo({top:0,behavior:'smooth'})}
 document.querySelectorAll('.back').forEach(function(b){b.addEventListener('click',function(){view(null)})});
+
+// ---------- in-app browsers (Instagram, TikTok, Snapchat, Facebook) block downloads and printing ----------
+var UA=navigator.userAgent||'',APP=/Instagram/i.test(UA)?'إنستقرام':/musical_ly|TikTok|BytedanceWebview/i.test(UA)?'تيك توك':/Snapchat/i.test(UA)?'سناب شات':/FBAN|FBAV|FB_IAB/i.test(UA)?'فيسبوك':'';
+var IOS=/iPhone|iPad|iPod/i.test(UA);
+if(APP){
+  $('appName').textContent=APP;$('inapp').hidden=false;
+  $('inappSteps').innerHTML=IOS?'<li>اضغط ⋯ فوق على اليمين.</li><li>اختار «فتح في المتصفح الخارجي» أو Open in external browser.</li>'
+    :'<li>اضغط ⋮ فوق على اليمين.</li><li>اختار «فتح في Chrome» أو Open in browser.</li>';
+}
+$('copyLink').addEventListener('click',function(){var b=this,l=b.querySelector('span'),o=l.textContent;
+  (navigator.clipboard?navigator.clipboard.writeText(location.href.split('#')[0]):Promise.reject()).then(function(){l.textContent='اتنسخ، الصقه في المتصفح'},function(){l.textContent=location.href.split('#')[0]});
+  setTimeout(function(){l.textContent=o},3500)});
+function needBrowser(){if(!APP)return false;$('inapp').hidden=false;$('inapp').scrollIntoView({behavior:'smooth',block:'center'});
+  var l=document.querySelector('#inapp b');l.textContent='عشان تحمّل أو تطبع، افتح الصفحة في المتصفح:';return true}
 
 // ---------- 1. reading the material into pages ----------
 // Arabic PDFs often store text as single glyphs in visual (right-to-left) order and as presentation forms (ﻮ ﻨ ﻟ ا).
@@ -554,7 +577,7 @@ function showPaper(o){
   $('paperInfo').textContent=num(o.questions.length)+' سؤال'+(chosenTitles().length&&chosenTitles().length<lessons.length?' من: '+chosenTitles().join('، '):'')+'.';
   $('paperPreview').innerHTML=o.questions.map(function(q,i){return '<article class="rv"><h3>'+num(i+1)+'. '+esc(q.q)+'</h3>'+(q.type==='mcq'?'<p class="k">'+q.options.map(function(x,k){return '('+AR[k]+') '+esc(x)}).join(' &nbsp; ')+'</p>':'')+'<p><span class="k">الإجابة: </span>'+esc(rightText(q))+'</p></article>'}).join('');
 }
-function printHTML(html){$('printArea').innerHTML=html;setTimeout(function(){window.print()},50)}
+function printHTML(html){if(needBrowser())return;$('printArea').innerHTML=html;setTimeout(function(){window.print()},50)}
 // Word file (.doc = HTML that Word, Google Docs and Pages open). The browser draws nothing here, so the Arabic stays exactly as typed:
 // html2canvas-made PDFs glued Arabic words together, so we do not make PDFs in the page (the print dialog's «حفظ PDF» does that).
 var DOC_CSS='@page WordSection1{size:21cm 29.7cm;margin:1.6cm 1.4cm}div.WordSection1{page:WordSection1}'+
@@ -578,7 +601,7 @@ function wordQuestions(){
   return h;
 }
 function wordKey(){return wordHead('ورقة الإجابات (للمعلم)')+'<br>'+paperKey()}
-function downloadDoc(body,name,btn){
+function downloadDoc(body,name,btn){if(needBrowser())return;
   var html='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40" lang="ar" dir="rtl"><head><meta charset="utf-8"><title>'+esc(name)+'</title><style>'+DOC_CSS+'</style></head><body dir="rtl"><div class="WordSection1">'+body+'</div></body></html>';
   var blob=new Blob(['﻿',html],{type:'application/msword'}),url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download=name+'.doc';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},4000);
