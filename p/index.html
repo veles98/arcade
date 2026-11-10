@@ -32,7 +32,7 @@ body.locked{overflow:hidden}
 <p class="lead purpose">كل برومبت هنا صار سكيل جاهز في المكتبة. حمّله من الزر وارفعه في Claude مرة وحدة، ويشتغل لحاله.</p>
 <a class="btn libgo" href="/arcade/">افتح مكتبة السكيلات</a>
 <p class="note fromdm">جاي من رسالة أو تعليق؟ البرومبت اللي طلبته تحت كامل: اختاره من القائمة وانسخه.</p>
-<nav class="chips"><a class="pill" href="#ctx">قالب البرومبت</a><a class="pill" href="#montage2">مونتاج الموبايل</a><a class="pill" href="#ad">إعلان آيفون</a><a class="pill" href="#skill1">سكيل الهوك</a><a class="pill" href="#pixelanim">حيوانات البكسل</a><a class="pill" href="#sky">سما نوفمبر</a><a class="pill" href="#reels">ريلز بصوتك</a><a class="pill" href="#pixel">مونتاج البكسل</a><a class="pill" href="#ask">اسألني قبل</a><a class="pill" href="#project">تعليمات المشروع</a><a class="pill" href="#tool">أداة تشتغل</a><a class="pill" href="#hooks">٣٠ هوك</a><a class="pill" href="#game">برومبت اللعبة</a><a class="pill" href="#char">الشخصية المتحركة</a><a class="pill" href="#city">المدينة بالحروف</a><a class="pill" href="#site">موقع لحسابك</a><a class="pill" href="#themes">ثيمات الموقع</a><a class="pill" href="#fx">تأثيرات الفيديو</a><a class="pill" href="#hitstop">كود Hit-stop</a><a class="pill" href="#vision">العدو يشوفك</a><a class="pill" href="#skills">السكيلز</a><a class="pill" href="#tools">الأدوات</a></nav>
+<nav class="chips"><a class="pill" href="#ink">لعبة الحبر</a><a class="pill" href="#ctx">قالب البرومبت</a><a class="pill" href="#montage2">مونتاج الموبايل</a><a class="pill" href="#ad">إعلان آيفون</a><a class="pill" href="#skill1">سكيل الهوك</a><a class="pill" href="#pixelanim">حيوانات البكسل</a><a class="pill" href="#sky">سما نوفمبر</a><a class="pill" href="#reels">ريلز بصوتك</a><a class="pill" href="#pixel">مونتاج البكسل</a><a class="pill" href="#ask">اسألني قبل</a><a class="pill" href="#project">تعليمات المشروع</a><a class="pill" href="#tool">أداة تشتغل</a><a class="pill" href="#hooks">٣٠ هوك</a><a class="pill" href="#game">برومبت اللعبة</a><a class="pill" href="#char">الشخصية المتحركة</a><a class="pill" href="#city">المدينة بالحروف</a><a class="pill" href="#site">موقع لحسابك</a><a class="pill" href="#themes">ثيمات الموقع</a><a class="pill" href="#fx">تأثيرات الفيديو</a><a class="pill" href="#hitstop">كود Hit-stop</a><a class="pill" href="#vision">العدو يشوفك</a><a class="pill" href="#skills">السكيلز</a><a class="pill" href="#tools">الأدوات</a></nav>
 <div class="label">برومبتات</div>
 <section id="ad" class="card glass"><h2>إعلان آيفون 18 البورجندي: البرومبتات كاملة</h2><p class="s">الإعلان 4 لقطات. كل لقطة لها صورة بداية، وبعدها تتحول لفيديو في Higgsfield بموديل Kling. البرومبتات بالإنجليزي عشان النتيجة تطلع أدق، انسخها مثل ما هي.</p><hr class="sep"><p class="st"><b>قبل ما تبدأ</b></p><p class="note">١) جهّز صورة واضحة للجوال من الخلف، وأرفقها مع كل برومبت صورة عشان الشكل يطلع مطابق.<br>٢) الصور: من مولّد الصور في Higgsfield أو من ChatGPT.<br>٣) الفيديو: في Higgsfield اختر Kling، وارفع صورة البداية، والصق برومبت الفيديو.<br>٤) كلفني 81 رصيد في Higgsfield (اشتراك Pro، نوفمبر 2026).</p><hr class="sep"><p class="st"><b>١.</b> الجوال العملاق يطلع من البحر</p><p class="note">صورة البداية:</p><div class="box open"><div class="tools"><button class="cp" data-t="ad1i">نسخ</button><span></span></div><pre id="t-ad1i" class="code">Use your image generation tool and return ONE vertical 9:16 photorealistic image that looks like a real smartphone video frame filmed by a person standing on a seaside promenade at sunset.
 In the sea, a few hundred meters away, a GIANT smartphone the size of a skyscraper is rising vertically out of the water, its back facing the camera. It must match the attached reference EXACTLY: deep burgundy aluminium body, a raised camera plateau that spans the full width of the top of the back, three large lenses arranged in a triangle on the left side of the plateau, a flash and a small sensor on the right side, rounded corners. Huge waterfalls of seawater pour off its edges, mist and spray around its base, seagulls flying past it for scale.
@@ -88,6 +88,34 @@ Requirements (all of them):
 What I need from you:
 - Write the full code in one block, with no shortcuts, no &quot;...&quot; and no &quot;continue here&quot;. If you can, show it as an Artifact so I can try it right away.
 - After the code, only two lines: how to play, and how to run it on my phone (save the file as game.html and open it in the browser).</pre></div></section>
+<section id="ink" class="card glass"><h2>لعبة ثلاثية الأبعاد بأسلوب الحبر من رسالة وحدة</h2><p class="s">هذي نفس الرسالة اللي بنينا فيها «جسر الحبر». الخطوات:</p><p class="note">١) نزّل Godot من godotengine.org. هذا «المشغّل»: محرك ألعاب مفتوح المصدر وبدون اشتراك، هو اللي يشغّل اللعبة ويطلعها ملف ويندوز. ونزّل معه Export Templates من داخل البرنامج.<br>٢) ثبّت Claude Code، وهو يحتاج اشتراك Claude مدفوع.<br>٣) سوّ مجلد فاضي، وافتح فيه Claude Code، والصق الرسالة اللي تحت. غيّر اللي بين القوسين: مكان Godot عندك واسمك. ولو تبي فكرة ثانية، غيّر وصف اللعبة بس.<br>٤) خلّه يشتغل لين يخلص، ومعنا أخذ ساعة تقريبًا. بعدها افتح اللعبة من ملف exe اللي في مجلد build.</p><div class="box"><div class="tools"><button class="cp" data-t="ink">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-ink" dir="ltr" style="text-align:left">Build a small, polished, finished 3D game in Godot 4. Work on your own until it is done; do not ask me questions. At the end give me a short report: what works, the files, and what you could not verify.
+
+## Goal
+A short game in a Japanese sumi-e ink-wash style: a lone ronin walks a wooden bridge through misty mountains under a red sun, painterly black and white with red accents. ONE short level, tight combat, a beautiful style, finished. No classes, cities, gear or economy.
+
+## Tools and place
+- Godot 4 is installed at: [path to Godot.exe]. Its Windows export templates are installed. Do not download anything.
+- Make a new project in this folder.
+- Build everything procedurally in Godot: meshes from primitives / CSG / SurfaceTool, shaders, particles, animation in code. No downloaded assets, add-ons or fonts.
+
+## Game spec
+- Third-person 3D, 5-8 minutes of play. The hero walks a long wooden bridge over a misty abyss between mountain cliffs, in 3 bridge sections, then a cliff-top arena.
+- Hero: a stylised ronin built from primitives (straw hat cone, flowing scarf with procedural sway, sword). Procedural animation: idle breathing, run lean, a 3-hit slash combo with a visible ink slash arc, a dash with an ink trail, hit flinch, death.
+- Enemies: ink-shadow warriors (black silhouettes, red glowing eyes), 2-3 per section. Clear tells: a red flash and a pause before they lunge. Hit-stop, camera shake, ink splatter, and enemies dissolve into ink when they die.
+- Boss: a giant shadow samurai with 3 attack patterns and 2 phases, and a health bar on screen.
+- Hero health; on death, restart from the start of the current section. A win screen, then a credits line with my name: [your name].
+- Controls: WASD / arrows to move, J or left mouse to attack, Space or Shift to dash, mouse to orbit the camera; full gamepad support. A title screen with a Start button and the controls.
+- Look (the most important part): a full-screen ink-wash post-process shader (ink tones, procedural paper grain, outlines from depth and normals, soft bleed). Keep only red as a colour (sun, eyes, hit flashes, scarf). Layered fog, drifting mist, mountains in 3-4 depth layers, slowly falling ink particles. It must look like a painting, not like default Godot.
+- Audio: generate every sound in code (wind loop, footsteps on wood, slash, hit, dash, death, boss sting). No downloads.
+
+## Deliverables
+1. The Godot project with a clean folder structure and readable GDScript.
+2. A Windows build: build/Game.exe (+ .pck), tested to launch.
+3. A demo mode (--demo) where the hero plays by itself, so I can record it.
+4. 4 screenshots (title, bridge fight, boss, win) and a README with how to play.
+
+## Check before you report
+Run the game, look at your own screenshots, and fix anything ugly, broken or clipped. Tell me honestly what you checked by looking and what you could not check.</pre></div></section>
 <section id="char" class="card glass"><h2>الشخصية المتحركة بصوتك</h2><p class="s">سجّل صوتك (المذكرات الصوتية + صوت استوديو) واحفظه voice.m4a، وافتح Claude Code في نفس المجلد.</p>
 <div class="box"><div class="tools"><button class="cp" data-t="char">نسخ</button><button class="more">اعرض الكل</button></div><pre id="t-char" dir="ltr" style="text-align:left">I want to make an animated character that talks with my voice (the file voice.m4a is in this folder).
 1) Draw a character in thin glowing gold line art on a black background: [describe how you look]
