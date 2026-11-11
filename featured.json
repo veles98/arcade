@@ -1,6 +1,6 @@
 {
  "_doc": "Games page (games.html) data, read by home.js with cache: no-cache. stats: [{auto, l}] = numbers the site counts by itself (auto: games | lessons | reels | tools; l = small label). Never type follower or view counts here: they go stale. The «آخر تحديث» line under them is the newest date of posts.json / this file (updated) / learn.json. featured (display order, the first card of each group is wide on desktop): title, kicker, desc, image (img/...), link (null = not clickable), cta, badge, soon (true = greyed coming-soon card), kind ('game' = shown in the games section and counted as a game; anything else = «مشاريع ثانية»). updated = date you last edited this file (YYYY-MM-DD).",
- "updated": "2026-11-06",
+ "updated": "2026-11-11",
  "stats": [
   {
    "auto": "games",
@@ -16,6 +16,16 @@
   }
  ],
  "featured": [
+  {
+   "title": "جسر الحبر",
+   "kicker": "لعبة سيوف · تنلعب من الجوال",
+   "desc": "رونين وحيد يعبر ثلاثة جسور من الحبر، وظلّ أحمر ينتظره في القمة. المس للضرب، واسحب للاندفاع.",
+   "image": "img/feat_inkbridge.webp",
+   "link": "inkbridge/",
+   "cta": "العبها الحين",
+   "badge": "جديدة",
+   "kind": "game"
+  },
   {
    "title": "طوّق",
    "kicker": "لعبة كمبيوتر · مجانية",
