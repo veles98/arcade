@@ -63,12 +63,51 @@ body {
 #pct { direction: ltr; unicode-bidi: isolate; font-weight: 700; color: #c71a12; opacity: 1; font-variant-numeric: lining-nums tabular-nums; }
 #notice { display: none; font-size: 16px; line-height: 1.8; max-width: 22em; margin-top: 18px; }
 #notice a { color: #c71a12; font-weight: 700; }
+
+/* A phone held sideways is short: the loading card tightens up so nothing is cut. */
+@media (orientation: landscape) and (max-height: 520px) {
+	#status { padding-top: max(3vh, env(safe-area-inset-top)); padding-bottom: max(3vh, env(safe-area-inset-bottom)); }
+	#sun { width: min(13vh, 60px); height: min(13vh, 60px); }
+	#title { margin-top: 1.5vh; width: auto; height: min(24vh, 100px); }
+	#rule { margin-top: 1.5vh; height: 4px; }
+	#story { margin-top: 3vh; font-size: clamp(14px, 4.6vh, 19px); max-width: 34em; line-height: 1.5; }
+	#brush { margin-top: 2.5vh; width: min(60vw, 340px); }
+	#state { margin-top: 4px; font-size: clamp(13px, 4vh, 16px); }
+}
+
+/* v6.2: the game is played with the phone held sideways. A phone held upright gets this
+   card over the (blurred) game; the engine pauses a running fight while it shows. */
+#rotate {
+	position: fixed; inset: 0; z-index: 30;
+	box-sizing: border-box;
+	display: none; flex-direction: column; justify-content: center; align-items: center;
+	text-align: center;
+	padding: max(24px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(24px, env(safe-area-inset-left));
+	background-color: rgba(238, 231, 214, .46);
+	-webkit-backdrop-filter: blur(11px) saturate(.9);
+	backdrop-filter: blur(11px) saturate(.9);
+}
+#rotate.on { display: flex; }
+#rotate svg { width: min(46vw, 210px); height: auto; overflow: visible; }
+#rotate .phone { transform-box: fill-box; transform-origin: 50% 50%; animation: inkturn 2.6s cubic-bezier(.6, 0, .3, 1) infinite; }
+@keyframes inkturn {
+	0%, 18% { transform: rotate(0deg); }
+	52%, 86% { transform: rotate(-90deg); }
+	100% { transform: rotate(0deg); }
+}
+@media (prefers-reduced-motion: reduce) { #rotate .phone { animation: none; transform: rotate(-90deg); } }
+#rotate h2 { margin: 26px 0 0 0; font-size: clamp(26px, 8.4vw, 40px); font-weight: 800; line-height: 1.4; }
+#rotate p { margin: 10px 0 0 0; font-size: clamp(15px, 4.4vw, 19px); opacity: .75; line-height: 1.7; max-width: 18em; }
+#rotate .bar { width: min(34vw, 150px); height: 5px; border-radius: 3px; background: #c71a12; margin-top: 18px; }
+#safe {
+	position: fixed; left: 0; top: 0; width: 0; height: 0; visibility: hidden; pointer-events: none;
+	padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
 		</style>
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
 
-	<script src="../counter.js" defer></script>
-</head>
+	</head>
 	<body>
 		<canvas id="canvas">متصفحك لا يدعم هذه اللعبة.</canvas>
 		<noscript>شغّل JavaScript لتلعب.</noscript>
@@ -88,9 +127,24 @@ body {
 			<div id="notice"></div>
 		</div>
 
+		<div id="rotate" role="alert" aria-live="assertive">
+			<svg viewBox="0 0 220 220" aria-hidden="true">
+				<path d="M36 150 A 82 82 0 0 1 110 28" fill="none" stroke="#c71a12" stroke-width="9" stroke-linecap="round"/>
+				<path d="M92 12 L116 28 L94 48" fill="none" stroke="#c71a12" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+				<g class="phone">
+					<rect x="74" y="42" width="72" height="136" rx="13" fill="#eee7d6" stroke="#121113" stroke-width="8"/>
+					<rect x="99" y="160" width="22" height="5" rx="2.5" fill="#121113"/>
+				</g>
+			</svg>
+			<h2>لف جوالك بالعرض</h2>
+			<div class="bar"></div>
+			<p>جسر الحبر تُلعب والجوال بالعرض: عصا الحركة يسار، والأزرار والكاميرا يمين.</p>
+		</div>
+		<div id="safe"></div>
+
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":11174632,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":11187672,"index.wasm":39514754},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
 const GODOT_THREADS_ENABLED = false;
 const engine = new Engine(GODOT_CONFIG);
 
@@ -141,6 +195,76 @@ const engine = new Engine(GODOT_CONFIG);
 		notice.style.display = 'block';
 		notice.innerHTML = 'افتح الصفحة في Chrome أو Safari حديث، أو جرّب <a href="lite/">النسخة الخفيفة</a>.';
 	}
+
+	// ---- v6.2: sideways play on phones -------------------------------------------------
+	// Test switches: ?rotate=1 / ?rotate=0 force the card on or off, ?fs=0 never asks for
+	// full screen, ?safe=L,T,R,B pretends there is a notch (CSS px).
+	const q = new URLSearchParams(location.search);
+	const rotateEl = document.getElementById('rotate');
+	const safeEl = document.getElementById('safe');
+	const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+	const isPhone = coarse || (navigator.maxTouchPoints > 0 && /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent));
+	let rotateOn = false;
+	function checkRotate() {
+		const upright = window.innerHeight > window.innerWidth;
+		const force = q.get('rotate');
+		rotateOn = force === '1' ? upright : (force === '0' ? false : (isPhone && upright));
+		rotateEl.classList.toggle('on', rotateOn);
+	}
+	window.addEventListener('resize', checkRotate);
+	window.addEventListener('orientationchange', checkRotate);
+	if (window.screen && screen.orientation && screen.orientation.addEventListener) {
+		screen.orientation.addEventListener('change', checkRotate);
+	}
+	checkRotate();
+
+	// Read by the game a few times a second: notch margins (CSS px), the window height they
+	// are measured against, and whether the card above is showing.
+	window.inkState = function () {
+		let m = [0, 0, 0, 0];
+		const fake = q.get('safe');
+		if (fake) {
+			m = fake.split(',').map(Number);
+		} else {
+			const cs = getComputedStyle(safeEl);
+			m = [cs.paddingLeft, cs.paddingTop, cs.paddingRight, cs.paddingBottom].map((v) => parseFloat(v) || 0);
+		}
+		return [m[0], m[1], m[2], m[3], window.innerHeight, rotateOn ? 1 : 0].join(',');
+	};
+
+	// Full screen, then lock the screen sideways. Browsers only allow this inside a tap, so
+	// it rides on the first tap (the game's own tap-to-start card) and on every tap on the
+	// rotate card. Android Chrome does both; iOS Safari has neither, hence the card.
+	function lockWide() {
+		try {
+			const o = window.screen && screen.orientation;
+			if (o && o.lock) {
+				const p = o.lock('landscape');
+				if (p && p.catch) { p.catch(function () {}); }
+			}
+		} catch (e) { /* not supported */ }
+	}
+	function goWide() {
+		if (q.get('fs') === '0') { return; }
+		const el = document.documentElement;
+		const req = el.requestFullscreen || el.webkitRequestFullscreen;
+		if (!req) { return; }
+		if (document.fullscreenElement || document.webkitFullscreenElement) { lockWide(); return; }
+		try {
+			const p = req.call(el, { navigationUI: 'hide' });
+			if (p && p.then) { p.then(lockWide, function () {}); } else { lockWide(); }
+		} catch (e) { /* not allowed here */ }
+	}
+	let asked = false;
+	function firstTap() {
+		if (asked || !isPhone) { return; }
+		asked = true;
+		goWide();
+	}
+	document.addEventListener('touchend', firstTap, { capture: true, passive: true });
+	document.addEventListener('click', firstTap, { capture: true, passive: true });
+	rotateEl.addEventListener('touchend', goWide, { passive: true });
+	rotateEl.addEventListener('click', goWide);
 
 	// Long-press menus and pinch zoom would break the touch controls.
 	document.addEventListener('contextmenu', (e) => e.preventDefault());
