@@ -96,6 +96,11 @@ body {
 	100% { transform: rotate(0deg); }
 }
 @media (prefers-reduced-motion: reduce) { #rotate .phone { animation: none; transform: rotate(-90deg); } }
+#rotbtns { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; width: min(78vw, 320px); }
+#rotbtns a, #rotbtns button { display: block; box-sizing: border-box; width: 100%; padding: 14px 10px; border-radius: 12px; font: inherit; font-size: clamp(16px, 4.6vw, 20px); font-weight: 800; text-align: center; text-decoration: none; cursor: pointer; }
+#openext { background: #c71a12; color: #f3efe6; border: 0; }
+#playup { background: transparent; color: inherit; border: 3px solid currentColor; }
+#openext[hidden] { display: none; }
 #rotate h2 { margin: 26px 0 0 0; font-size: clamp(26px, 8.4vw, 40px); font-weight: 800; line-height: 1.4; }
 #rotate p { margin: 10px 0 0 0; font-size: clamp(15px, 4.4vw, 19px); opacity: .75; line-height: 1.7; max-width: 18em; }
 #rotate .bar { width: min(34vw, 150px); height: 5px; border-radius: 3px; background: #c71a12; margin-top: 18px; }
@@ -138,7 +143,11 @@ body {
 			</svg>
 			<h2>لف جوالك بالعرض</h2>
 			<div class="bar"></div>
-			<p>جسر الحبر تُلعب والجوال بالعرض: عصا الحركة يسار، والأزرار والكاميرا يمين.</p>
+			<p id="rotmsg">جسر الحبر تُلعب والجوال بالعرض: عصا الحركة يسار، والأزرار والكاميرا يمين.</p>
+			<div id="rotbtns">
+				<a id="openext" href="#">افتح في المتصفح</a>
+				<button id="playup" type="button">العب بالطول</button>
+			</div>
 		</div>
 		<div id="safe"></div>
 
@@ -205,10 +214,44 @@ const engine = new Engine(GODOT_CONFIG);
 	const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
 	const isPhone = coarse || (navigator.maxTouchPoints > 0 && /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent));
 	let rotateOn = false;
+	// In-app browsers (Instagram, Facebook, TikTok, Snapchat...) keep the page upright and
+	// never rotate it, so the card must never trap the player there.
+	const ua = navigator.userAgent || '';
+	const inApp = /Instagram|FBAN|FBAV|FB_IAB|musical_ly|TikTok|Bytedance|Snapchat|Twitter|Line\//i.test(ua) || q.get('inapp') === '1';
+	const isAndroid = /Android/i.test(ua);
+	let playUpright = false;
+	try { playUpright = sessionStorage.getItem('ink_upright') === '1'; } catch (e) {}
+	(function setupCard() {
+		const msg = document.getElementById('rotmsg');
+		const ext = document.getElementById('openext');
+		const up = document.getElementById('playup');
+		const here = location.href.split('#')[0];
+		if (inApp) {
+			if (isAndroid) {
+				msg.textContent = 'متصفح التطبيق ما يقلب الشاشة. افتح اللعبة في Chrome وتنقلب بالعرض، أو العبها بالطول من هنا.';
+				ext.href = 'intent://' + here.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(here) + ';end';
+			} else {
+				msg.textContent = 'متصفح التطبيق ما يقلب الشاشة. اضغط ⋯ فوق ثم «فتح في المتصفح»، أو العبها بالطول من هنا.';
+				ext.hidden = true;
+			}
+		} else {
+			ext.hidden = true;
+		}
+		function stay(ev) {
+			if (ev) { ev.preventDefault(); ev.stopPropagation(); }
+			playUpright = true;
+			try { sessionStorage.setItem('ink_upright', '1'); } catch (e) {}
+			checkRotate();
+		}
+		up.addEventListener('click', stay);
+		up.addEventListener('touchend', stay);
+		ext.addEventListener('touchend', function (ev) { ev.stopPropagation(); }, { passive: true });
+		ext.addEventListener('click', function (ev) { ev.stopPropagation(); });
+	}());
 	function checkRotate() {
 		const upright = window.innerHeight > window.innerWidth;
 		const force = q.get('rotate');
-		rotateOn = force === '1' ? upright : (force === '0' ? false : (isPhone && upright));
+		rotateOn = force === '1' ? upright : (force === '0' ? false : (isPhone && upright && !playUpright));
 		rotateEl.classList.toggle('on', rotateOn);
 	}
 	window.addEventListener('resize', checkRotate);
