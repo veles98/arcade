@@ -15,6 +15,8 @@
 <style>
   @font-face { font-family: 'Alexandria'; src: url('assets/fonts/Alexandria-VF.woff2') format('woff2'); font-weight: 100 900; font-display: block; }
   @font-face { font-family: 'ArefRuqaa'; src: url('assets/fonts/ArefRuqaa-Bold.woff2') format('woff2'); font-weight: 700; font-display: block; }
+  @font-face { font-family: 'Amiri'; src: url('assets/fonts/Amiri-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Amiri'; src: url('assets/fonts/Amiri-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
   @font-face { font-family: 'PlexArabic'; src: url('assets/fonts/IBMPlexSansArabic-SemiBold.woff2') format('woff2'); font-weight: 600; font-display: block; }
   :root { --paper:#f1e7d0; --ink:#24170b; --ink2:#4a3620; --gold:#b98a2e; --gold2:#e9c77a; }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -183,6 +185,56 @@
     #final .f { font-size:16px; }
   }
   @media (min-aspect-ratio: 6/5) { .chapters { max-height:56vh; } }
+
+  /* ---------- reader v2: the story is printed on the page; no boxes over the book ---------- */
+  body.reader #panel, body.reader #toc { display:none !important; }
+  body.reader nav { position:static; transform:none; display:block; }
+  body.reader nav .dots { display:none; }
+  body.reader nav button { position:fixed; top:44%; z-index:5; width:42px; height:42px; font-size:19px; border-color:rgba(233,199,122,.28);
+    background:rgba(20,13,7,.32); color:rgba(243,217,149,.85); backdrop-filter:blur(3px); transform:translateY(-50%); }
+  body.reader nav button:hover { background:rgba(40,27,12,.6); transform:translateY(-50%) scale(1.06); }
+  body.reader nav button:disabled { opacity:.15; }
+  body.reader #next { left:10px; } body.reader #prev { right:10px; }
+  body.reader #count { position:fixed; left:50%; bottom:max(8px, env(safe-area-inset-bottom)); transform:translateX(-50%); z-index:5; min-width:0;
+    font-family:'Amiri'; font-weight:700; font-size:15px; color:rgba(243,217,149,.75); text-shadow:0 1px 6px rgba(0,0,0,.8); }
+  body.reader #menu { padding:7px 13px 8px; font-size:14px; background:rgba(20,13,7,.38); border-color:rgba(233,199,122,.3); }
+  #cap { position:fixed; left:0; right:0; bottom:0; z-index:4; direction:rtl; text-align:right; display:none; cursor:pointer;
+    padding:30px 20px calc(30px + env(safe-area-inset-bottom)); max-height:22vh; box-sizing:border-box; transition:opacity .5s, transform .5s;
+    background:linear-gradient(0deg, rgba(8,5,3,.9) 0%, rgba(8,5,3,.78) 58%, rgba(8,5,3,0) 100%); font-family:'Amiri', serif; color:#f2e6c8; }
+  #cap.hide { opacity:0; transform:translateY(12px); pointer-events:none; }
+  #cap .ct { display:flex; align-items:baseline; gap:10px; font-size:16px; color:#e4c27a; line-height:1.3; margin-bottom:2px; }
+  #cap .ct b { font-weight:700; font-size:18px; }
+  #cap .ct .pg { margin-inline-start:auto; font-size:13px; color:rgba(228,194,122,.7); }
+  #cap .cp { margin:0; font-size:20px; line-height:1.62; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; transition:opacity .35s; }
+  #cap .cp b { color:#f0c86a; font-weight:700; }
+  #cap .cp.fade { opacity:0; }
+  #cap .chips { display:none; gap:8px; overflow-x:auto; padding:6px 0 2px; scrollbar-width:none; touch-action:pan-x; }
+  #cap .chips::-webkit-scrollbar { display:none; }
+  #cap.toc { cursor:default; }
+  #cap.toc .cp { display:none; } #cap.toc .chips { display:flex; }
+  .chip { flex:none; display:inline-flex; align-items:center; gap:7px; padding:7px 13px 8px; border-radius:999px; font-family:'Amiri'; font-weight:700; font-size:16px;
+    color:#f3e2b5; background:rgba(40,26,12,.55); border:1px solid rgba(233,199,122,.45); cursor:pointer; white-space:nowrap; }
+  .chip .n { color:#e9c77a; font-family:'Alexandria'; font-weight:800; font-size:14px; }
+  .chip.gold { color:#24170b; background:linear-gradient(180deg,#fbe7b0,#d6a84c); border-color:#f3d995; }
+  .chip.gold .n { color:#5a3608; }
+  .chip.locked { opacity:.45; cursor:default; font-weight:400; }
+  #trypill { position:fixed; left:50%; z-index:5; transform:translate(-50%, 8px); opacity:0; pointer-events:none; transition:opacity .5s, transform .5s;
+    display:inline-flex; align-items:center; gap:8px; direction:rtl; padding:6px 14px 7px; border-radius:999px; cursor:pointer;
+    font-family:'Amiri'; font-weight:700; font-size:15px; color:#24170b; background:linear-gradient(180deg,#fbe7b0,#d6a84c); border:1px solid #f3d995;
+    box-shadow:0 4px 18px rgba(0,0,0,.35), 0 0 18px rgba(240,200,110,.35); bottom:calc(22vh + 6px); white-space:nowrap; }
+  #trypill.show { opacity:1; transform:translate(-50%, 0); pointer-events:auto; }
+  #trypill .dot { width:7px; height:7px; border-radius:50%; background:#6b4410; animation:pulse 1.4s ease-in-out infinite; }
+  @media (max-aspect-ratio: 6/5) { body.reader #cap { display:block; } body.reader #count { bottom:max(6px, env(safe-area-inset-bottom)); } }
+  @media (min-aspect-ratio: 6/5) {
+    body.reader #cap.toc { display:block; left:50%; right:auto; transform:translateX(-50%); width:min(900px, 92vw); max-height:none; text-align:center;
+      background:none; padding:0 0 46px; cursor:default; }
+    body.reader #cap.toc.hide { transform:translate(-50%, 12px); }
+    body.reader #cap.toc .ct { display:none; } body.reader #cap.toc .chips { justify-content:center; flex-wrap:wrap; }
+    body.reader #cap.toc .chip:not(.gold) { display:none; }
+    #trypill { bottom:46px; font-size:16px; }
+    body.reader nav button { width:46px; height:46px; }
+    body.reader #next { left:18px; } body.reader #prev { right:18px; }
+  }
 </style>
 <script type="importmap">
 { "imports": {
@@ -237,6 +289,8 @@
 </nav>
 
 <button type="button" id="menu" class="hide" aria-label="الفهرس"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>الفهرس</button>
+<div id="cap" class="hide" aria-live="polite"><div class="ct"><b></b><span class="pg"></span></div><p class="cp"></p><div class="chips"></div></div>
+<button type="button" id="trypill"><span class="dot"></span><span class="t"></span></button>
 <div id="hint">اضغط على طرف الصفحة أو اسحبها عشان تقلّب</div>
 <div id="chload">جارٍ تحميل الفصل…<div class="bar"><i></i></div></div>
 <div id="loader"><div class="lbox"><div class="ring"></div><div class="lt">جارٍ تجهيز الكتاب…</div><div class="bar"><i></i></div></div></div>

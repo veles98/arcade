@@ -23,6 +23,9 @@ const store = { get(k) { try { return JSON.parse(localStorage.getItem(k)); } cat
 // The book's spreads in reading order. Reel: chapter 1 only. Reader: contents page + every ready chapter.
 let SEQ = CH1.spreads.map((s, k) => ({ ...s, ch: 'ch1', k }));
 const CHDATA = { ch1: CH1 };
+// Reader: the pop-up is pressed onto the far part of the spread so the near part is free for the printed story.
+const SQZ = 0.7, RZ = z => Math.round((SQZ * z - 0.16) * 1000) / 1000;
+const squeeze = sp => ({ ...sp, sq: true, layers: sp.layers.map(l => ({ ...l, z0: l.z, z: RZ(l.z) })) });
 const ar = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
 const CAPTURE = Q.get('capture') === '1';
 const SPP = parseFloat(Q.get('spp') || '5');
@@ -246,6 +249,101 @@ function numberCartouche(ctx, x, y, n, col) {
   ctx.font = '600 26px Alexandria'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(String(n), 0, 2);
   ctx.restore();
 }
+// ---------- printed story (reader) ----------
+// The pop-up stands on the far part of the spread; the near band (canvas y >= TXT_Y0) is the printed page:
+// right page = number, title and the first paragraph; left page = the second paragraph and the «جرّب» line.
+const TXT_Y0 = 905, TXT_Y1 = PH - 118, BODY = 'Amiri', INK = '#3a2412', INK_B = '#7a4510';
+const TOC_ROWS = [];   // contents rows on the left page: { y0, y1, id } in canvas px
+function richWords(html) {
+  const out = []; let bold = false, glue = false;
+  for (const part of String(html).split(/(<b>|<\/b>)/)) {
+    if (part === '<b>') { bold = true; continue; } if (part === '</b>') { bold = false; continue; }
+    const clean = part.replace(/<[^>]+>/g, ''), toks = clean.split(/\s+/).filter(Boolean);
+    if (toks.length && out.length && glue && /^\S/.test(clean)) out[out.length - 1].t += toks.shift();   // «الشرق</b>.»: keep the dot on its word
+    toks.forEach(t => out.push({ t, b: bold })); if (clean) glue = /\S$/.test(clean);
+  }
+  return out;
+}
+function wrapRich(ctx, words, maxW, size) {
+  const lines = []; let line = [], lw = 0;
+  ctx.font = `400 ${size}px ${BODY}`; const sp = ctx.measureText(' ').width;
+  for (const wd of words) {
+    ctx.font = `${wd.b ? 700 : 400} ${size}px ${BODY}`; wd.w = ctx.measureText(wd.t).width;
+    if (line.length && lw + sp + wd.w > maxW) { lines.push(line); line = []; lw = 0; }
+    lw += (line.length ? sp : 0) + wd.w; line.push(wd);
+  }
+  if (line.length) lines.push(line);
+  return { lines, sp };
+}
+function fitRich(ctx, html, maxW, maxLines, size) {
+  const words = richWords(html); let r;
+  for (let s = size; s >= 28; s -= 2) { r = wrapRich(ctx, words, maxW, s); r.size = s; if (r.lines.length <= maxLines) break; }
+  return r;
+}
+function drawRich(ctx, r, xr, y, maxW, lh, col = INK, colB = INK_B) {   // right-aligned, justified except the last line
+  ctx.save(); ctx.direction = 'rtl'; ctx.textAlign = 'right'; ctx.textBaseline = 'alphabetic';
+  r.lines.forEach((ln, i) => {
+    const tw = ln.reduce((a, wd) => a + wd.w, 0), gaps = ln.length - 1;
+    const sp = i < r.lines.length - 1 && gaps > 0 ? Math.min((maxW - tw) / gaps, r.sp * 2.2) : r.sp;
+    let x = xr;
+    for (const wd of ln) { ctx.font = `${wd.b ? 700 : 400} ${r.size}px ${BODY}`; ctx.fillStyle = wd.b ? colB : col; ctx.fillText(wd.t, x, y + i * lh); x -= wd.w + sp; }
+  });
+  ctx.restore();
+  return y + (r.lines.length - 1) * lh;
+}
+function ornament(ctx, cx, y, wd, col) {   // a thin gold rule with a diamond
+  ctx.save(); ctx.fillStyle = col; ctx.fillRect(cx - wd / 2, y, wd / 2 - 14, 2); ctx.fillRect(cx + 14, y, wd / 2 - 14, 2);
+  ctx.beginPath(); ctx.moveTo(cx, y - 7); ctx.lineTo(cx + 8, y + 1); ctx.lineTo(cx, y + 9); ctx.lineTo(cx - 8, y + 1); ctx.closePath(); ctx.fill(); ctx.restore();
+}
+function printPages(sp, si, x, mx, bx) {
+  const RX = PW + PW - 118, RW = PW - 118 - 132, LX = PW - 132, LW = PW - 132 - 118;   // right page: outer margin right; left page: outer margin left
+  const gold = (ctx, col, fn) => { ctx.save(); fn(col); ctx.restore(); };
+  const foilAll = fn => { x.save(); x.globalAlpha = 0.3; x.translate(2, 3); fn(x, 'rgba(70,45,15,1)'); x.restore(); fn(x, null); fn(mx, GOLD_MASK); bx.save(); bx.filter = 'blur(1.2px)'; fn(bx, '#ffffff'); bx.restore(); };
+  if (sp.toc) {
+    foilAll((ctx, col) => {
+      ctx.textAlign = 'center'; ctx.direction = 'rtl'; ctx.font = '700 112px ArefRuqaa';
+      ctx.fillStyle = col || goldGrad(ctx, PW + 260, TXT_Y0, PW + 760, TXT_Y0 + 140); ctx.fillText('الفهرس', PW + PW / 2 + 6, TXT_Y0 + 96);
+      ornament(ctx, PW + PW / 2 + 6, TXT_Y0 + 134, 360, col || goldGrad(ctx, PW + 300, 0, PW + 720, 0));
+    });
+    x.save(); x.direction = 'rtl'; x.textAlign = 'center'; x.fillStyle = INK; x.font = `400 40px ${BODY}`;
+    x.fillText('اختر الفصل اللي تبي تقرأه', PW + PW / 2 + 6, TXT_Y0 + 214);
+    x.font = `400 32px ${BODY}`; x.fillStyle = 'rgba(70,48,22,.75)'; x.fillText('الفصول الجاهزة تنفتح باللمس… والباقي قريباً', PW + PW / 2 + 6, TXT_Y0 + 272); x.restore();
+    TOC_ROWS.length = 0;
+    const y0 = TXT_Y0 - 60, rh = (TXT_Y1 - y0) / LIBRARY.length;
+    LIBRARY.forEach((c, i) => {
+      const yb = y0 + rh * (i + 0.68), live = c.ready;
+      TOC_ROWS.push({ y0: y0 + rh * i, y1: y0 + rh * (i + 1), id: c.id, ready: live });
+      foilAll((ctx, col) => { ctx.direction = 'ltr'; ctx.textAlign = 'center'; ctx.font = '800 40px Alexandria';
+        ctx.fillStyle = col || (live ? goldGrad(ctx, LX - 40, yb - 40, LX + 10, yb) : 'rgba(120,96,60,.55)'); ctx.fillText(c.n, LX - 18, yb); });
+      x.save(); x.direction = 'rtl'; x.textAlign = 'right'; x.font = `${live ? 700 : 400} 38px ${BODY}`; x.fillStyle = live ? INK : 'rgba(80,60,35,.5)';
+      x.fillText(c.title, LX - 62, yb);
+      x.textAlign = 'left'; x.font = `400 28px ${BODY}`; x.fillStyle = live ? 'rgba(122,69,16,.9)' : 'rgba(80,60,35,.5)';
+      x.fillText(live ? `${ar(SEQ.filter(q => q.ch === c.id).length)} صفحات` : 'قريباً', LX - LW, yb);
+      if (i < LIBRARY.length - 1) { x.fillStyle = 'rgba(120,88,40,.18)'; x.fillRect(LX - LW, y0 + rh * (i + 1), LW, 1.5); }
+      x.restore();
+    });
+    return;
+  }
+  const c = LIBRARY.find(q => q.id === sp.ch);
+  // right page: chapter line, number + title in foil, ornament, first paragraph
+  x.save(); x.direction = 'rtl'; x.textAlign = 'right'; x.font = `400 30px ${BODY}`; x.fillStyle = 'rgba(122,69,16,.85)';
+  if (c) x.fillText(`${c.kicker} · ${c.title}`, RX, TXT_Y0 + 6); x.restore();
+  foilAll((ctx, col) => {
+    ctx.direction = 'rtl'; ctx.textAlign = 'right'; ctx.font = '700 66px ArefRuqaa';
+    ctx.fillStyle = col || goldGrad(ctx, RX - RW, TXT_Y0 + 20, RX, TXT_Y0 + 100); ctx.fillText(sp.title, RX, TXT_Y0 + 86);
+    ctx.direction = 'ltr'; ctx.textAlign = 'left'; ctx.font = '800 64px Alexandria';
+    ctx.fillStyle = col || goldGrad(ctx, RX - RW, TXT_Y0 + 20, RX - RW + 200, TXT_Y0 + 90); ctx.fillText(sp.year, RX - RW, TXT_Y0 + 84);
+    ctx.fillStyle = col || 'rgba(167,123,38,.9)'; ctx.fillRect(RX - RW, TXT_Y0 + 112, RW, 2);
+  });
+  const lh = 78, p1 = fitRich(x, sp.lines[0], RW, 3, 50);
+  drawRich(x, p1, RX, TXT_Y0 + 178, RW, lh);
+  // left page: second paragraph + the «جرّب» line
+  if (sp.lines[1]) { const p2 = fitRich(x, sp.lines[1], LW, 4, 50); drawRich(x, p2, LX, TXT_Y0 + 60, LW, lh); }
+  if (sp.tryText && false) foilAll((ctx, col) => {   // the «جرّب» line lives in the gold pill now
+    ctx.direction = 'rtl'; ctx.textAlign = 'center'; ctx.font = `700 34px ${BODY}`; ctx.fillStyle = col || '#8d6118';
+    ctx.fillText(sp.tryText, LX - LW / 2, TXT_Y1 - 6); ornament(ctx, LX - LW / 2, TXT_Y1 - 62, 220, col || 'rgba(167,123,38,.9)');
+  });
+}
 function spreadCanvases(si) {
   const sp = si >= 0 ? SEQ[si] : null, w = PW * 2, h = PH;   // si < 0: blank page pair (paper + border) for pages far from the reader
   const c = mkCanvas(w, h), m = mkCanvas(w, h), b = mkCanvas(w, h);
@@ -254,7 +352,7 @@ function spreadCanvases(si) {
   x.save(); x.translate(w, 0); x.scale(-1, 1); paperBase(x, PW, h); x.restore();   // right page mirrored so toned edges sit outside
   mx.fillStyle = ROUGH_PAPER; mx.fillRect(0, 0, w, h);
   bx.fillStyle = '#808080'; bx.fillRect(0, 0, w, h); bx.globalAlpha = .5; bx.drawImage(noiseCanvas(), 0, 0, w, h); bx.drawImage(noiseCanvas(), 0, 0, 1024, 1024); bx.globalAlpha = 1;
-  if (sp) { drawMotif(x, sp.motif, 0, PW, h); drawMotif(x, sp.motif, PW, PW, h); }
+  if (sp) { x.save(); if (READER) { x.beginPath(); x.rect(0, 0, w, TXT_Y0 - 40); x.clip(); } drawMotif(x, sp.motif, 0, PW, h); drawMotif(x, sp.motif, PW, PW, h); x.restore(); }
   if (TEX.border) for (const px of [0, PW]) {
     x.globalAlpha = 0.9; x.drawImage(TEX.border.image, px + 10, 10, PW - 20, h - 20); x.globalAlpha = 1;
     if (borderGold) { mx.drawImage(borderGold.m, px + 10, 10, PW - 20, h - 20); bx.drawImage(borderGold.b, px + 10, 10, PW - 20, h - 20); }
@@ -277,7 +375,8 @@ function spreadCanvases(si) {
     ctx.fillRect(PW + PW / 2 - 150, bandY + 46, 300, 3); ctx.fillRect(PW / 2 - 150, bandY + 40, 300, 3);
     ctx.restore();
   };
-  if (sp && sp.toc) {   // contents page: big foil title + emblem on the right page (the list itself is the HTML sheet)
+  if (sp && READER) printPages(sp, si, x, mx, bx);    // reader: the story is printed on the page itself
+  else if (sp && sp.toc) {   // contents page: big foil title + emblem on the right page (the list itself is the HTML sheet)
     const tocFoil = (ctx, col) => {
       ctx.save(); ctx.textAlign = 'center'; ctx.direction = 'rtl';
       ctx.font = '700 120px ArefRuqaa'; ctx.fillStyle = col || goldGrad(ctx, PW + 200, 200, PW + 820, 420);
@@ -513,7 +612,7 @@ const UP = new THREE.Vector3(0, 1, 0), XAX = new THREE.Vector3(1, 0, 0);
 function makeLayer(group, cfg, idx) {
   const c = CARD[cfg.img]; if (!c) return null;
   const asp = c.json.h / c.json.w, w = cfg.h ? cfg.h / asp : cfg.w;
-  const L = { cfg, idx, base: new THREE.Group(), inner: new THREE.Group(), u: 0, lean: 0.05 + 0.025 * ((idx * 37) % 7) / 7, flatDir: cfg.z < 0.05 ? 1 : -1, tabs: [], fade: -1 };
+  const L = { cfg, idx, base: new THREE.Group(), inner: new THREE.Group(), u: 0, lean: 0.05 + 0.025 * ((idx * 37) % 7) / 7, flatDir: (cfg.z0 ?? cfg.z) < 0.05 ? 1 : -1, tabs: [], fade: -1 };
   L.base.position.set(cfg.x, PAGE_Y + idx * 0.0005, cfg.z); group.add(L.base); L.base.add(L.inner);
   if (cfg.spin) {
     const cm = cardMesh(cfg.img, w, true), fl = cfg.float || 0; L.h = cm.h + fl; L.w = cm.w;
@@ -522,7 +621,7 @@ function makeLayer(group, cfg, idx) {
     L.mesh = cm.mesh;
   } else {
     const cm = cardMesh(cfg.img, w, false); L.h = cm.h; L.w = cm.w; L.inner.add(cm.mesh); L.mesh = cm.mesh;
-    if (!cfg.id && L.h > 0.22 && cfg.z < -0.2) for (const s of [-1, 1]) {           // glued support tabs behind the card
+    if (!cfg.id && L.h > 0.22 && (cfg.z0 ?? cfg.z) < -0.2) for (const s of [-1, 1]) {           // glued support tabs behind the card
       const tab = new THREE.Mesh(new THREE.BoxGeometry(0.05, 1, 0.003), tabMat.clone()); tab.geometry.translate(0, 0.5, 0);
       tab.castShadow = true; tab.receiveShadow = true; group.add(tab);
       L.tabs.push({ m: tab, tx: s * Math.min(L.w * 0.28, 0.4), hT: Math.min(0.24, L.h * 0.34) });
@@ -709,11 +808,12 @@ function buildProc(kind, L, rt, sp) {
 function buildSpreadPopup(s) {
   if (spreadsRT[s]) return spreadsRT[s];
   const group = new THREE.Group(); book.add(group);
-  const rt = { group, layers: [], S: 0, by: {}, extra: {}, locked: false, s };
+  const rt = { group, layers: [], S: 0, by: {}, extra: {}, locked: false, s, glowUntil: 0 };
   SEQ[s].layers.forEach((cfg, k) => {
     let L;
-    if (cfg.proc) { L = procLayer(group, cfg.z, k); L.cfg.proc = cfg.proc; buildProc(cfg.proc, L, rt, SEQ[s]); } else L = makeLayer(group, cfg, k);
-    if (!L) return; rt.layers.push(L); if (cfg.id) rt.by[cfg.id] = L;
+    if (cfg.proc) { L = procLayer(group, cfg.z, k); L.cfg.proc = cfg.proc; if (SEQ[s].sq) L.inner.scale.z = SQZ; buildProc(cfg.proc, L, rt, SEQ[s]); } else L = makeLayer(group, cfg, k);
+    if (!L) return;
+    if (cfg.hit && L.mesh && L.mesh.material && L.mesh.material[0]) { const m = L.mesh.material[0]; m.emissiveMap = m.map; m.emissive.setHex(0); m.needsUpdate = true; (rt.hitMats = rt.hitMats || []).push(m); } rt.layers.push(L); if (cfg.id) rt.by[cfg.id] = L;
   });
   group.visible = false; spreadsRT[s] = rt;
   return rt;
@@ -942,7 +1042,7 @@ function fitDist(halfW, halfD, asp = camera.aspect) {
   const vf = THREE.MathUtils.degToRad(camera.fov) / 2, hf = Math.atan(Math.tan(vf) * asp);
   return Math.max(halfW / Math.tan(hf), halfD / Math.tan(vf)) * 1.04;
 }
-function readingDist() { return isPortrait() ? fitDist(1.12, 0.9) : fitDist(1.12, 0.8, camera.aspect * 0.62) * 1.06; }
+function readingDist() { if (READER) return isPortrait() ? fitDist(0.97, 0.9) : fitDist(1.16, 0.86); return isPortrait() ? fitDist(1.12, 0.9) : fitDist(1.12, 0.8, camera.aspect * 0.62) * 1.06; }
 function mkPose(target, dist, el, az) { return { target: new THREE.Vector3(...target), dist, el, az }; }
 function poses() {
   const r = readingDist(), pt = isPortrait();
@@ -954,6 +1054,10 @@ function poses() {
 }
 function spreadPose(s, which) {
   const c = SEQ[s].cam[which], r = readingDist(), pt = isPortrait();
+  if (READER) {   // one calm reading frame: the pop-up behind, the printed page in front; small per-spread drift
+    const a = which === 'a';
+    return { target: new THREE.Vector3(c.focus[0] * 0.3, pt ? 0.3 : 0.3, pt ? 0.0 : 0.02), dist: r * (a ? 1.08 : 1.0) * (pt ? 1.0 : 1.2), el: pt ? (a ? 44 : 38) : (a ? 54 : 50), az: c.az * 0.22 };
+  }
   return { target: new THREE.Vector3(c.focus[0], c.focus[1] + (pt ? 0.03 : 0), c.focus[2]), dist: r * c.df * (pt ? 0.94 : 1), el: c.el + (pt ? 5 : 0), az: c.az * (pt ? 0.7 : 1) };
 }
 function setPose(p) { pose.target.copy(p.target); pose.dist = p.dist; pose.el = p.el; pose.az = p.az; }
@@ -963,6 +1067,7 @@ function poseTween(to, dur, opts = {}) {
 }
 const pointer = { x: 0, y: 0, sx: 0, sy: 0 };
 function applyCamera() {
+  if (READER && !isPortrait()) { const tg = state.cur < 0 && state.phase !== 'opening' ? 0.17 : 0; if (Math.abs(viewOX - tg) > 1e-4) { viewOX = Math.abs(viewOX - tg) < 0.002 ? tg : lerp(viewOX, tg, 0.05); setViewOff(); } }
   pointer.sx = lerp(pointer.sx, pointer.x, 0.03); pointer.sy = lerp(pointer.sy, pointer.y, 0.03);
   const az = THREE.MathUtils.degToRad(pose.az + Math.sin(NOW * 0.21) * 0.8 + pointer.sx * 3);
   const el = THREE.MathUtils.degToRad(pose.el + Math.sin(NOW * 0.15 + 1) * 0.4 - pointer.sy * 2);
@@ -1029,6 +1134,9 @@ function updateBook(time, dt) {
     if (rt.extra.words) for (const a of rt.extra.words.arcs) a.mesh.material.emissiveIntensity = (0.3 + a.w * 1.8) * (0.75 + 0.25 * Math.sin(time * 4 - a.w * 3));
   });
   for (const rt0 of spreadsRT) if (rt0 && rt0.group.visible) for (const id of ['gearA', 'gearB']) { const L = rt0.by[id]; if (L && L.spinner) { L.spinAcc = (L.spinAcc || 0) + L.cfg.spin * (rt0.extra.gearBoost || 1) * dt; L.spinner.rotation.z = L.spinAcc; } }
+  const cr = spreadsRT[state.cur];   // reader: the tappable pop-ups breathe a soft gold glow for a few seconds
+  if (READER && cr && cr.hitMats) { const on = NOW < cr.glowUntil ? clamp((cr.glowUntil - NOW) / 1.5) : 0, k = on * (0.12 + 0.12 * Math.sin(NOW * 3.2));
+    for (const m of cr.hitMats) m.emissive.setRGB(k, k * 0.78, k * 0.45); }
   stageSpot.target.position.set(-0.1, PAGE_Y, 0.3);
 }
 
@@ -1046,7 +1154,33 @@ const dots = $('.dots'); if (AUTO) SEQ.forEach(() => dots.appendChild(document.c
 const chOf = s => SEQ[s] && LIBRARY.find(c => c.id === SEQ[s].ch);
 const chSpreads = id => SEQ.filter(x => x.ch === id).length;
 function savedIndex() { const v = store.get(SAVE_KEY); return v ? SEQ.findIndex(x => x.ch === v.ch && x.k === v.k) : -1; }
+// ----- reader caption (phones) + contents chips + «جرّب» pill: slim, transparent, never a panel over the book -----
+const cap = $('#cap'), capT = cap.querySelector('.ct b'), capPg = cap.querySelector('.ct .pg'), capP = cap.querySelector('.cp'), chipsEl = cap.querySelector('.chips'), tryPill = $('#trypill');
+let capParas = [], capI = 0;
+function setPara(i, animate) {
+  capI = i; const go = () => { capP.innerHTML = capParas[i] || ''; capP.classList.remove('fade'); capPg.textContent = capParas.length > 1 ? `${ar(i + 1)}/${ar(capParas.length)}` + (i < capParas.length - 1 ? ' · المزيد' : '') : ''; };
+  if (animate) { capP.classList.add('fade'); setTimeout(go, 260); } else go();
+}
+cap.addEventListener('click', e => { if (cap.classList.contains('toc') || capParas.length < 2) return; e.stopPropagation(); setPara((capI + 1) % capParas.length, true); });
+function renderChips() {
+  chipsEl.innerHTML = ''; const idx = savedIndex();
+  const add = (html, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip ' + cls; b.innerHTML = html; if (fn) b.onclick = e => { e.stopPropagation(); fn(); }; else { b.setAttribute('aria-disabled', 'true'); b.tabIndex = -1; } chipsEl.appendChild(b); };
+  if (idx > 0) add(`كمّل: ${chOf(idx).kicker}، صفحة ${ar(SEQ[idx].k + 1)}`, 'gold', () => jumpTo(idx));
+  for (const c of LIBRARY) add(`<span class="n">${c.n}</span>${c.title}${c.ready ? '' : ' · قريباً'}`, c.ready ? '' : 'locked', c.ready ? () => jumpTo(SEQ.findIndex(x => x.ch === c.id)) : null);
+}
+function showCaption(s, tok) {
+  const sp = SEQ[s]; cap.classList.add('hide'); tryPill.classList.remove('show');
+  return wait(0.35).then(() => {
+    if (tok.dead) return;
+    cap.classList.toggle('toc', !!sp.toc);
+    if (sp.toc) { capT.textContent = 'الفهرس'; capPg.textContent = ''; capParas = []; renderChips(); }
+    else { capT.textContent = sp.title; capParas = sp.lines; setPara(0); $('#trypill .t').textContent = sp.tryText;
+      tween(0.01, () => { tryPill.classList.add('show'); const rt = spreadsRT[s]; if (rt) rt.glowUntil = NOW + 7; }, { delay: 1.1, token: tok }); }
+    cap.classList.remove('hide');
+  });
+}
 function setPanel(s, tok, lineAt) {
+  if (READER) return showCaption(s, tok);
   const sp = SEQ[s]; panel.classList.add('hide'); tocEl.classList.add('hide');
   return wait(0.4).then(() => {
     if (tok.dead) return;
@@ -1159,7 +1293,7 @@ async function flip(dir, opt = {}) {
   state.busy = true;
   if (!spreadsRT[to]) await loadWithPill(SEQ[to].ch);
   beatToken.dead = true; beatToken = { dead: false }; newFx();
-  panel.classList.add('hide'); tocEl.classList.add('hide');
+  panel.classList.add('hide'); tocEl.classList.add('hide'); cap.classList.add('hide'); tryPill.classList.remove('show');
   if (LAZY) ensurePages(from, [to]);
   const leaf = leaves[dir > 0 ? from : from - 1];
   poseTween(spreadPose(to, 'a'), FLIP + 0.1, { e: camEase });
@@ -1182,7 +1316,7 @@ async function jumpTo(t) {           // contents / resume: riffle several leaves
   state.busy = true;
   if (!spreadsRT[t]) await loadWithPill(SEQ[t].ch);
   beatToken.dead = true; beatToken = { dead: false }; newFx();
-  panel.classList.add('hide'); tocEl.classList.add('hide');
+  panel.classList.add('hide'); tocEl.classList.add('hide'); cap.classList.add('hide'); tryPill.classList.remove('show');
   ensurePages(t, [from], false);
   poseTween(spreadPose(t, 'a'), 1.8, { e: camEase });
   const rtF = spreadsRT[from];
@@ -1199,7 +1333,7 @@ async function jumpTo(t) {           // contents / resume: riffle several leaves
 async function closeBook() {
   if (state.phase !== 'open' || state.busy) return;
   state.busy = true; state.phase = 'closing'; beatToken.dead = true; beatToken = { dead: false }; newFx();
-  panel.classList.add('hide'); tocEl.classList.add('hide'); nav.classList.add('hide'); menuBtn.classList.add('hide');
+  panel.classList.add('hide'); tocEl.classList.add('hide'); nav.classList.add('hide'); menuBtn.classList.add('hide'); cap.classList.add('hide'); tryPill.classList.remove('show');
   const rt = spreadsRT[state.cur];
   poseTween(poses().hero, 3.0, { e: camEase });
   if (rt) await tween(0.5, (e, p) => { rt.S = 1 - smooth(p); }, { e: x => x });
@@ -1232,8 +1366,9 @@ function interact(hit) {
   else { resetSpread(s); spreadsRT[s].locked = true; runBeats(s, tok, true); }
   return true;
 }
-$('#try').addEventListener('click', e => { e.stopPropagation(); const s = state.cur, b = SEQ[s] && SEQ[s].beat;
-  if (b === 'words') { const wd = spreadsRT[s].extra.words; showArcs(wd, (wd.sel + 1 + WORDS.length) % WORDS.length); } else interact(BEAT_HIT[b]); });
+const onTry = e => { e.stopPropagation(); const s = state.cur, b = SEQ[s] && SEQ[s].beat; if (spreadsRT[s]) spreadsRT[s].glowUntil = 0;
+  if (b === 'words') { const wd = spreadsRT[s].extra.words; showArcs(wd, (wd.sel + 1 + WORDS.length) % WORDS.length); } else interact(BEAT_HIT[b]); };
+$('#try').addEventListener('click', onTry); tryPill.addEventListener('click', onTry);
 $('#next').addEventListener('click', e => { e.stopPropagation(); flip(1); });
 $('#prev').addEventListener('click', e => { e.stopPropagation(); flip(-1); });
 menuBtn.addEventListener('click', e => { e.stopPropagation(); jumpTo(0); });
@@ -1253,6 +1388,13 @@ function pick(cx, cy) {
   const objs = []; if (spreadsRT[state.cur]) spreadsRT[state.cur].group.traverse(o => o.isMesh && o.userData.hit && objs.push(o));
   const hits = ray.intersectObjects(objs, false); return hits.length ? hits[0].object : null;
 }
+function pickTocRow(cx, cy) {   // the contents list is printed on the left page of spread 0: tap a row to open it
+  if (!READER || state.cur !== 0 || !leaves[0]) return null;
+  const r = canvas.getBoundingClientRect(); ndc.set((cx - r.left) / r.width * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
+  camera.updateMatrixWorld(); ray.setFromCamera(ndc, camera);
+  const h = ray.intersectObject(leaves[0].mF, false)[0]; if (!h || !h.uv) return null;
+  const y = (1 - h.uv.y) * PH; return TOC_ROWS.find(q => y >= q.y0 && y < q.y1) || null;
+}
 function spineX() { const p = new THREE.Vector3(0, PAGE_Y, 0); book.localToWorld(p); p.project(camera); return (p.x + 1) / 2 * innerWidth; }
 // Gestures: tap a pop-up = its scene; tap the left / right half of the book = next / previous (RTL); swipe right = next.
 let down = null;
@@ -1266,6 +1408,7 @@ addEventListener('pointerup', e => {
   if (state.phase === 'closed' || state.phase === 'intro') { if (d0.onCanvas) openBook(); return; }
   if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.2) { flip(dx > 0 ? 1 : -1); return; } // RTL: drag right = next
   if (!d0.onCanvas || Math.hypot(dx, dy) > 14) return;
+  const row = pickTocRow(e.clientX, e.clientY); if (row) { if (row.ready) jumpTo(SEQ.findIndex(x => x.ch === row.id)); return; }
   const o = pick(e.clientX, e.clientY);
   if (o) { if (o.userData.hit === 'word') { showArcs(spreadsRT[state.cur].extra.words, o.userData.word); return; } if (interact(o.userData.hit)) return; }
   if (READER && state.phase === 'open') flip(e.clientX < spineX() ? 1 : -1);
@@ -1273,17 +1416,22 @@ addEventListener('pointerup', e => {
 canvas.addEventListener('pointermove', e => {
   pointer.x = (e.clientX / innerWidth - .5) * 2; pointer.y = (e.clientY / innerHeight - .5) * 2;
   if (e.pointerType !== 'mouse' || state.phase !== 'open' || state.busy) return;
-  const o = pick(e.clientX, e.clientY); canvas.style.cursor = o ? 'pointer' : 'default';
+  const o = pick(e.clientX, e.clientY), row = pickTocRow(e.clientX, e.clientY); canvas.style.cursor = o || (row && row.ready) ? 'pointer' : 'default';
   if (o && o.userData.hit === 'word' && SEQ[state.cur].beat === 'words') showArcs(spreadsRT[state.cur].extra.words, o.userData.word);
 });
 
 // ---------- resize ----------
+let viewOX = 0.17;   // reader, landscape: the closed book sits left of the title card, the open book is centred
+function setViewOff() {
+  const w = innerWidth, h = innerHeight;
+  if (isPortrait()) camera.setViewOffset(w, h, 0, h * (READER ? -0.045 : 0.14), w, h); else camera.setViewOffset(w, h, w * (READER ? viewOX : 0.17), h * 0.03, w, h);
+  camera.updateProjectionMatrix();
+}
 function resize() {
   const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h;
-  if (isPortrait()) camera.setViewOffset(w, h, 0, h * 0.14, w, h); else camera.setViewOffset(w, h, w * 0.17, h * 0.03, w, h);
-  camera.updateProjectionMatrix();
+  setViewOff();
   if (composer) { composer.setPixelRatio(renderer.getPixelRatio()); composer.setSize(w, h); grade.uniforms.uRes.value.set(w, h);
-    grade.uniforms.uCenter.value.set(isPortrait() ? 0.5 : 0.36, isPortrait() ? 0.66 : 0.5); }
+    grade.uniforms.uCenter.value.set(isPortrait() || READER ? 0.5 : 0.36, isPortrait() ? (READER ? 0.6 : 0.66) : 0.5); }
   pMat.uniforms.uScale.value = h * renderer.getPixelRatio() * 0.9;
 }
 addEventListener('resize', resize);
@@ -1345,12 +1493,12 @@ async function autoplay() {
 (async function boot() {
   const bar = document.querySelector('#loader .bar i'); let pd = 0, pt = 1;
   const tick = () => { pd++; if (bar) bar.style.width = Math.round(100 * pd / pt) + '%'; };
-  await Promise.all(['700 40px ArefRuqaa', '400 40px Alexandria', '800 40px Alexandria', '600 40px PlexArabic'].map(f => document.fonts.load(f))).catch(() => {});
+  await Promise.all(['700 40px ArefRuqaa', '400 40px Alexandria', '800 40px Alexandria', '600 40px PlexArabic'].concat(READER ? ['400 40px Amiri', '700 40px Amiri'] : []).map(f => document.fonts.load(f))).catch(() => {});
   if (READER) {   // chapter data is tiny: import every ready chapter now, images load per chapter later
     const ready = LIBRARY.filter(c => c.ready);
     await Promise.all(ready.filter(c => !CHDATA[c.id]).map(c => import('./chapters/' + c.file.slice(2)).then(m => { CHDATA[c.id] = m.default; }).catch(e => console.warn('chapter', c.id, e))));
-    SEQ = [TOC_SPREAD];
-    for (const c of ready) if (CHDATA[c.id]) CHDATA[c.id].spreads.forEach((s, k) => SEQ.push({ ...s, ch: c.id, k }));
+    SEQ = [squeeze(TOC_SPREAD)];
+    for (const c of ready) if (CHDATA[c.id]) CHDATA[c.id].spreads.forEach((s, k) => SEQ.push(squeeze({ ...s, ch: c.id, k })));
     setDims();
   }
   const first = READER ? [SEQ[0]] : SEQ, names = new Set();
@@ -1372,6 +1520,7 @@ async function autoplay() {
   state.phase = 'closed'; setPose(poses().hero);
   document.getElementById('loader').classList.add('done'); if (CAPTURE) document.getElementById('loader').style.display = 'none';
   window.__ready = true; window.__state = state; window.__rt = spreadsRT; window.__flip = flip; window.__open = openBook; window.__jump = jumpTo; window.__seq = SEQ;
+  window.__tocPt = i => { const r = TOC_ROWS[i]; if (!r) return null; const p = new THREE.Vector3((PW * 0.55 / PW - 1) * W, T + B + K * G + 0.004, (r.y0 + r.y1) / 2 / PH * H - H / 2); book.localToWorld(p); p.project(camera); return [(p.x + 1) / 2 * innerWidth, (1 - p.y) / 2 * innerHeight]; };
   if (CAPTURE) { window.__frame = (dt = 1 / 30) => frame(dt); window.__run = async (n, dt = 1 / 30) => { for (let i = 0; i < n; i++) { frame(dt); await new Promise(r => setTimeout(r, 0)); } }; frame(1 / 30); }
   else requestAnimationFrame(loop);
   if (AUTO) autoplay();
